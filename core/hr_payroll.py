@@ -31,8 +31,8 @@ def search_salary(term, cn=None, limit=100):
 
 
 def insert_salary(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
-    code_rows = db.query("SELECT MAX(Emp_Code) FROM Salary", cn=cn)
-    new_pk = (code_rows[0][0] or 0) + 1 if code_rows and code_rows[0][0] else 1
+    # varchar Emp_Code par MAX()+1 int crash karta tha — PK Mth_Year+Emp_Code hai
+    new_pk = rec.get("emp_code", "")
     db.execute(
         "INSERT INTO Salary (Mth_Year,Emp_Code,Work_Day,CL,Leave,Sunday,Holiday,Absent,Basic,DA,HRA,Income_Tax,Other_Allow,Other_Deduc,Conveyance,Medical,LTA,PF,EPF,ESI,Loan,Advance,Net_Salary,Loan_Bal,OverTime,OverTimeAmt,Site_Code,U_Name,U_EntDt,U_AE,LogSite_Code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,getdate(),'A',?)",
         (rec.get("mth_year",""), rec.get("emp_code",""), rec.get("work_day",0.0), rec.get("cl",0.0), rec.get("leave",0.0), rec.get("sunday",0.0), rec.get("holiday",0.0), rec.get("absent",0.0), rec.get("basic",0.0), rec.get("da",0.0), rec.get("hra",0.0), rec.get("income_tax",0.0), rec.get("other_allow",0.0), rec.get("other_deduc",0.0), rec.get("conveyance",0.0), rec.get("medical",0.0), rec.get("lta",0.0), rec.get("pf",0.0), rec.get("epf",0.0), rec.get("esi",0.0), rec.get("loan",0.0), rec.get("advance",0.0), rec.get("net_salary",0.0), rec.get("loan_bal",0.0), rec.get("overtime",0.0), rec.get("overtime_amt",0.0), site, user, site),
@@ -69,8 +69,8 @@ def search_attendence(term, cn=None, limit=100):
 
 
 def insert_attendence(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
-    code_rows = db.query("SELECT MAX(Emp_Code) FROM Attendence", cn=cn)
-    new_pk = (code_rows[0][0] or 0) + 1 if code_rows and code_rows[0][0] else 1
+    # varchar Emp_Code par MAX()+1 int crash karta tha — PK Mth_Year+Emp_Code hai
+    new_pk = rec.get("emp_code", "")
     db.execute(
         "INSERT INTO Attendence (Mth_Year,Emp_Code,Attn_Str,Site_Code,LogSite_Code) VALUES (?,?,?,?,?)",
         (rec.get("mth_year",""), rec.get("emp_code",""), rec.get("attn_str",""), site, site),
@@ -195,8 +195,8 @@ def search_overtime(term, cn=None, limit=100):
 
 
 def insert_overtime(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
-    code_rows = db.query("SELECT MAX(EmpCode) FROM OverTime", cn=cn)
-    new_pk = (code_rows[0][0] or 0) + 1 if code_rows and code_rows[0][0] else 1
+    # varchar EmpCode par MAX()+1 int crash karta tha — PK EmpCode+OTDate hai
+    new_pk = rec.get("empcode", "")
     db.execute(
         "INSERT INTO OverTime (EmpCode,OTDate,OTime,Site_Code,U_Name,U_EntDt,U_AE,LogSite_Code,Amount,Remark,OTRate) VALUES (?,getdate(),?,?,?,?,getdate(),'A',?,?,?)",
         (new_pk, rec.get("otime",0.0), site, user, site, rec.get("amount",0.0), rec.get("remark",""), rec.get("otrate",0.0)),
@@ -209,6 +209,26 @@ def delete_overtime(EmpCode, cn=None, commit=True):
 
 
 class HRPayrollAPI:
+    # H-G4/H-G5 VB6 Attend/Salary-create parity (hr_attend re-export)
+    from HMS_py.core import hr_attend as _ha
+
+    def list_attend(self, vfrom, vto, cn=None, site=SITE_CODE):
+        return self._ha.list_attend(vfrom, vto, site=site, cn=cn)
+
+    def insert_attend(self, rec, cn=None, commit=True, site=SITE_CODE, user=USER):
+        return self._ha.insert_attend(rec, cn=cn, commit=commit, site=site, user=user)
+
+    def delete_attend(self, v_date, emp_code, cn=None, site=SITE_CODE):
+        return self._ha.delete_attend(v_date, emp_code, site=site, cn=cn)
+
+    def salary_summary(self, emp_code, mth_year, cn=None, site=SITE_CODE):
+        return self._ha.salary_summary(emp_code, mth_year, site=site, cn=cn)
+
+    def create_salary(self, emp_code, mth_year, cn=None, commit=True,
+                      site=SITE_CODE, user=USER, post_to_ledger=True):
+        return self._ha.create_salary(emp_code, mth_year, cn=cn, commit=commit,
+                                      site=site, user=user,
+                                      post_to_ledger=post_to_ledger)
     def list_salary(self, cn=None, limit=500): return list_salary(cn, limit)
     def get_salary(self, mth_year, emp_code, cn=None): return get_salary(mth_year, emp_code, cn)
     def search_salary(self, term, cn=None, limit=100): return search_salary(term, cn, limit)

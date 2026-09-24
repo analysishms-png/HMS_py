@@ -29,6 +29,9 @@ from HMS_py.core import db
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
+# VB6 masters HO fallback: (LOGSITE_CODE='<site>' OR LOGSITE_CODE='HO')
+# (PrEmployee.frm:3022 / PrDesigMast.frm:345 / PrCategoryMast.frm:505)
+_HO_CLAUSE = "(LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO')"
 
 
 # ============================================================
@@ -51,17 +54,21 @@ def _map_empcat(r) -> dict:
 
 def empcat_list(cn=None) -> list[dict]:
     return [_map_empcat(r) for r in db.query(
-        f"SELECT {EMPCAT_COLS} FROM EmpCategory ORDER BY Code", cn=cn)]
+        f"SELECT {EMPCAT_COLS} FROM EmpCategory WHERE {_HO_CLAUSE} ORDER BY Code",
+        (SITE_CODE,), cn=cn)]
 
 
 def empcat_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {EMPCAT_COLS} FROM EmpCategory WHERE Code = ?", (code,), cn=cn)
+        f"SELECT {EMPCAT_COLS} FROM EmpCategory WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_empcat(rows[0]) if rows else None
 
 
 def empcat_exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM EmpCategory WHERE Code = ?", (code,), cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM EmpCategory WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def empcat_insert(rec: dict, cn=None, commit=True) -> int:
@@ -82,13 +89,14 @@ def empcat_update(code: str, rec: dict, cn=None, commit=True) -> int:
         raise ValueError("Name zaroori hai")
     return db.execute(
         "UPDATE EmpCategory SET Name = ?, Type = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
-        (rec["name"], rec.get("type", ""), USER, code), cn=cn, commit=commit)
+        f"U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
+        (rec["name"], rec.get("type", ""), USER, code, SITE_CODE), cn=cn, commit=commit)
 
 
 def empcat_delete(code: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM EmpCategory WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM EmpCategory WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _EmpCatAPI:
@@ -132,21 +140,22 @@ def _map_holiday(r) -> dict:
 
 def holiday_list(cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {HOLIDAY_COLS} FROM Holiday ORDER BY Vdate DESC", cn=cn)
+        f"SELECT {HOLIDAY_COLS} FROM Holiday WHERE {_HO_CLAUSE} ORDER BY Vdate DESC",
+        (SITE_CODE,), cn=cn)
     return [_map_holiday(r) for r in rows]
 
 
 def holiday_get(vdate_str: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {HOLIDAY_COLS} FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ?",
-        (vdate_str,), cn=cn)
+        f"SELECT {HOLIDAY_COLS} FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ? AND {_HO_CLAUSE}",
+        (vdate_str, SITE_CODE), cn=cn)
     return _map_holiday(rows[0]) if rows else None
 
 
 def holiday_exists(vdate_str: str, cn=None) -> bool:
     return bool(db.query(
-        "SELECT 1 FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ?",
-        (vdate_str,), cn=cn))
+        f"SELECT 1 FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ? AND {_HO_CLAUSE}",
+        (vdate_str, SITE_CODE), cn=cn))
 
 
 def holiday_insert(rec: dict, cn=None, commit=True) -> int:
@@ -167,14 +176,14 @@ def holiday_update(vdate_str: str, rec: dict, cn=None, commit=True) -> int:
     return db.execute(
         "UPDATE Holiday SET Remarks = ?, U_name = ?, "
         "U_EntDt = getdate(), U_AE = 'E' "
-        "WHERE CONVERT(varchar,Vdate,23) = ?",
-        (remarks, USER, vdate_str), cn=cn, commit=commit)
+        f"WHERE CONVERT(varchar,Vdate,23) = ? AND {_HO_CLAUSE}",
+        (remarks, USER, vdate_str, SITE_CODE), cn=cn, commit=commit)
 
 
 def holiday_delete(vdate_str: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ?",
-        (vdate_str,), cn=cn, commit=commit)
+        f"DELETE FROM Holiday WHERE CONVERT(varchar,Vdate,23) = ? AND {_HO_CLAUSE}",
+        (vdate_str, SITE_CODE), cn=cn, commit=commit)
 
 
 class _HolidayAPI:
@@ -230,18 +239,34 @@ def _map_emp(r) -> dict:
 
 def emp_list(cn=None, top: int = 300) -> list[dict]:
     return [_map_emp(r) for r in db.query(
-        f"SELECT TOP {int(top)} {EMP_BROWSE_COLS} FROM Employee ORDER BY Code",
-        cn=cn)]
+        f"SELECT TOP {int(top)} {EMP_BROWSE_COLS} FROM Employee WHERE {_HO_CLAUSE} "
+        "ORDER BY Code", (SITE_CODE,), cn=cn)]
 
 
 def emp_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {EMP_BROWSE_COLS} FROM Employee WHERE Code = ?", (code,), cn=cn)
+        f"SELECT {EMP_BROWSE_COLS} FROM Employee WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_emp(rows[0]) if rows else None
 
 
 def emp_exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM Employee WHERE Code = ?", (code,), cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM Employee WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
+
+
+def next_emp_code(cn=None) -> str:
+    """VB6 PrEmployee.frm:3940 verbatim:
+    Select IsNull(Max(CAST(SUBSTRING(Code,3,6) AS INT)),1)+1 AS MyCode
+    From Employee where Site_Code='<site>'
+    Live format: KK000060 = Site(2) + 6-digit serial."""
+    rows = db.query(
+        "SELECT ISNULL(MAX(CAST(SUBSTRING(Code,3,6) AS INT)),0)+1 AS MyCode "
+        "FROM Employee WHERE Site_Code = ? AND LEN(Code) = 8",
+        (SITE_CODE,), cn=cn)
+    nxt = int(rows[0][0] or 1) if rows and rows[0][0] else 1
+    return f"{SITE_CODE}{nxt:06d}"
 
 
 def emp_insert(rec: dict, cn=None, commit=True) -> int:
@@ -270,18 +295,40 @@ def emp_update(code: str, rec: dict, cn=None, commit=True) -> int:
     return db.execute(
         "UPDATE Employee SET Name = ?, Sex = ?, Designation = ?, "
         "Category = ?, Department = ?, Phone = ?, PAN = ?, ActiveYN = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
+        f"U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
         (rec["name"], rec.get("sex", ""), rec.get("designation", ""),
          rec.get("category", ""), rec.get("dept", ""),
          rec.get("phone", ""), rec.get("pan", ""),
-         rec.get("active", "Y"), USER, code), cn=cn, commit=commit)
+         rec.get("active", "Y"), USER, code, SITE_CODE), cn=cn, commit=commit)
+
+
+# VB6 PrEmployee.frm:3475 delete guard: in 6 tables me row ho to delete block
+_EMP_DELETE_GUARD_TABLES = (
+    ("Salary", "Emp_Code"), ("Attend", "Emp_Code"),
+    ("Attendence", "Emp_Code"), ("Loan", "Emp_Code"),
+    ("Leave_Ench", "Emp_Code"), ("OverTime", "EmpCode"),
+)
 
 
 def emp_delete(code: str, cn=None, commit=True) -> int:
     if not code.upper().startswith("PYT"):
         raise ValueError("Safety: sirf PYT* test employees delete ho sakte hain")
+    # H-G3: VB6 guard — Salary/Attend/Attendence/Loan/Leave_Ench/OverTime
+    # me se kisi me row ho to delete block (orphan rows nahi bane)
+    for tbl, col in _EMP_DELETE_GUARD_TABLES:
+        try:
+            rows = db.query(
+                f"SELECT COUNT(*) FROM {tbl} WHERE Site_Code = ? AND {col} = ?",
+                (SITE_CODE, code), cn=cn)
+        except Exception:
+            continue  # legacy table missing — skip (VB6 On Error Resume Next)
+        if rows and rows[0][0]:
+            raise ValueError(
+                f"Employee {code} delete nahi ho sakta: {rows[0][0]} rows "
+                f"{tbl} me (VB6 PrEmployee.frm:3475 guard)")
     return db.execute(
-        "DELETE FROM Employee WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM Employee WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _EmployeeAPI:
@@ -322,17 +369,21 @@ def _map_desig(r) -> dict:
 
 def desig_list(cn=None) -> list[dict]:
     return [_map_desig(r) for r in db.query(
-        f"SELECT {DESIG_COLS} FROM Desig ORDER BY Code", cn=cn)]
+        f"SELECT {DESIG_COLS} FROM Desig WHERE {_HO_CLAUSE} ORDER BY Code",
+        (SITE_CODE,), cn=cn)]
 
 
 def desig_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {DESIG_COLS} FROM Desig WHERE Code = ?", (code,), cn=cn)
+        f"SELECT {DESIG_COLS} FROM Desig WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_desig(rows[0]) if rows else None
 
 
 def desig_exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM Desig WHERE Code = ?", (code,), cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM Desig WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def desig_insert(rec: dict, cn=None, commit=True) -> int:
@@ -352,13 +403,14 @@ def desig_update(code: str, rec: dict, cn=None, commit=True) -> int:
         raise ValueError("Name zaroori hai")
     return db.execute(
         "UPDATE Desig SET Name = ?, U_Name = ?, U_EntDt = getdate(), "
-        "U_AE = 'E' WHERE Code = ?",
-        (rec["name"], USER, code), cn=cn, commit=commit)
+        f"U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
+        (rec["name"], USER, code, SITE_CODE), cn=cn, commit=commit)
 
 
 def desig_delete(code: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM Desig WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM Desig WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _DesigAPI:
