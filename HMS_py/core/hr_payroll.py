@@ -1,7 +1,11 @@
-# P0 FIX next batch: StockInHand 5-query NCAT + ConvRatio / Scheme+ItemRate / HR Attend table - VB6 parity pending 2026-09-24
 """HR/Payroll - Salary, Attendence, Loan, Leave_Ench, OverTime CRUD."""
 from __future__ import annotations
 from HMS_py.core import db
+def _logsite(cn=None):
+    try:
+        return db.get_logsite_code(cn=cn)
+    except Exception:
+        return db.get_site_code()
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
@@ -345,3 +349,18 @@ def update_overtime(empcode, date_or_none, rec, cn=None, commit=True,
     db.execute("UPDATE OverTime SET " + ", ".join(sets) +
                " WHERE EmpCode = ?", params, cn=cn, commit=commit)
     return get_overtime(empcode, cn=cn)
+def hr_attend_insert(emp_code: str, att_date, status: str, cn=None) -> int:
+    """VB6 Attend table (not Attendence) - FirstShift/SecondShift enum Absent/Casual/Earned"""
+    _valid = {"P","A","C","E","L","H"}
+    if status not in _valid:
+        raise ValueError(f"Status must be one of { _valid }")
+    return db.execute("INSERT INTO Attend (EmployeeCode, AttendDate, Status, LogSite_Code) VALUES (?,?,?,?)", (emp_code, att_date, status, _logsite(cn) if 'def _logsite' in open(__file__, encoding='utf-8', errors='ignore').read() else db.get_site_code()), cn=cn)
+
+def hr_delete_guards(emp_code: str, cn=None) -> bool:
+    """VB6 6-table delete guard: Salary/Attend/Attendence/Loan/Leave_Ench/OverTime"""
+    for tbl, col in [("Salary","EmployeeCode"),("Attend","EmployeeCode"),("Attendence","EmployeeCode"),("Loan","EmployeeCode"),("Leave_Ench","EmployeeCode"),("OverTime","EmployeeCode")]:
+        rows = db.query(f"SELECT 1 FROM {tbl} WHERE {col}=?", (emp_code,), cn=cn)
+        if rows:
+            raise ValueError(f"Cannot delete {emp_code}: exists in {tbl}")
+    return True
+

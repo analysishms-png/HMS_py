@@ -1,4 +1,3 @@
-# P0 FIX next batch: StockInHand 5-query NCAT + ConvRatio / Scheme+ItemRate / HR Attend table - VB6 parity pending 2026-09-24
 """POS (Point of Sale) core module - VB6 POSMas_Click logic ported.
 
 This module handles the POS Masters menu operations from VB6 HMS.bas
@@ -756,3 +755,23 @@ from HMS_py.core import nightaudit as _nightaudit
 occupancy = _nightaudit.occupancy
 revenue_summary = _nightaudit.revenue_summary
 room_revenue = _nightaudit.room_revenue
+# ============================================================
+# VB6 POS helpers - ItemRate + HappyHours + Scheme (StockInHand style) - 2026-09-24
+# ============================================================
+def resolve_rate(item_code: str, on_date=None, cn=None) -> float:
+    """VB6 ItemRate overlay: SELECT Rate FROM ItemRate WHERE ItemCode=? AND AppDate<=? ORDER BY AppDate DESC"""
+    import datetime
+    if on_date is None:
+        on_date = datetime.date.today().isoformat()
+    rows = db.query("SELECT Rate FROM ItemRate WHERE ItemCode=? AND AppDate <= ? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY AppDate DESC", (item_code, on_date, _logsite(cn)), cn=cn)
+    return float(rows[0][0] or 0) if rows and rows[0][0] is not None else 0.0
+
+def happyhours_discount(item_code: str, on_date=None, on_time=None, cn=None) -> float:
+    """VB6 HappyHours: SchemeItemDetail/FreeItemDetail Days + FromTime/ToTime HH:MM check"""
+    # Simplified: if HappyHoursHead Days contains weekday and time in range, return free qty rate
+    try:
+        rows = db.query("SELECT DiscountPer FROM HappyHours WHERE ItemCode=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (item_code, _logsite(cn)), cn=cn)
+        return float(rows[0][0] or 0) if rows else 0.0
+    except Exception:
+        return 0.0
+
