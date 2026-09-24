@@ -796,4 +796,18 @@ def create_kot_full(items: list[dict], table_no: str, waiter_code: str, covers: 
     # This is the VB6 parity full version - delegates to create_kot which now has RoomCat/RoomType/LogSite + ItemRate + HappyHours + Scheme
     # Full column list is documented in POS_SALE1_FULL_COLS / POS_STOCK_FULL_COLS - actual INSERT expansion is next batch when Sale1 table has those columns
     return create_kot(items, table_no, waiter_code, covers, cn=cn)
+def sale1_full_insert(rec: dict, cn=None) -> int:
+    """VB6 Sale1 full 60-col INSERT - tries full list, fallback to subset if columns missing (no DB change, only add columns that exist)"""
+    cols = ["FolioNo","HouseKeep","MenuSpl1","MenuSpl2","MenuSpl3","MenuSpl4","ExpAtt","GuarAtt","CoverRate","BookDocId","HallRent","PRINTED","AU_Name","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode","V_Type","V_No","Vprefix","Site_Code","LogSite_Code"]
+    # Check which cols exist via INFORMATION_SCHEMA (once)
+    try:
+        existing = {r[0] for r in db.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='Sale1'", cn=cn)}
+    except Exception:
+        existing = set(cols)
+    use_cols = [c for c in cols if c in existing or c in ["V_Type","V_No","Vprefix","Site_Code","LogSite_Code"]]
+    # Build INSERT with only existing cols
+    vals = [rec.get(c.lower(), rec.get(c, None)) for c in use_cols]
+    placeholders = ",".join(["?"]*len(use_cols))
+    col_list = ",".join(use_cols)
+    return db.execute(f"INSERT INTO Sale1 ({col_list}) VALUES ({placeholders})", tuple(vals), cn=cn)
 

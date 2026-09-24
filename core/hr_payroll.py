@@ -388,4 +388,10 @@ def hr_overtime_calc(emp_code: str, month: str, cn=None) -> float:
     """VB6 OverTime calc: SELECT SUM(OverTimeAmt) FROM OverTime WHERE EmployeeCode=? AND Mth_Year=? AND (LogSite_Code=? OR HO)"""
     rows = db.query("SELECT ISNULL(SUM(OverTimeAmt),0) FROM OverTime WHERE EmployeeCode=? AND Mth_Year=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO' OR ISNULL(LOGSITE_CODE,'')='')", (emp_code, month, db.get_site_code()), cn=cn)
     return float(rows[0][0] or 0) if rows else 0.0
+def hr_cl_leave(emp_code: str, month: str, cn=None) -> dict:
+    """VB6 HR CL/Leave: SELECT CL, Leave FROM Salary WHERE EmployeeCode=? AND Mth_Year=?"""
+    rows = db.query("SELECT CL, Leave FROM Salary WHERE EmployeeCode=? AND Mth_Year=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (emp_code, month, db.get_site_code()), cn=cn)
+    if rows:
+        return {"cl": float(rows[0][0] or 0), "leave": float(rows[0][1] or 0)}
+    return {"cl": 0.0, "leave": 0.0}
 
