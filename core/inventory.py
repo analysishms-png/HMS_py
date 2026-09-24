@@ -1201,6 +1201,7 @@ def r_stock_register(vdate_from=None, vdate_to=None, cn=None, top: int = 200) ->
     } for r in rows]
 
 
+# Purchase Unit variant: same query but WtQty * ConvRatio (WtUnit) - see StockInHand_PurchaseUnit.sql
 def stock_in_hand(cn=None, top: int = 200) -> list:
     """
     Stock In Hand - current balance of every item (StockINHand.txt)
