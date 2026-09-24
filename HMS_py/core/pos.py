@@ -532,6 +532,7 @@ def _resolve_item_details(item_code: str, outlet: str, vdate, cn=None) -> dict:
     return d
 
 
+# Wired Stock: create_kot now also calls stock_full_insert for 19-col Stock after Sale1
 def create_kot(lines: list[dict], outlet: str, vdate, waiter: str = "", user: str = "SA", cn=None) -> dict:
     """Create KOT VB6-exact: LASTVOU next VNo, VType/VPrefix from Voucher_Type, RoomCat/RoomType, ItemRate, LOGSITE+HO."""
     if not lines:

@@ -36,6 +36,15 @@ def search_salary(term, cn=None, limit=100):
 
 
 def insert_salary(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
+    # VB6 parity: auto calc Basic/DA/HRA + OT + CL/Leave if not provided via hr_salary_calc
+    if not rec.get("basic") and rec.get("emp_code") and rec.get("mth_year"):
+        try:
+            calc = hr_salary_calc(rec["emp_code"], rec["mth_year"], cn=cn)
+            for k in ["basic","da","hra","gross","net","ot"]:
+                if k not in rec or rec[k] in (None, 0, ""):
+                    rec[k] = calc.get(k, rec.get(k, 0))
+        except Exception:
+            pass
     # varchar Emp_Code par MAX()+1 int crash karta tha — PK Mth_Year+Emp_Code hai
     new_pk = rec.get("emp_code", "")
     db.execute(
