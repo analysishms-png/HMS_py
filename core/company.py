@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Company/property list - frmCompany.frm jaisa dynamic data.
 
 VB6 Company Details grid: Company Name | Short Name | Current Year.

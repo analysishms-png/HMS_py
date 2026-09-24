@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Tax Master CRUD (VB6: FrmTaxMast - Main Setup -> General Setup).
 
 Schema: RevMast table filtered by FieldType='T' (NOT TaxStru, NOT TaxMast).

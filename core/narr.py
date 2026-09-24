@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """NarrMast CRUD (VB6: FaNarrMast.frm isko manage karta hai).
 Schema evidence: Code varchar(6), Name varchar(255) + audit cols.
 NOT NULL: Code, Name.  Narration master - F&B/voucher narratives.

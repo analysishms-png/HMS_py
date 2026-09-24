@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Country master CRUD (VB6: 'Country Master' - Main Setup).
 
 Schema evidence (live MOONData2627.INFORMATION_SCHEMA):

@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Guest Status master CRUD (VB6: 'Guest Status' - Main Setup -> FO).
 
 Schema evidence (live HMS DB): GuestStat table.

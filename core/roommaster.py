@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Room Master CRUD (VB6: 'Room Master' - Main Setup -> Front Office).
 
 Schema (live RoomMast): **composite PK (Type, Code, RestCode, LogSite_Code)**

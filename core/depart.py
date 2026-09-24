@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Depart CRUD (F&B outlets/departments - 9 live rows: ANNAPURNA, DISPENSE BAR...).
 Schema evidence: Code varchar(6) PK, Name varchar(35), KotYn varchar(1),
 POS varchar(1), Header1/Header2 varchar(50), Phone varchar(50).

@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Payment Type master CRUD (VB6: 'Payment Type' - Main Setup -> General).
 
 Schema: RevMast table (filtered by PAYTYPE column).

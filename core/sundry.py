@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """SundryMast CRUD (VB6: FrmTaxMast.frm, DepartSundry.frm inhe use karte hain).
 Schema evidence: Code varchar(6), Name varchar(20) NULL, Nature varchar(20)
 NOT NULL, CalcSign varchar(1), SysYN varchar(1) + audit cols.

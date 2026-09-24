@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Room Category master CRUD (VB6: Room Cat - Main Setup -> Front Office).
 
 Schema (live RoomCat): **composite PK (Type, Code)** — Type varchar(2) NN

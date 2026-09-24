@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Business Source master CRUD (VB6: 'Business Source' - Main Setup -> FO).
 
 Schema evidence (live HMS DB): BussSource table.

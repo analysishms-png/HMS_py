@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Season Master CRUD (VB6: 'Season Master' - Main Setup -> Front Office).
 
 Schema evidence (live HMS DB): SeasonMast table.

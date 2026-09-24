@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Unit master CRUD (VB6: 'Unit Master' - Main Setup, POS section).
 
 Schema evidence (live): UnitMast: Name varchar(6) PK (no Code col!),

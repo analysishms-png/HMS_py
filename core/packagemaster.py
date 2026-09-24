@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Package Master CRUD (VB6: 'Package Master' - Main Setup -> Front Office).
 
 Schema evidence (live HMS DB): PlanMast table.

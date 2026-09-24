@@ -1,3 +1,4 @@
+# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """State master CRUD (VB6: 'State Master' - Main Setup).
 
 Schema evidence (live): State: Code varchar(6) PK, Name varchar(30),
