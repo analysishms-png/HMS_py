@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Tax Master CRUD (VB6: FrmTaxMast - Main Setup -> General Setup).
 
 Schema: RevMast table filtered by FieldType='T' (NOT TaxStru, NOT TaxMast).
@@ -8,7 +7,7 @@ Schema: RevMast table filtered by FieldType='T' (NOT TaxStru, NOT TaxMast).
   Active varchar(3), SysYN varchar(1), TaxStru varchar(6),
   Site_Code, U_Name, U_EntDt, U_AE, LogSite_Code.
 VB6 FrmTaxMast.frm evidence:
-  SELECT ... FROM RevMast WHERE FieldType='T'
+  SELECT ... FROM RevMast WHERE FieldType='T' AND (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='')
   INSERT INTO RevMast(..., FieldType, ...) VALUES (..., 'T', ...)
   SYSTEM ENTRY (SysYN='Y') can't be deleted.
 Tax Structure lines live separately in TaxStru (see taxstru.py).

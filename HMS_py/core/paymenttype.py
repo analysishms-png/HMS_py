@@ -56,7 +56,7 @@ def list_all(cn=None) -> list[dict]:
     """List payment types (RevMast rows where PAYTYPE is not empty)."""
     rows = db.query(
         f"SELECT {SELECT_COLS} FROM RevMast "
-        "WHERE PAYTYPE IS NOT NULL AND PAYTYPE != '' ORDER BY Name", cn=cn)
+        "WHERE PAYTYPE IS NOT NULL AND PAYTYPE != '' AND (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY Name", (SITE_CODE,), cn=cn)
     return [_map(r) for r in rows]
 
 
