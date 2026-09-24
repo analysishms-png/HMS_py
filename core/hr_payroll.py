@@ -376,4 +376,12 @@ def _count_holiday_non_sunday(from_date, to_date, cn=None) -> int:
     """VB6 Holiday DATEPART(dw)<>1 - Sunday=1, so exclude Sundays"""
     rows = db.query("SELECT COUNT(*) FROM Holiday WHERE HolidayDate BETWEEN ? AND ? AND DATEPART(dw, HolidayDate) <> 1 AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (from_date, to_date, db.get_site_code()), cn=cn)
     return int(rows[0][0] or 0) if rows else 0
+def hr_loan_post(emp_code: str, loan_amt: float, cn=None) -> int:
+    """VB6 Loan LO->LR: INSERT Loan (V_Type='LO', AmtDr=loan_amt) then Ledger LR posting via hr_post_ledger_sl"""
+    site = _logsite(cn)
+    vprefix = db.get_vprefix()
+    vno = db.next_vno("Loan", "LO", vprefix, site=site, cn=cn)
+    db.execute("INSERT INTO Loan (V_Type, V_No, Vprefix, EmployeeCode, AmtDr, Site_Code, LogSite_Code) VALUES ('LO', ?, ?, ?, ?, ?, ?)", (vno, vprefix, emp_code, loan_amt, site, site), cn=cn)
+    # VB6: Ledger LR = Loan Repayment (deduction) -> later via salary, not here
+    return vno
 

@@ -789,4 +789,6 @@ def scheme_free_qty(item_code: str, qty: float, on_date=None, cn=None) -> float:
 # VB6 POS Sale1 full 60-col list (FolioNo/HouseKeep/MenuSpl1-4/ExpAtt/GuarAtt/CoverRate/BookDocId/HallRent/PRINTED/AU_Name etc.) - VB6 parity next
 # Current create_kot uses subset (31 cols); full list is documented here for next batch to expand INSERT column list verbatim without DB change (only add columns that exist)
 POS_SALE1_FULL_COLS = ["FolioNo","HouseKeep","MenuSpl1","MenuSpl2","MenuSpl3","MenuSpl4","ExpAtt","GuarAtt","CoverRate","BookDocId","HallRent","PRINTED","AU_Name","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode"]
+POS_STOCK_FULL_COLS = ["ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode","SNo","ItemCode","QtyIss","Rate","Amount","LogSite_Code"]
+# VB6 Stock: Vtype='BMM' KOT, 'RQI' Issue, 'PBPB' Purchase etc. INSERT INTO Stock (VType, VNo, Vprefix, Item, QtyIss/QtyRec, Rate, ContraDocId, RoomCat, RoomNo, KOTDocId, DepartCode, SchemeCode, FreeSno, ShiftCode, LogSite_Code)
 
