@@ -861,4 +861,7 @@ def get_tables_with_fallback_test(outlet_code: str, cn=None) -> list[dict]:
         except Exception:
             continue
     return []
+def fgrid2_pending(outlet_code: str, cn=None) -> list[dict]:
+    """VB6 FGrid2 5940x2325 pending KOT overlay - RsKOTEntry FGrid2"""
+    return db.query("SELECT DocId, TableNo, WaiterCode FROM KOT WHERE RestCode=? AND Pending='Y' AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO') ORDER BY VNo", (outlet_code, db.get_logsite_code(cn)), cn=cn)
 

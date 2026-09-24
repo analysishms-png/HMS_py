@@ -282,4 +282,7 @@ def room_availability(date_from, date_to=None, cn=None,
 def tariff_matrix(room_cat: str, cn=None) -> list[dict]:
     """VB6 SRate tariff matrix 9510 - RoomCat tariff slabs"""
     return db.query("SELECT RateCode, RoomRate, PlanCode, PlanAmt FROM RoomCatTariff WHERE RoomCat=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO') ORDER BY RateCode", (room_cat, db.get_site_code()), cn=cn)
+def package_tokens(room_cat: str, cn=None) -> list[dict]:
+    """VB6 Package token FGrid - PlanMast tokens for RoomCat"""
+    return db.query("SELECT Code, Name FROM PlanMast WHERE RoomCat=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO') ORDER BY Name", (room_cat, db.get_site_code()), cn=cn)
 
