@@ -821,4 +821,37 @@ def stock_full_insert(rec: dict, cn=None) -> int:
     vals = [rec.get(c, rec.get(c.lower(), None)) for c in use_cols]
     placeholders = ",".join(["?"]*len(use_cols))
     return db.execute(f"INSERT INTO Stock ({','.join(use_cols)}) VALUES ({placeholders})", tuple(vals), cn=cn)
+def resolve_rate_batch(item_codes: list[str], on_date=None, cn=None) -> dict[str, float]:
+    """Batch ItemRate: single query for all items vs N+1 loop - VB6 parity, same SQL"""
+    import datetime
+    if not item_codes:
+        return {}
+    if on_date is None:
+        on_date = datetime.date.today().isoformat()
+    # Single query with IN clause for all items, max AppDate per item
+    placeholders = ",".join(["?"]*len(item_codes))
+    sql = f"SELECT ItemCode, Rate FROM ItemRate WHERE ItemCode IN ({placeholders}) AND AppDate <= ? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO') ORDER BY ItemCode, AppDate DESC"
+    params = tuple(item_codes) + (on_date, _logsite(cn))
+    rows = db.query(sql, params, cn=cn)
+    out = {}
+    for r in rows:
+        code = str(r[0]).strip()
+        if code not in out:
+            out[code] = float(r[1] or 0)
+    return out
+def get_tables_with_fallback_test(outlet_code: str, cn=None) -> list[dict]:
+    """Test helper for POS fallback ordering: restcode+logsite -> logsite-only -> all - VB6 parity"""
+    for mode in ["restcode+logsite", "logsite-only", "all"]:
+        try:
+            if mode == "restcode+logsite":
+                rows = db.query("SELECT Code FROM RsTableMast WHERE RestCode=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (outlet_code, _logsite(cn)), cn=cn)
+            elif mode == "logsite-only":
+                rows = db.query("SELECT Code FROM RsTableMast WHERE (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (_logsite(cn),), cn=cn)
+            else:
+                rows = db.query("SELECT Code FROM RsTableMast", cn=cn)
+            if rows:
+                return [{"code": r[0]} for r in rows]
+        except Exception:
+            continue
+    return []
 
