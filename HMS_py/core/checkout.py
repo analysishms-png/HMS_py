@@ -21,32 +21,22 @@ USER = db.get_user()
 
 
 def _get_checkout_type(cn=None) -> str:
-    """Read checkout validation type from the live Enviro settings.
-
-    Live schema evidence: the column is named 'Checkout' (with the same
-    value used by VB6 for the checkout-time rule label), not 'CheckOutType'.
-    Some legacy code references a non-existent column, so we fall back safely.
-
-    BUG-016 fix: f-string column probing ki jagah ek hi parameterized
-    query jo sirf existing columns ko try karti hai; pehla non-empty
-    value return hota hai. Non-column errors swallow nahi hote.
-    """
-    # Live DB me jo column exist karta hai wahi order me try karo.
-    # Each candidate pe ek targeted query - 'Invalid column name'
-    # errors pe hi next candidate, baaki errors propagate.
-    for col in ("Checkout", "CheckOutType", "CheckoutType", "CheckOut"):
+    """Read checkout validation type from Enviro (VB6 moondata.sql col Checkout)."""
+    candidates = ["[Checkout]", "[CheckoutType]", "[ChkOutType]"]
+    for col in candidates:
         try:
             rows = db.query(
-                f"SELECT [{col}] FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
+                f"SELECT {col} FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
                 (SITE_CODE,), cn=cn,
             )
         except db.pyodbc.Error as e:
-            # SQL Server error 207 = Invalid column name -> next candidate
             if "207" in str(e) or "Invalid column name" in str(e):
                 continue
             raise
         if rows and rows[0][0] not in (None, ""):
-            return str(rows[0][0])
+            val = str(rows[0][0]).strip()
+            if val:
+                return val
     return "Standard"
 
 
@@ -56,14 +46,15 @@ def folio_balance(folio: int, cn=None,
 
     Returns: {folio, docid, charges_dr, payments_cr, balance, currency}
     Positive balance = guest owes money.
+    VB6: SELECT Sum(AmtDr)-Sum(AmtCr) as Bal from PayCharge where LogSite_Code=? AND FolioNo=? and VType Not In ('ARRES','ADRES')
     """
     rec = checkin.get(folio, cn=cn, vprefix=vprefix)
     if not rec:
         raise ValueError(f"Folio #{folio} nahi mila")
     rows = db.query(
         "SELECT ISNULL(SUM(AmtDr),0), ISNULL(SUM(AmtCr),0) "
-        "FROM PayCharge WHERE FolioNoDocid = ? AND Site_Code = ?",
-        (rec["docid"], SITE_CODE), cn=cn)
+        "FROM PayCharge WHERE FolioNoDocid = ? AND Site_Code = ? AND LogSite_Code = ? AND Vtype NOT IN ('ARRES','ADRES')",
+        (rec["docid"], SITE_CODE, db.get_site_code()), cn=cn)
     dr = float(rows[0][0]) if rows else 0.0
     cr = float(rows[0][1]) if rows else 0.0
     return {
@@ -81,9 +72,9 @@ def list_active_folios(cn=None, vprefix: str = "2026",
         f"SELECT TOP {int(top)} ro.DocId, gf.FolioNo, gf.Name, gf.GuestProf, gf.City, "
         "gf.NoDays, gf.DepDate, ro.ChkOutDate, ro.ChkoutUser, gf.U_Name, gf.U_AE, ro.RoomNo "
         "FROM RoomOcc ro INNER JOIN GuestFolio gf ON gf.DocId = ro.DocId "
-        "WHERE ro.Site_Code = ? AND ro.Vprefix = ? AND ro.ChkOutDate IS NULL "
+        "WHERE ro.Site_Code = ? AND ro.LogSite_Code = ? AND ro.Vprefix = ? AND ro.ChkOutDate IS NULL "
         "ORDER BY gf.FolioNo DESC",
-        (SITE_CODE, vprefix), cn=cn)
+        (SITE_CODE, db.get_site_code(), vprefix), cn=cn)
     out = []
     for r in rows:
         doc, fno, name, gp, city, nod, dep, cod, cou, un, uae, room = r
@@ -104,12 +95,18 @@ def list_active_folios(cn=None, vprefix: str = "2026",
 def list_checked_out(cn=None, vprefix: str = "2026",
                      top: int = 200) -> list[dict]:
     """Already checked-out folios via RoomOcc.ChkOutDate IS NOT NULL."""
+    # MSSQL TOP requires literal, not param placeholder TOP (?) is invalid
+    t = int(top)
+    if t <= 0:
+        t = 200
+    if t > 1000:
+        t = 1000
     rows = db.query(
-        "SELECT TOP (?) ro.DocId, gf.FolioNo, gf.Name, gf.DepDate, ro.ChkOutDate, ro.ChkoutUser "
+        f"SELECT TOP {t} ro.DocId, gf.FolioNo, gf.Name, gf.DepDate, ro.ChkOutDate, ro.ChkoutUser "
         "FROM RoomOcc ro INNER JOIN GuestFolio gf ON gf.DocId = ro.DocId "
-        "WHERE ro.Site_Code = ? AND ro.Vprefix = ? AND ro.ChkOutDate IS NOT NULL "
+        "WHERE ro.Site_Code = ? AND ro.LogSite_Code = ? AND ro.Vprefix = ? AND ro.ChkOutDate IS NOT NULL "
         "ORDER BY gf.FolioNo DESC",
-        (int(top), SITE_CODE, vprefix), cn=cn)
+        (SITE_CODE, db.get_site_code(), vprefix), cn=cn)
     out = []
     for r in rows:
         doc, fno, name, dep, cod, cou = r
@@ -140,9 +137,9 @@ def do_checkout(folio: int, user: str = USER, cn=None,
         raise ValueError(f"Folio #{folio} nahi mila")
 
     rows = db.query(
-        "SELECT DocId, ChkOutDate, Type FROM RoomOcc WHERE Site_Code = ? AND "
+        "SELECT DocId, ChkOutDate, Type FROM RoomOcc WHERE Site_Code = ? AND LogSite_Code = ? AND "
         "Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NULL ORDER BY SNo",
-        (site, vprefix, folio), cn=cn)
+        (site, site, vprefix, folio), cn=cn)
     if not rows:
         raise ValueError(f"Folio #{folio} checked-out ya room row missing hai")
 
@@ -168,8 +165,8 @@ def do_checkout(folio: int, user: str = USER, cn=None,
         db.execute(
             "UPDATE RoomOcc SET ChkOutDate = getdate(), ChkOutTime = CONVERT(varchar(5), getdate(), 108), "
             "ChkoutUser = ?, Type = 'O', U_Name = ?, U_EntDt = getdate(), U_AE = 'E' "
-            "WHERE Site_Code = ? AND Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NULL",
-            (user, user, site, vprefix, folio),
+            "WHERE Site_Code = ? AND LogSite_Code = ? AND Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NULL",
+            (user, user, site, site, vprefix, folio),
             cn=cn_use, commit=False)
 
         log_rows = db.query(
@@ -196,9 +193,9 @@ def reverse_checkout(folio: int, user: str = USER, cn=None,
                      site: str = SITE_CODE) -> int:
     """VB6 reverse checkout: reopen the live RoomOcc row."""
     rows = db.query(
-        "SELECT DocId, ChkOutDate FROM RoomOcc WHERE Site_Code = ? AND "
+        "SELECT DocId, ChkOutDate FROM RoomOcc WHERE Site_Code = ? AND LogSite_Code = ? AND "
         "Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NOT NULL ORDER BY SNo",
-        (site, vprefix, folio), cn=cn)
+        (site, site, vprefix, folio), cn=cn)
     if not rows:
         raise ValueError(f"Folio #{folio} checked-out nahi hai")
 
@@ -209,8 +206,8 @@ def reverse_checkout(folio: int, user: str = USER, cn=None,
             "UPDATE RoomOcc SET ChkOutDate = NULL, ChkOutTime = '', "
             "ChkoutUser = NULL, UserChkOutDate = NULL, Type = '', "
             "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' "
-            "WHERE Site_Code = ? AND Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NOT NULL",
-            (user, site, vprefix, folio), cn=cn_use, commit=False)
+            "WHERE Site_Code = ? AND LogSite_Code = ? AND Vprefix = ? AND FolioNo = ? AND ChkOutDate IS NOT NULL",
+            (user, site, site, vprefix, folio), cn=cn_use, commit=False)
 
         # VB6 FdRevCheckOut.frm:1482: group members (MFolioNoDocid link)
         # bhi reverse - UserChkOutDate/ChkOutUser clear on Type='O' rows.
@@ -227,17 +224,17 @@ def reverse_checkout(folio: int, user: str = USER, cn=None,
                 "SELECT DocId FROM GuestFolio WHERE MFolioNoDocid = ?)",
                 (user, site, mfdocid), cn=cn_use, commit=False)
 
-        # VB6 FdRevCheckOut.frm:1490-1503: settle marks reverse
+        # VB6 FdRevCheckOut.frm:1490-1503: settle marks reverse — LOGSITE scoping added
         db.execute(
             "UPDATE PayCharge SET SettleDate = NULL, Bill_No = NULL "
-            "WHERE Site_Code = ? AND VPrefix = ? AND FolioNo = ? AND "
+            "WHERE Site_Code = ? AND LogSite_Code = ? AND VPrefix = ? AND FolioNo = ? AND "
             "Vtype NOT IN ('ARRES', 'ADRES')",
-            (site, vprefix, folio), cn=cn_use, commit=False)
+            (site, site, vprefix, folio), cn=cn_use, commit=False)
         db.execute(
-            "UPDATE PayCharge SET ModeSet = '' WHERE Site_Code = ? AND "
+            "UPDATE PayCharge SET ModeSet = '' WHERE Site_Code = ? AND LogSite_Code = ? AND "
             "VPrefix = ? AND FolioNo = ? AND ModeSet = 'S' AND "
             "PayCode <> ?",
-            (site, vprefix, folio, "KKROFF"), cn=cn_use, commit=False)
+            (site, site, vprefix, folio, site + "ROFF"), cn=cn_use, commit=False)
         db.execute(
             "UPDATE FOMBillDetails SET Status = 'CANCEL', U_Name = ?, "
             "U_EntDt = getdate(), U_AE = 'E' WHERE FolioNo = ? AND "

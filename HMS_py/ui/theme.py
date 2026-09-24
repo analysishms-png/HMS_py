@@ -235,10 +235,14 @@ def _resolve(tokens: dict[str, str]) -> dict[str, str]:
         t["glass_tint"] = _rgba(t["surface_solid"], alpha)
         t["sidebar_tint"] = _rgba(t["surface_solid"], alpha * 0.75)
         t["shadow"] = "rgba(15, 23, 42, 0.18)"
-        t["success"] = "#059669"
-        t["warning"] = "#d97706"
-        t["danger"] = "#dc2626"
-        t["info"] = "#0284c7"
+        # VB6 parity: light mode bhi DEFAULTS ke classic hues rakhe
+        # (#008000 green, #800000 maroon, #c00000 red, #000080 navy) —
+        # pehle yahan hardcoded tailwind hues override kar dete the, isliye
+        # VB6 Classic default runtime pe apply hi nahi hota tha.
+        t["success"] = DEFAULTS["success"]
+        t["warning"] = DEFAULTS["warning"]
+        t["danger"] = DEFAULTS["danger"]
+        t["info"] = DEFAULTS["info"]
         t["accent_soft"] = _rgba(t["accent"], 0.12)
 
     t["radius"] = t["radius"]
@@ -591,8 +595,9 @@ def accent() -> str:
 # presets me pale tint + dark text, dark presets me glassy tint + light text.
 # Base status hues: mode defaults (user Appearance dialog se override kare).
 _STATUS_BASE_LIGHT = {
-    "success": "#059669", "warning": "#d97706",
-    "danger": "#dc2626", "neutral": "#64748b",
+    # VB6 classic hues (DEFAULTS ke saath sync — appearance dialog seeding)
+    "success": "#008000", "warning": "#800000",
+    "danger": "#c00000", "neutral": "#404040",
 }
 _STATUS_BASE_DARK = {
     "success": "#34d399", "warning": "#fbbf24",

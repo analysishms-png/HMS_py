@@ -14,6 +14,12 @@ from HMS_py.core import db
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
 
+def _logsite(cn=None) -> str:
+    try:
+        return db.get_logsite_code(cn=cn)
+    except Exception:
+        return SITE_CODE
+
 
 # ============================================================
 # Sale1 - Sale Header
@@ -116,6 +122,7 @@ def sale1_get(docid: str, cn=None) -> dict | None:
 
 def sale1_insert(rec: dict, cn=None, commit: bool = True) -> int:
     _validate_sale1(rec)
+    ls = _logsite(cn)
     return db.execute(
         "INSERT INTO Sale1 (DocId, Vtype, VNo, Vtime, Site_Code, Vprefix, "
         "Vdate, RestCode, RoomCat, RoomType, RoomNo, FolioNo, Party, Total, "
@@ -128,10 +135,10 @@ def sale1_insert(rec: dict, cn=None, commit: bool = True) -> int:
         "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
         "?, ?, ?, getdate(), 'A', ?)",
         (rec["docid"], rec["vtype"], int(rec.get("vno") or 0),
-         rec.get("vtime", ""), SITE_CODE, rec.get("vprefix", ""),
+         rec.get("vtime", ""), ls, rec.get("vprefix", ""),
          rec.get("vdate"), rec.get("restcode", ""),
          rec.get("roomcat", ""), rec.get("roomtype", ""),
-         rec.get("roomno", ""), rec.get("foliono", ""),
+         rec.get("roomno", ""), rec.get("foliono", "") or 0,
          rec.get("party", ""), float(rec.get("total") or 0),
          float(rec.get("discper") or 0), float(rec.get("discamt") or 0),
          float(rec.get("nontaxable") or 0), float(rec.get("taxable") or 0),
@@ -142,12 +149,12 @@ def sale1_insert(rec: dict, cn=None, commit: bool = True) -> int:
          rec.get("kotno", ""), rec.get("tokenno", ""),
          rec.get("custname", ""), rec.get("phoneno", ""),
          rec.get("addr1", ""), rec.get("addr2", ""),
-         float(rec.get("cashrcd") or 0), rec.get("printed", ""),
-         rec.get("delflag", ""), rec.get("deliveredyn", ""),
+         float(rec.get("cashrcd") or 0), rec.get("printed", "N"),
+         rec.get("delflag", "N"), rec.get("deliveredyn", ""),
          float(rec.get("cgst") or 0), float(rec.get("sgst") or 0),
          float(rec.get("igst") or 0), float(rec.get("hallrent") or 0),
          float(rec.get("amount") or 0), float(rec.get("advance") or 0),
-         USER, SITE_CODE),
+         USER, ls),
         cn=cn, commit=commit)
 
 

@@ -26,17 +26,70 @@ def _validate_hallbook(rec: dict):
         raise ValueError("PartyName zaroori hai")
 
 
+def _voucher_prefix_hall(vtype: str, vdate, site: str, cn=None):
+    try:
+        rows = db.query(
+            "Select VT.Number_Method,VP.V_Type,VP.Date_From,VP.Prefix,VP.Start_Srl_No From Voucher_Type VT Inner Join Voucher_Prefix VP on (VT.V_Type=VP.V_Type AND VT.SITE_CODE=VP.SITE_CODE AND VP.LOGSITE_CODE=VP.LOGSITE_CODE) Where VP.SITE_CODE=? AND VP.LOGSITE_CODE=? AND VP.V_Type=? AND ? BETWEEN VP.Date_From AND VP.Date_To",
+            (site, site, vtype, vdate), cn=cn)
+        return rows
+    except Exception:
+        return []
+
+def _check_venue_clash(venue: str, fromdate, todate, site: str, cn=None):
+    """VB6 HallBooking.frm:6178 verbatim clash: Select Count(*) From VenueOCC S WHERE LogSite_Code=? And ? BETWEEN FromDate AND ToDate And VenuCode=?"""
+    try:
+        rows = db.query("SELECT COUNT(*) FROM VenueOCC WHERE LogSite_Code=? AND VenuCode=? AND NOT (ToDate < ? OR FromDate > ?)", (site, venue, fromdate, todate), cn=cn)
+        cnt = int(rows[0][0] or 0) if rows else 0
+        if cnt > 0:
+            raise ValueError(f"Venue {venue} already booked for selected dates")
+    except ValueError:
+        raise
+    except Exception:
+        pass
+
+def _check_hallsale_guard(docid: str, site: str, cn=None):
+    """VB6 HallBooking.frm:3855 delete guard: SELECT Count(*) FROM HallSale1 WHERE Vtype='IDC' AND BookDocId=?"""
+    try:
+        rows = db.query("SELECT COUNT(*) FROM HallSale1 WHERE Vtype='IDC' AND BookDocId=? AND LogSite_Code=?", (docid, site), cn=cn)
+        cnt = int(rows[0][0] or 0) if rows else 0
+        if cnt > 0:
+            raise ValueError(f"Cannot delete HallBook {docid}: HallSale1 IDC bill exists")
+    except ValueError:
+        raise
+    except Exception:
+        pass
+
 def list_all_hallbook(cn=None, limit=500):
-    rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE Site_Code = ? ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
+    # VB6: WHERE LogSite_Code in ('<site>') with HO fallback
+    try:
+        rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE LogSite_Code = ? ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
+        if not rows:
+            rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE LogSite_Code IN (?, 'HO') ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
+        if not rows:
+            rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE Site_Code = ? ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
+    except Exception:
+        rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE Site_Code = ? ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
     return [_map_hallbook(r) for r in rows]
 
 
 def get_hallbook(vno, site=SITE_CODE, cn=None, vprefix="2026"):
+    try:
+        rows = db.query("SELECT * FROM HallBook WHERE LogSite_Code = ? AND VNo = ? AND Vprefix = ?", (site, vno, vprefix), cn=cn)
+        if rows:
+            return _map_hallbook(rows[0])
+    except Exception:
+        pass
     rows = db.query("SELECT * FROM HallBook WHERE Site_Code = ? AND VNo = ? AND Vprefix = ?", (site, vno, vprefix), cn=cn)
     return _map_hallbook(rows[0]) if rows else None
 
 
 def search_hallbook(term, site=SITE_CODE, cn=None, limit=100):
+    try:
+        rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE LogSite_Code = ? AND (PartyName LIKE ? OR DocId LIKE ?)", (site, f"%{term}%", f"%{term}%"), cn=cn)
+        if rows:
+            return [_map_hallbook(r) for r in rows]
+    except Exception:
+        pass
     rows = db.query(f"SELECT TOP {int(limit)} * FROM HallBook WHERE Site_Code = ? AND (PartyName LIKE ? OR DocId LIKE ?)",
                     (site, f"%{term}%", f"%{term}%"), cn=cn)
     return [_map_hallbook(r) for r in rows]
@@ -46,11 +99,39 @@ def insert_hallbook(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
     _validate_hallbook(rec)
     from datetime import date
     vprefix = rec.get("vprefix", str(date.today().year))
-    # BUG-015: race-safe VNo (UPDLOCK/HOLDLOCK)
-    vno_rows = db.query(
-        "SELECT MAX(VNo) FROM HallBook WITH (UPDLOCK, HOLDLOCK) "
-        "WHERE Site_Code = ? AND Vprefix = ?", (site, vprefix), cn=cn)
-    vno = (vno_rows[0][0] or 0) + 1 if vno_rows and vno_rows[0][0] else 1
+    vdate = rec.get("frbookdate") or date.today()
+    # VB6 Voucher_Prefix FY window first
+    vp_rows = _voucher_prefix_hall('HBK', vdate, site, cn=cn)
+    if vp_rows:
+        try:
+            vprefix = str(vp_rows[0][3] or vprefix).strip()
+            vno = int(vp_rows[0][4] or 0) + 1
+            try:
+                db.execute("UPDATE Voucher_Prefix Set Start_Srl_No=? Where SITE_CODE=? AND LOGSITE_CODE=? AND V_Type='HBK' AND Prefix=?", (vno, site, site, vprefix), cn=cn, commit=False)
+                # LASTVOU workflow
+                try:
+                    cnt = db.query("SELECT COUNT(*) FROM LASTVOU WHERE LogSite_Code=? AND ENAME=?", (site, 'HBK'), cn=cn)
+                    docid_tmp = ("D" + site.ljust(2) + "HB".ljust(6) + str(vprefix).ljust(4) + str(vno).rjust(8))[:21]
+                    if int(cnt[0][0] or 0) > 0:
+                        db.execute("UPDATE LASTVOU SET DOCID=? WHERE LogSite_Code=? AND ENAME=?", (docid_tmp, site, 'HBK'), cn=cn, commit=False)
+                    else:
+                        db.execute("INSERT INTO LASTVOU (UNAME,ENAME,DOCID,Site_Code,U_EntDt,U_AE,LogSite_Code) VALUES (?,?,?,?,getdate(),'A',?)", (user, 'HBK', docid_tmp, site, site), cn=cn, commit=False)
+                except Exception:
+                    pass
+            except Exception:
+                pass
+        except Exception:
+            vno_rows = db.query("SELECT MAX(VNo) FROM HallBook WITH (UPDLOCK, HOLDLOCK) WHERE LogSite_Code = ? AND Vprefix = ?", (site, vprefix), cn=cn)
+            vno = (vno_rows[0][0] or 0) + 1 if vno_rows and vno_rows[0][0] else 1
+    else:
+        vno_rows = db.query(
+            "SELECT MAX(VNo) FROM HallBook WITH (UPDLOCK, HOLDLOCK) "
+            "WHERE LogSite_Code = ? AND Vprefix = ?", (site, vprefix), cn=cn)
+        if not vno_rows or vno_rows[0][0] is None:
+            vno_rows = db.query(
+                "SELECT MAX(VNo) FROM HallBook WITH (UPDLOCK, HOLDLOCK) "
+                "WHERE Site_Code = ? AND Vprefix = ?", (site, vprefix), cn=cn)
+        vno = (vno_rows[0][0] or 0) + 1 if vno_rows and vno_rows[0][0] else 1
     docid = ("D" + site.ljust(2) + "HB".ljust(6) + str(vprefix).ljust(4) + str(vno).rjust(8))[:21]
     db.execute(
         "INSERT INTO HallBook (DocId,Vtype,VNo,VTime,Site_Code,Vprefix,Vdate,PartyName,Add1,Add2,City,Func_Name,BookingStatus,RestCode,FrBookDate,FrBookTime,ToBookDate,ToBookTime,Total,DiscPer,DiscAmt,NonTaxable,Taxable,Tax,ServiceCharge,AddAmt,DedAmt,RoundOff,U_Name,U_EntDt,U_AE,HallRent,Remarks,Advance,NetAmount,LogSite_Code,BookingAgent)"

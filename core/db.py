@@ -287,6 +287,10 @@ def get_logsite_code(cn=None) -> str:
     return get_site_code()
 
 
+# Backward-compatible alias: inventory.py `db.get_logsite()` call karta hai.
+get_logsite = get_logsite_code
+
+
 def get_vprefix(cfg: dict | None = None) -> str:
     """Current financial year prefix (e.g. '2026') - env HMS_VPREFIX override.
 

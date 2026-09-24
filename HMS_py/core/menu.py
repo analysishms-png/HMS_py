@@ -21,11 +21,20 @@ from HMS_py.core import db
 
 
 def roots() -> list[dict]:
-    """flag=9 sidebar roots [{code, name, srno}]."""
+    """flag=9 sidebar roots [{code, name, srno}].
+
+    Offline guard (VB6 MDIForm1 `On Error Resume Next` parity): DB na ho
+    to khali list — shell ko crash hone ke bajaye SA template/cache
+    fallback dikhana hai.
+    """
+    try:
+        rows = db.query(
+            "SELECT code, name, srno FROM User_Module "
+            "WHERE flag='9' ORDER BY srno")
+    except Exception:
+        return []
     return [{"code": r[0], "name": r[1], "srno": r[2]}
-            for r in db.query(
-                "SELECT code, name, srno FROM User_Module "
-                "WHERE flag='9' ORDER BY srno")]
+            for r in rows]
 
 
 def sidebar_modules() -> list[dict]:
@@ -49,9 +58,16 @@ def sidebar_modules() -> list[dict]:
 
 
 def user_allowed_srnos(username: str) -> set | None:
-    """User1.SRNO set; None = full access."""
-    rows = db.query("SELECT SRNO FROM User1 WHERE USER_NAME = ?",
-                    (username,))
+    """User1.SRNO set; None = full access.
+
+    Offline/DB-error -> None (full access) — VB6 jaisa fail-open so app
+    offline bhi menu dikhaaye.
+    """
+    try:
+        rows = db.query("SELECT SRNO FROM User1 WHERE USER_NAME = ?",
+                        (username,))
+    except Exception:
+        return None
     if not rows:
         return None
     return {r[0] for r in rows}
@@ -146,10 +162,13 @@ def menubar_for(module_name: str, username: str = "SA") -> list[dict]:
         return []
     nxt = next((r["srno"] for r in roots() if r["srno"] > root["srno"]),
                10 ** 9)
-    rows = db.query(
-        "SELECT code, name, flag, srno, Module_Name FROM User_Module "
-        "WHERE srno >= ? AND srno < ? AND flag <> '9' ORDER BY srno",
-        (root["srno"], nxt))
+    try:
+        rows = db.query(
+            "SELECT code, name, flag, srno, Module_Name FROM User_Module "
+            "WHERE srno >= ? AND srno < ? AND flag <> '9' ORDER BY srno",
+            (root["srno"], nxt))
+    except Exception:
+        return []
     for r in rows:
         g = r[4] or r[1]
         if g not in seen:

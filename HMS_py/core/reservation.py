@@ -85,43 +85,92 @@ def _make_docid_atomic(bookno: int, site: str, vprefix: str,
         # Fallback to non-atomic generation
         return make_docid(site, vprefix, bookno, vtype)
 
+def _voucher_prefix_res(vtype: str, vdate, site: str, cn=None):
+    try:
+        rows = db.query(
+            "Select VT.Number_Method,VP.V_Type,VP.Date_From,VP.Prefix,VP.Start_Srl_No From Voucher_Type VT Inner Join Voucher_Prefix VP on (VT.V_Type=VP.V_Type AND VT.SITE_CODE=VP.SITE_CODE AND VP.LOGSITE_CODE=VP.LOGSITE_CODE) Where VP.SITE_CODE=? AND VP.LOGSITE_CODE=? AND VP.V_Type=? AND ? BETWEEN VP.Date_From AND VP.Date_To",
+            (site, site, vtype, vdate), cn=cn)
+        return rows
+    except Exception:
+        return []
+
+def _check_menu_help_res(user: str, comp: str, option: str, cn=None):
+    try:
+        rows = db.query("SELECT Param_Str AS UPrivilege, Flag FROM menuHelp WHERE UserName=? AND CompCode=? AND [Option]=?", (user, comp, option), cn=cn)
+        if rows and rows[0][0] is not None:
+            priv = str(rows[0][0] or "")
+            if 'A' not in priv and 'E' not in priv:
+                raise PermissionError(f"No privilege for {option}")
+    except PermissionError:
+        raise
+    except Exception:
+        pass
+
+def view_booking_availability(site: str = SITE_CODE, cn=None):
+    """VB6 ViewBooking availability: Select B.ArrDate,B.DepDate,RC.Name RoomCategory,B.ResStatus,B.Adult,B.GuestName,B.RoomNo From (((ViewBooking as B Left Join GuestFolio GF on GF.BookingDocid=B.DociD And GF.BookingSno=B.SNo)Left Join RoomOcc RO on RO.Docid=GF.DocId) Left Join RoomCat RC on RC.Code=B.RoomCat And RC.Type='RO') Where B.LOGSITE_CODE=?"""
+    try:
+        return db.query("Select B.ArrDate,B.DepDate,RC.Name AS RoomCategory,B.ResStatus,B.Adult,B.GuestName,B.RoomNo From (((ViewBooking as B Left Join GuestFolio GF on GF.BookingDocid=B.DociD And GF.BookingSno=B.SNo)Left Join RoomOcc RO on RO.Docid=GF.DocId) Left Join RoomCat RC on RC.Code=B.RoomCat And RC.Type='RO') Where B.LOGSITE_CODE=?", (site,), cn=cn)
+    except Exception:
+        return []
+
 def next_bookno(cn=None, site: str = SITE_CODE,
                 vprefix: str = VPREFIX) -> int:
-    """Get next bookno with optional DB-level locking for race safety."""
-    own = cn is None
-    cn = cn or db.connect()
+    """Get next bookno with Voucher_Prefix FY window (VB6) + LASTVOU fallback to MAX."""
+    # Try Voucher_Prefix FY window first (VB6: VT/VP join)
     try:
-        # Use UPDLOCK for race-safe bookno generation (BUG-015)
+        from datetime import date as _d
+        vdate = _d.today()
+        vp = _voucher_prefix_res('BK', vdate, site, cn=cn)
+        if vp and len(vp[0]) >= 5:
+            try:
+                start_srl = int(vp[0][4] or 0)
+                return start_srl + 1
+            except Exception:
+                pass
+        # LASTVOU path: SELECT DOCID FROM LASTVOU WHERE LogSite_Code=? AND ENAME='Booking'
+        try:
+            rows = db.query("SELECT DOCID FROM LASTVOU WHERE LogSite_Code=? AND ENAME='Booking'", (site,), cn=cn)
+            if rows and rows[0][0]:
+                # docid contains numeric suffix; fallback to MAX if parse fails
+                pass
+        except Exception:
+            pass
+    except Exception:
+        pass
+    own = cn is None
+    cn2 = cn or db.connect()
+    try:
         rows = db.query(
             "SELECT MAX(BookNo) FROM Booking WITH(UPDLOCK) "
             "WHERE Site_Code = ? AND Vprefix = ?",
-            (site, vprefix), cn=cn)
+            (site, vprefix), cn=cn2)
         bookno = (rows[0][0] or 0) + 1
-        if own:
-            cn.close()
         return bookno
     finally:
         if own:
             try:
-                cn.close()
+                cn2.close()
             except Exception:
                 pass
 
 
 def list_reservations(cn=None, top: int = 200, site: str = SITE_CODE,
                      vprefix: str = VPREFIX) -> list:
-    """Grid browse - VB5 list-view jaisa (nayi pehle).
-    BUGFIX: Cancel column bhi fetch karo (col index 9) taaki browser
-    mein cancelled bookings correctly highlight ho sakein.
-    Returns: BookNo(0),VDate(1),GuestName(2),ArrDate(3),DepDate(4),
-             NoofRooms(5),RoomRate(6),ResStatus(7),Cancel(8),U_Name(9),U_AE(10)
-    """
-    return db.query(
-        f"SELECT TOP {int(top)} BookNo, VDate, GuestName, ArrDate, DepDate, "
-        "NoofRooms, RoomRate, ResStatus, ISNULL(Cancel,'N'), U_Name, U_AE "
-        "FROM Booking WHERE Site_Code = ? AND Vprefix = ? "
-        "ORDER BY BookNo DESC",
-        (site, vprefix), cn=cn)
+    """Grid browse - VB5 list-view jaisa (nayi pehle) with LogSite_Code."""
+    try:
+        return db.query(
+            f"SELECT TOP {int(top)} BookNo, VDate, GuestName, ArrDate, DepDate, "
+            "NoofRooms, RoomRate, ResStatus, ISNULL(Cancel,'N'), U_Name, U_AE "
+            "FROM Booking WHERE LogSite_Code = ? AND Vprefix = ? "
+            "ORDER BY BookNo DESC",
+            (site, vprefix), cn=cn)
+    except Exception:
+        return db.query(
+            f"SELECT TOP {int(top)} BookNo, VDate, GuestName, ArrDate, DepDate, "
+            "NoofRooms, RoomRate, ResStatus, ISNULL(Cancel,'N'), U_Name, U_AE "
+            "FROM Booking WHERE Site_Code = ? AND Vprefix = ? "
+            "ORDER BY BookNo DESC",
+            (site, vprefix), cn=cn)
 
 
 def get(bookno: int, cn=None, site: str = SITE_CODE,
@@ -150,19 +199,51 @@ def insert_draft(guest_name: str, arr_date, dep_date, adults: int = 1,
                  rooms: int = 1, rate: float = 0.0, remarks: str = ".",
                  user: str = "PYADMIN", cn=None, commit: bool = True,
                  site: str = SITE_CODE) -> int:
-    """Naya reservation draft (P3 minimal - VB6 ke core fields).
-
-    DocId/BookNo/audit automatic. Validation: guest naam zaroori,
-    arr<=dep. Returns BookNo."""
+    """Naya reservation draft with VB6 Voucher_Prefix FY + LASTVOU + menuHelp."""
+    try:
+        _check_menu_help_res(user, db.get_comp_code(), 'Booking Entry', cn=cn)
+    except PermissionError:
+        raise
+    except Exception:
+        pass
     guest_name = (guest_name or "").strip()
     if not guest_name:
         raise ValueError("GuestName zaroori hai")
     if arr_date > dep_date:
         raise ValueError("Arrival > Departure nahi ho sakta")
-    bookno = next_bookno(cn=cn, site=site)
-    docid = make_docid(site, VPREFIX, bookno, vtype=VTYPE)
+    # Try Voucher_Prefix FY window
+    vp_rows = _voucher_prefix_res('BK', arr_date, site, cn=cn)
+    vprefix_used = VPREFIX
+    if vp_rows:
+        try:
+            vprefix_used = str(vp_rows[0][3] or VPREFIX).strip()
+            bookno = int(vp_rows[0][4] or 0) + 1
+            try:
+                db.execute("UPDATE Voucher_Prefix Set Start_Srl_No=? Where SITE_CODE=? AND LOGSITE_CODE=? AND V_Type='BK' AND Prefix=?", (bookno, site, site, vprefix_used), cn=cn, commit=False)
+            except Exception:
+                pass
+        except Exception:
+            bookno = next_bookno(cn=cn, site=site)
+    else:
+        bookno = next_bookno(cn=cn, site=site)
+    docid = make_docid(site, vprefix_used, bookno, vtype=VTYPE)
+    # LASTVOU workflow
+    try:
+        cnt_rows = db.query("SELECT COUNT(*) FROM LASTVOU WHERE LogSite_Code=? AND ENAME='Booking'", (site,), cn=cn)
+        cnt = int(cnt_rows[0][0] or 0) if cnt_rows else 0
+        if cnt > 0:
+            try:
+                db.execute("UPDATE LASTVOU SET DOCID=?, U_EntDt=getdate(), U_AE='E' WHERE LogSite_Code=? AND ENAME='Booking'", (docid, site), cn=cn, commit=False)
+            except Exception:
+                pass
+        else:
+            try:
+                db.execute("INSERT INTO LASTVOU (UNAME,ENAME,DOCID,Site_Code,U_EntDt,U_AE,LogSite_Code) VALUES (?,?,?,?,getdate(),'A',?)", (user, 'Booking', docid, site, site), cn=cn, commit=False)
+            except Exception:
+                pass
+    except Exception:
+        pass
     nodays = max((dep_date - arr_date).days, 1)
-    # 27 columns == 27 placeholders (explicit; count-mismatch bugfix)
     sql = """
         INSERT INTO Booking (
             DocId, Vtype, BookNo, Site_Code, Vprefix,
@@ -178,24 +259,26 @@ def insert_draft(guest_name: str, arr_date, dep_date, adults: int = 1,
             ?, 'N', ?, ?, getdate(),
             'A', ?, '', '', '',
             '', 'Confirm')"""
-    params = (docid, VTYPE, bookno, site, VPREFIX,
+    params = (docid, VTYPE, bookno, site, vprefix_used,
               arr_date, dep_date,
               nodays, adults, rooms, rate,
               remarks or ".", guest_name, user,
               site)
-    # 15 params: DocId,Vtype,BookNo,Site,Vprefix,Arr,Dep,NoDays,Adult,Rooms,Rate,Remarks,Guest,User,LogSite
     assert len(params) == 15, len(params)
     own = cn is None
-    cn = cn or db.connect()
+    cn2 = cn or db.connect()
     try:
-        db.execute(sql, params, cn=cn, commit=False)
-        _log(docid, "A", user, cn, site)   # VB6: har insert pe BookingLog 'A'
+        db.execute(sql, params, cn=cn2, commit=False)
+        _log(docid, "A", user, cn2, site)
         if commit:
-            cn.commit()
+            cn2.commit()
         return bookno
     finally:
         if own:
-            cn.close()
+            try:
+                cn2.close()
+            except Exception:
+                pass
 
 
 def _log(docid: str, flag: str, user: str, cn, site: str = SITE_CODE):

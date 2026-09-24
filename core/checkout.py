@@ -22,17 +22,21 @@ USER = db.get_user()
 
 def _get_checkout_type(cn=None) -> str:
     """Read checkout validation type from Enviro (VB6 moondata.sql col Checkout)."""
-    try:
-        rows = db.query(
-            "SELECT [Checkout] FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
-            (SITE_CODE,), cn=cn,
-        )
-    except db.pyodbc.Error as e:
-        if "207" in str(e) or "Invalid column name" in str(e):
-            return "Standard"
-        raise
-    if rows and rows[0][0] not in (None, ""):
-        return str(rows[0][0]).strip()
+    candidates = ["[Checkout]", "[CheckoutType]", "[ChkOutType]"]
+    for col in candidates:
+        try:
+            rows = db.query(
+                f"SELECT {col} FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
+                (SITE_CODE,), cn=cn,
+            )
+        except db.pyodbc.Error as e:
+            if "207" in str(e) or "Invalid column name" in str(e):
+                continue
+            raise
+        if rows and rows[0][0] not in (None, ""):
+            val = str(rows[0][0]).strip()
+            if val:
+                return val
     return "Standard"
 
 

@@ -32,11 +32,11 @@ def next_billno(cn=None) -> int:
 
 
 def folio_charges(folio: int, cn=None, vprefix: str = VPREFIX) -> list:
-    """Ek folio ki charges (PayCharge, folio-linked)."""
+    """Ek folio ki charges (PayCharge, folio-linked). VB6 LogSite_Code scoped."""
     rows = db.query(
         "SELECT SNo, PayCode, PayType, Comments, AmtDr, AmtCr, Vdate "
-        "FROM PayCharge WHERE Site_Code = ? AND VPrefix = ? AND FolioNo = ? "
-        "ORDER BY SNo", (SITE_CODE, vprefix, folio), cn=cn)
+        "FROM PayCharge WHERE Site_Code = ? AND LogSite_Code = ? AND VPrefix = ? AND FolioNo = ? "
+        "ORDER BY SNo", (SITE_CODE, db.get_site_code(), vprefix, folio), cn=cn)
     return [{"sno": r.SNo, "paycode": r.PayCode or "",
              "paytype": (r.PayType or "").strip(),
              "comments": (r.Comments or "").strip(),
