@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Country master CRUD (VB6: 'Country Master' - Main Setup).
 
 Schema evidence (live MOONData2627.INFORMATION_SCHEMA):
@@ -42,7 +41,7 @@ def _validate(rec: dict):
 
 
 def list_all(cn=None) -> list[dict]:
-    rows = db.query(f"SELECT {SELECT_COLS} FROM Country ORDER BY Code",
+    rows = db.query(f"SELECT {SELECT_COLS} FROM Country WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY Code",
                     cn=cn)
     return [_map(r) for r in rows]
 

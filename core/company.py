@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Company/property list - frmCompany.frm jaisa dynamic data.
 
 VB6 Company Details grid: Company Name | Short Name | Current Year.
@@ -10,6 +9,7 @@ Data sources (evidence):
 from __future__ import annotations
 
 from HMS_py.core import db
+SITE_CODE = db.get_site_code()
 
 
 def list_companies() -> list[dict]:
@@ -24,7 +24,7 @@ def list_companies() -> list[dict]:
     cfg = db.load_config()
     try:
         rows = db.query(
-            "SELECT Comp_Name, SName, cyear FROM Company "
+            "SELECT Comp_Name, SName, cyear FROM Company AND (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') "
             "ORDER BY Start_Dt DESC")
     except Exception:
         rows = []

@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Season Master CRUD (VB6: 'Season Master' - Main Setup -> Front Office).
 
 Schema evidence (live HMS DB): SeasonMast table.
@@ -44,7 +43,7 @@ def _validate(rec: dict):
 
 def list_all(cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {SELECT_COLS} FROM SeasonMast ORDER BY FromDate", cn=cn)
+        f"SELECT {SELECT_COLS} FROM SeasonMast WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY FromDate", cn=cn)
     return [_map(r) for r in rows]
 
 

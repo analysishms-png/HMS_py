@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """SundryMast CRUD (VB6: FrmTaxMast.frm, DepartSundry.frm inhe use karte hain).
 Schema evidence: Code varchar(6), Name varchar(20) NULL, Nature varchar(20)
 NOT NULL, CalcSign varchar(1), SysYN varchar(1) + audit cols.
@@ -39,7 +38,7 @@ def _validate(rec: dict):
 
 
 def list_all(cn=None) -> list[dict]:
-    rows = db.query(f"SELECT {SELECT_COLS} FROM SundryMast ORDER BY Code",
+    rows = db.query(f"SELECT {SELECT_COLS} FROM SundryMast WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY Code",
                     cn=cn)
     return [_map(r) for r in rows]
 

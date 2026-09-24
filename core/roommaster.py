@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """Room Master CRUD (VB6: 'Room Master' - Main Setup -> Front Office).
 
 Schema (live RoomMast): **composite PK (Type, Code, RestCode, LogSite_Code)**
@@ -65,7 +64,7 @@ def _validate(rec: dict):
 
 def list_all(cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {SELECT_COLS} FROM RoomMast ORDER BY Code", cn=cn)
+        f"SELECT {SELECT_COLS} FROM RoomMast WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY Code", cn=cn)
     return [_map(r) for r in rows]
 
 

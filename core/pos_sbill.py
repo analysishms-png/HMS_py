@@ -10,7 +10,6 @@ from HMS_py.core import db
 SITE_CODE = db.get_site_code()
 USER = db.get_user()
 
-def _logsite(cn=None) -> str:
     try:
         return db.get_logsite_code(cn=cn)
     except Exception:

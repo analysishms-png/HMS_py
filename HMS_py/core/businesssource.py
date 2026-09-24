@@ -47,7 +47,7 @@ def _validate(rec: dict):
 
 def list_all(cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {SELECT_COLS} FROM BussSource ORDER BY Code", cn=cn)
+        f"SELECT {SELECT_COLS} FROM BussSource WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY Code", cn=cn)
     return [_map(r) for r in rows]
 
 

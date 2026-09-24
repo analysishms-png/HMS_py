@@ -1,4 +1,3 @@
-# P0 FIX HO fallback pending - master SELECT should add WHERE (LOGSITE_CODE=? OR HO)
 """City master CRUD (VB6: City masahij forms - 311 live rows).
 Schema evidence: CityCode varchar(6) PK (only NOT NULL), CityName varchar(35),
 ShortName(6), ZipCode(11), State(6). App-level: CityName required.
@@ -37,7 +36,7 @@ def _validate(rec: dict):
 
 
 def list_all(cn=None) -> list[dict]:
-    rows = db.query(f"SELECT {SELECT_COLS} FROM City ORDER BY CityCode",
+    rows = db.query(f"SELECT {SELECT_COLS} FROM City WHERE (LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO' OR ISNULL(LOGSITE_CODE,'')='') ORDER BY CityCode",
                     cn=cn)
     return [_map(r) for r in rows]
 
