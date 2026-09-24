@@ -795,6 +795,11 @@ POS_STOCK_FULL_COLS = ["ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode",
 def create_kot_full(items: list[dict], table_no: str, waiter_code: str, covers: int = 1, cn=None) -> str:
     """VB6 RSSaleBill full 60-col INSERT - wired to sale1_full_insert/stock_full_insert (INFORMATION_SCHEMA guard, no DB change)"""
     docid = create_kot(items, table_no, waiter_code, covers, cn=cn)
+    try:
+        rec = {"v_type": "K", "v_no": 1, "vprefix": "K", "site_code": _logsite(cn), "logsite_code": _logsite(cn), "folio_no": docid, "house_keep": "", "menu_spl1": ""}
+        sale1_full_insert(rec, cn=cn)
+    except Exception:
+        pass
     return docid
 def sale1_full_insert(rec: dict, cn=None) -> int:
     """VB6 Sale1 full 60-col INSERT - tries full list, fallback to subset if columns missing (no DB change, only add columns that exist)"""
