@@ -372,4 +372,8 @@ def hr_post_ledger_sl(emp_code: str, amount: float, vdate=None, cn=None) -> int:
     vprefix = db.get_vprefix()
     vno = db.next_vno("Ledger", "SL", vprefix, site=site, cn=cn)
     return db.execute("INSERT INTO Ledger (V_Type, V_No, Vprefix, VDate, SubCode, AmtDr, Site_Code, LogSite_Code) VALUES ('SL', ?, ?, ?, ?, ?, ?, ?)", (vno, vprefix, vdate, emp_code, amount, site, site), cn=cn)
+def _count_holiday_non_sunday(from_date, to_date, cn=None) -> int:
+    """VB6 Holiday DATEPART(dw)<>1 - Sunday=1, so exclude Sundays"""
+    rows = db.query("SELECT COUNT(*) FROM Holiday WHERE HolidayDate BETWEEN ? AND ? AND DATEPART(dw, HolidayDate) <> 1 AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (from_date, to_date, db.get_site_code()), cn=cn)
+    return int(rows[0][0] or 0) if rows else 0
 

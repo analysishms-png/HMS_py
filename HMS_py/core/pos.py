@@ -786,4 +786,7 @@ def scheme_free_qty(item_code: str, qty: float, on_date=None, cn=None) -> float:
         return float(rows[0][0] or 0) if rows and rows[0][0] else 0.0
     except Exception:
         return 0.0
+# VB6 POS Sale1 full 60-col list (FolioNo/HouseKeep/MenuSpl1-4/ExpAtt/GuarAtt/CoverRate/BookDocId/HallRent/PRINTED/AU_Name etc.) - VB6 parity next
+# Current create_kot uses subset (31 cols); full list is documented here for next batch to expand INSERT column list verbatim without DB change (only add columns that exist)
+POS_SALE1_FULL_COLS = ["FolioNo","HouseKeep","MenuSpl1","MenuSpl2","MenuSpl3","MenuSpl4","ExpAtt","GuarAtt","CoverRate","BookDocId","HallRent","PRINTED","AU_Name","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode"]
 
