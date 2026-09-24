@@ -809,6 +809,7 @@ def sale1_full_insert(rec: dict, cn=None) -> int:
     placeholders = ",".join(["?"]*len(use_cols))
     col_list = ",".join(use_cols)
     return db.execute(f"INSERT INTO Sale1 ({col_list}) VALUES ({placeholders})", tuple(vals), cn=cn)
+# VB6 Stock wired - create_kot now uses stock_full_insert for 19-col Stock
 def stock_full_insert(rec: dict, cn=None) -> int:
     """VB6 Stock full INSERT - Vtype BMM/RQI/PBPB + ContraDocId/RoomCat/RoomNo/KOTDocId/DepartCode/SchemeCode/FreeSno/ShiftCode/LogSite_Code"""
     cols = ["VType","VNo","Vprefix","Item","QtyIss","QtyRec","Rate","Amount","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode","LogSite_Code","Site_Code","VDate"]

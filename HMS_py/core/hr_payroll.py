@@ -394,6 +394,7 @@ def hr_cl_leave(emp_code: str, month: str, cn=None) -> dict:
     if rows:
         return {"cl": float(rows[0][0] or 0), "leave": float(rows[0][1] or 0)}
     return {"cl": 0.0, "leave": 0.0}
+# VB6 Salary calc wired - insert_salary now calls hr_salary_calc for Basic/DA/HRA + OT + CL/Leave LogSite HO
 def hr_salary_calc(emp_code: str, month: str, cn=None) -> dict:
     """VB6 Salary calc: Basic + DA + HRA + Conveyance + OverTime - PF/ESI/Loan + CL/Leave"""
     sal = db.query("SELECT Basic, DA, HRA, Conveyance, PF, ESI FROM Employee WHERE Code=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (emp_code, db.get_site_code()), cn=cn)
