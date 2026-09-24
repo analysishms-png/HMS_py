@@ -316,6 +316,7 @@ def get_context(cn=None) -> dict:
     """
     return {
         "site": get_site_code(),
+        "logsite": get_logsite_code(),
         "user": get_user(),
         "vprefix": get_vprefix(),
     }
