@@ -1,3 +1,4 @@
+# P0 FIX next batch: StockInHand 5-query NCAT + ConvRatio / Scheme+ItemRate / HR Attend table - VB6 parity pending 2026-09-24
 """POS (Point of Sale) core module - VB6 POSMas_Click logic ported.
 
 This module handles the POS Masters menu operations from VB6 HMS.bas

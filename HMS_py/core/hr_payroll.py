@@ -1,3 +1,4 @@
+# P0 FIX next batch: StockInHand 5-query NCAT + ConvRatio / Scheme+ItemRate / HR Attend table - VB6 parity pending 2026-09-24
 """HR/Payroll - Salary, Attendence, Loan, Leave_Ench, OverTime CRUD."""
 from __future__ import annotations
 from HMS_py.core import db
