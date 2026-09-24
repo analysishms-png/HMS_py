@@ -21,22 +21,26 @@ USER = db.get_user()
 
 
 def _get_checkout_type(cn=None) -> str:
-    """Read checkout validation type from Enviro (VB6 moondata.sql col Checkout)."""
-    candidates = ["[Checkout]", "[CheckoutType]", "[ChkOutType]"]
-    for col in candidates:
+    """Read checkout validation type from Enviro (VB6 moondata.sql col Checkout).
+
+    BUG-016 contract: candidate queries ki loop — 207 (invalid column)
+    YA empty/None value par agla candidate try hota hai; unrelated DB
+    errors propagate karte hain. Sab candidates fail -> "Standard".
+    """
+    candidates = (
+        "SELECT [Checkout] FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
+        "SELECT [CheckOutType] FROM Enviro WHERE Site_Code = ? OR Site_Code = 'HO'",
+    )
+    for sql in candidates:
         try:
-            rows = db.query(
-                f"SELECT {col} FROM Enviro WHERE LogSite_Code = ? OR LogSite_Code = 'HO'",
-                (SITE_CODE,), cn=cn,
-            )
+            rows = db.query(sql, (SITE_CODE,), cn=cn)
         except db.pyodbc.Error as e:
             if "207" in str(e) or "Invalid column name" in str(e):
-                continue
+                continue  # column missing -> agla candidate
             raise
         if rows and rows[0][0] not in (None, ""):
-            val = str(rows[0][0]).strip()
-            if val:
-                return val
+            return str(rows[0][0]).strip()
+        # empty/None value -> agla candidate
     return "Standard"
 
 
