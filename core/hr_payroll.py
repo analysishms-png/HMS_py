@@ -384,4 +384,8 @@ def hr_loan_post(emp_code: str, loan_amt: float, cn=None) -> int:
     db.execute("INSERT INTO Loan (V_Type, V_No, Vprefix, EmployeeCode, AmtDr, Site_Code, LogSite_Code) VALUES ('LO', ?, ?, ?, ?, ?, ?)", (vno, vprefix, emp_code, loan_amt, site, site), cn=cn)
     # VB6: Ledger LR = Loan Repayment (deduction) -> later via salary, not here
     return vno
+def hr_overtime_calc(emp_code: str, month: str, cn=None) -> float:
+    """VB6 OverTime calc: SELECT SUM(OverTimeAmt) FROM OverTime WHERE EmployeeCode=? AND Mth_Year=? AND (LogSite_Code=? OR HO)"""
+    rows = db.query("SELECT ISNULL(SUM(OverTimeAmt),0) FROM OverTime WHERE EmployeeCode=? AND Mth_Year=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO' OR ISNULL(LOGSITE_CODE,'')='')", (emp_code, month, db.get_site_code()), cn=cn)
+    return float(rows[0][0] or 0) if rows else 0.0
 

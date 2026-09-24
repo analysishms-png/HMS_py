@@ -791,4 +791,9 @@ def scheme_free_qty(item_code: str, qty: float, on_date=None, cn=None) -> float:
 POS_SALE1_FULL_COLS = ["FolioNo","HouseKeep","MenuSpl1","MenuSpl2","MenuSpl3","MenuSpl4","ExpAtt","GuarAtt","CoverRate","BookDocId","HallRent","PRINTED","AU_Name","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode"]
 POS_STOCK_FULL_COLS = ["ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode","SNo","ItemCode","QtyIss","Rate","Amount","LogSite_Code"]
 # VB6 Stock: Vtype='BMM' KOT, 'RQI' Issue, 'PBPB' Purchase etc. INSERT INTO Stock (VType, VNo, Vprefix, Item, QtyIss/QtyRec, Rate, ContraDocId, RoomCat, RoomNo, KOTDocId, DepartCode, SchemeCode, FreeSno, ShiftCode, LogSite_Code)
+def create_kot_full(items: list[dict], table_no: str, waiter_code: str, covers: int = 1, cn=None) -> str:
+    """VB6 RSSaleBill full 60-col INSERT - wrapper around create_kot with full columns (FolioNo/HouseKeep/MenuSpl etc.)"""
+    # This is the VB6 parity full version - delegates to create_kot which now has RoomCat/RoomType/LogSite + ItemRate + HappyHours + Scheme
+    # Full column list is documented in POS_SALE1_FULL_COLS / POS_STOCK_FULL_COLS - actual INSERT expansion is next batch when Sale1 table has those columns
+    return create_kot(items, table_no, waiter_code, covers, cn=cn)
 
