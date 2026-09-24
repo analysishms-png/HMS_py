@@ -9,6 +9,8 @@ from HMS_py.core import db
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")  # Analysis.ini key 7
 USER = db.get_user()
+# VB6 masters HO fallback: (LOGSITE_CODE='<site>' OR LOGSITE_CODE='HO')
+_HO_CLAUSE = "(LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO')"
 # Column limits (schema evidence): Code varchar(5), Name varchar(25),
 # Plan_Package varchar(7), U_Name varchar(10), ActiveYN varchar(3)
 LIMITS = {"code": 5, "name": 25, "package": 7}
@@ -17,7 +19,7 @@ LIMITS = {"code": 5, "name": 25, "package": 7}
 def list_plans(cn=None) -> list:
     return db.query(
         "SELECT Code, Name, Total, Plan_Package, ActiveYN FROM PlanMast "
-        "ORDER BY Code", cn=cn)
+        f"WHERE {_HO_CLAUSE} ORDER BY Code", (SITE_CODE,), cn=cn)
 
 
 # Alias for standard UI interface (same as list_plans)
@@ -49,12 +51,15 @@ def get(code: str, cn=None):
     rows = db.query(
         "SELECT Code, Name, Total, Plan_Package, PercentApp, ActiveYN, "
         "U_Name, U_EntDt, U_AE "
-        "FROM PlanMast WHERE Code = ?", (code,), cn=cn)
+        "FROM PlanMast WHERE Code = ? AND " + _HO_CLAUSE,
+        (code, SITE_CODE), cn=cn)
     return rows[0] if rows else None
 
 
 def exists(code: str, cn=None) -> bool:
-    rows = db.query("SELECT 1 FROM PlanMast WHERE Code = ?", (code,), cn=cn)
+    rows = db.query(
+        f"SELECT 1 FROM PlanMast WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return bool(rows)
 
 
@@ -90,10 +95,12 @@ def update(code: str, name: str, total: float, package: str = "",
     return db.execute(
         "UPDATE PlanMast SET Name = ?, Total = ?, Plan_Package = ?, "
         "ActiveYN = ?, U_Name = ?, U_EntDt = getdate(), U_AE = 'E' "
-        "WHERE Code = ?",
-        (name, total, package, active, USER, code), cn=cn, commit=commit)
+        f"WHERE Code = ? AND {_HO_CLAUSE}",
+        (name, total, package, active, USER, code, SITE_CODE),
+        cn=cn, commit=commit)
 
 
 def delete(code: str, cn=None, commit: bool = True) -> int:
-    return db.execute("DELETE FROM PlanMast WHERE Code = ?", (code,),
-                      cn=cn, commit=commit)
+    return db.execute(
+        f"DELETE FROM PlanMast WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)

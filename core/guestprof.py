@@ -16,6 +16,8 @@ from HMS_py.core import db
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
+# VB6 masters HO fallback: (LOGSITE_CODE='<site>' OR LOGSITE_CODE='HO')
+_HO_CLAUSE = "(LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO')"
 LIMITS = {"code": 8, "name": 50, "add1": 50, "add2": 50, "city": 6,
           "type": 7, "phone": 35, "mobile": 24, "email": 50,
           "nationality": 6}
@@ -82,35 +84,38 @@ def _validate(rec: dict, cn=None, check_duplicates: bool = True):
 def list_all(cn=None, top: int = 500) -> list[dict]:
     rows = db.query(
         f"SELECT TOP {int(top)} {SELECT_COLS} FROM GuestProf "
-        "ORDER BY Code", cn=cn)
+        f"WHERE {_HO_CLAUSE} ORDER BY Code", (SITE_CODE,), cn=cn)
     return [_map(r) for r in rows]
 
 
 def search(name_part: str, cn=None, top: int = 100) -> list[dict]:
     rows = db.query(
         f"SELECT TOP {int(top)} {SELECT_COLS} FROM GuestProf "
-        "WHERE Name LIKE ? ORDER BY Name", (f"%{name_part}%",), cn=cn)
+        f"WHERE Name LIKE ? AND {_HO_CLAUSE} ORDER BY Name",
+        (f"%{name_part}%", SITE_CODE), cn=cn)
     return [_map(r) for r in rows]
 
 
 def get(code: str, cn=None) -> dict | None:
-    rows = db.query(f"SELECT {SELECT_COLS} FROM GuestProf WHERE Code = ?",
-                    (code,), cn=cn)
+    rows = db.query(
+        f"SELECT {SELECT_COLS} FROM GuestProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map(rows[0]) if rows else None
 
 
 def exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM GuestProf WHERE Code = ?", (code,),
-                         cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM GuestProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def next_code(cn=None) -> str:
-    """VB6 pattern: 'KK' + max-numeric-suffix + 1 (live: KK000002...)."""
+    """VB6 pattern: site-prefix + max-numeric-suffix + 1 (live: KK000002...)."""
     rows = db.query(
-        "SELECT MAX(Code) FROM GuestProf WHERE Code LIKE 'KK%' AND "
-        "LEN(Code) = 8", cn=cn)
-    mx = rows[0][0] if rows and rows[0][0] else "KK000000"
-    return f"KK{int(mx[2:]) + 1:06d}"
+        "SELECT MAX(Code) FROM GuestProf WHERE Code LIKE ? AND "
+        "LEN(Code) = 8", (f"{SITE_CODE}%",), cn=cn)
+    mx = rows[0][0] if rows and rows[0][0] else f"{SITE_CODE}000000"
+    return f"{SITE_CODE}{int(mx[2:]) + 1:06d}"
 
 
 def insert(rec: dict, cn=None, commit: bool = True) -> int:
@@ -140,11 +145,11 @@ def update(code: str, rec: dict, cn=None, commit: bool = True) -> int:
             "UPDATE GuestProf SET Name = ?, Add1 = ?, Add2 = ?, City = ?, "
             "Type = ?, PhoneNo = ?, MobileNo = ?, EmailId = ?, "
             "Nationality = ?, U_Name = ?, U_EntDt = getdate(), U_AE = 'E' "
-            "WHERE Code = ?",
+            f"WHERE Code = ? AND {_HO_CLAUSE}",
             (rec["name"], rec.get("add1", ""), rec.get("add2", ""),
              rec.get("city", ""), rec.get("type", ""), rec.get("phone", ""),
              rec.get("mobile", ""), rec.get("email", ""),
-             rec.get("nationality", ""), USER, code),
+             rec.get("nationality", ""), USER, code, SITE_CODE),
             cn=cn_use, commit=False)
         db.execute(
             "UPDATE GuestFolio SET GuestProf = ?, Name = ?, city = ?, "
@@ -171,5 +176,6 @@ def update(code: str, rec: dict, cn=None, commit: bool = True) -> int:
 
 
 def delete(code: str, cn=None, commit: bool = True) -> int:
-    return db.execute("DELETE FROM GuestProf WHERE Code = ?", (code,),
-                      cn=cn, commit=commit)
+    return db.execute(
+        f"DELETE FROM GuestProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)

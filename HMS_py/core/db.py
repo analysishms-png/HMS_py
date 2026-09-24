@@ -348,19 +348,27 @@ def next_vno(table: str, vtype: str, vprefix: str, site: str | None = None,
     _validate_identifier(table, "table")
     _validate_identifier(vtype_col, "column")
     site = site or get_site_code()
+    logsite = get_logsite_code(cn=cn) if cn else get_site_code()
+    # VB6 FY: Voucher_Prefix Date_From/To + Start_Srl_No per LogSite
+    # If prefix row exists, max between MAX(VNo) and Start_Srl_No
+    try:
+        vp_rows = query(
+            "SELECT Start_Srl_No FROM Voucher_Prefix WHERE V_Type=? AND SITE_CODE=? AND LOGSITE_CODE=? AND ? BETWEEN Date_From AND Date_To",
+            (vtype, site, logsite, _today_str()), cn=cn)
+        start_no = int(vp_rows[0][0] or 0) if vp_rows else 0
+    except Exception:
+        start_no = 0
     own = cn is None
     cn = cn or connect()
     try:
         cur = cn.cursor()
-        # UPDLOCK: update-intent lock; HOLDLOCK: transaction end tak hold.
-        # Range lock MAX(...) pe serial block karta hai - do users ko
-        # same number nahi milega.
         cur.execute(
             f"SELECT MAX(VNo) FROM [{table}] WITH (UPDLOCK, HOLDLOCK) "
-            f"WHERE [{vtype_col}] = ? AND Vprefix = ? AND Site_Code = ?",
-            (vtype, vprefix, site))
+            f"WHERE [{vtype_col}] = ? AND Vprefix = ? AND Site_Code = ? AND LogSite_Code = ?",
+            (vtype, vprefix, site, logsite))
         row = cur.fetchone()
         vno = int(row[0] or 0) + 1 if row else 1
+        vno = max(vno, start_no + 1)
         if commit:
             cn.commit()
         return vno
@@ -371,3 +379,32 @@ def next_vno(table: str, vtype: str, vprefix: str, site: str | None = None,
             except pyodbc.Error:
                 pass
             cn.close()
+
+
+def _today_str():
+    import datetime
+    return datetime.date.today().isoformat()
+
+
+def check_datelock(check_date, site: str | None = None, cn=None) -> bool:
+    """VB6 FaEnviro DateLock check: SELECT TOP 1 flag FROM DATELOCK WHERE SDate<=? AND EDate>=? AND flag=1"""
+    site = site or get_site_code()
+    try:
+        rows = query("SELECT TOP 1 flag FROM DATELOCK WHERE SDate <= ? AND EDate >= ? AND flag=1 AND (SITE_CODE=? OR LOGSITE_CODE=?)", (check_date, check_date, site, site), cn=cn)
+        return bool(rows)
+    except Exception:
+        return False
+
+
+def check_menuhelp(username: str, option: str, site: str | None = None, cn=None) -> bool:
+    """VB6 menuHelp guard: Param_Str contains A/E/D or Flag=Y"""
+    site = site or get_site_code()
+    comp = get_comp_code()
+    try:
+        rows = query("SELECT Param_Str, Flag FROM menuHelp WHERE UserName=? AND CompCode=? AND [Option]=? AND (SITE_CODE=? OR LOGSITE_CODE=?)", (username, comp, option, site, site), cn=cn)
+        if not rows:
+            return True  # no row = full access (SA)
+        param, flag = str(rows[0][0] or ""), str(rows[0][1] or "")
+        return flag == "Y" or any(c in param for c in "AED")
+    except Exception:
+        return True

@@ -15,6 +15,8 @@ from HMS_py.core import db
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
+# VB6 masters HO fallback: (LOGSITE_CODE='<site>' OR LOGSITE_CODE='HO')
+_HO_CLAUSE = "(LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO')"
 LIMITS = {"code": 5, "name": 20}
 SELECT_COLS = "Code, Name, Active, U_Name, U_EntDt, U_AE"
 
@@ -48,20 +50,22 @@ def _validate(rec: dict):
 
 def list_all(cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {SELECT_COLS} FROM MarketSeg ORDER BY Code", cn=cn)
+        f"SELECT {SELECT_COLS} FROM MarketSeg WHERE {_HO_CLAUSE} ORDER BY Code",
+        (SITE_CODE,), cn=cn)
     return [_map(r) for r in rows]
 
 
 def get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {SELECT_COLS} FROM MarketSeg WHERE Code = ?",
-        (code,), cn=cn)
+        f"SELECT {SELECT_COLS} FROM MarketSeg WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map(rows[0]) if rows else None
 
 
 def exists(code: str, cn=None) -> bool:
     return bool(db.query(
-        "SELECT 1 FROM MarketSeg WHERE Code = ?", (code,), cn=cn))
+        f"SELECT 1 FROM MarketSeg WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def insert(rec: dict, cn=None, commit: bool = True) -> int:
@@ -81,12 +85,13 @@ def update(code: str, rec: dict, cn=None, commit: bool = True) -> int:
     _validate(rec)
     return db.execute(
         "UPDATE MarketSeg SET Name = ?, Active = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
+        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' "
+        f"WHERE Code = ? AND {_HO_CLAUSE}",
         (rec["name"], rec.get("active", "Y"),
-         USER, code), cn=cn, commit=commit)
+         USER, code, SITE_CODE), cn=cn, commit=commit)
 
 
 def delete(code: str, cn=None, commit: bool = True) -> int:
     return db.execute(
-        "DELETE FROM MarketSeg WHERE Code = ?", (code,),
-        cn=cn, commit=commit)
+        f"DELETE FROM MarketSeg WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)

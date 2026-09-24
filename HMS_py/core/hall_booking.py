@@ -29,7 +29,7 @@ def _validate_hallbook(rec: dict):
 def _voucher_prefix_hall(vtype: str, vdate, site: str, cn=None):
     try:
         rows = db.query(
-            "Select VT.Number_Method,VP.V_Type,VP.Date_From,VP.Prefix,VP.Start_Srl_No From Voucher_Type VT Inner Join Voucher_Prefix VP on (VT.V_Type=VP.V_Type AND VT.SITE_CODE=VP.SITE_CODE AND VP.LOGSITE_CODE=VP.LOGSITE_CODE) Where VP.SITE_CODE=? AND VP.LOGSITE_CODE=? AND VP.V_Type=? AND ? BETWEEN VP.Date_From AND VP.Date_To",
+            "Select VT.Number_Method,VP.V_Type,VP.Date_From,VP.Prefix,VP.Start_Srl_No From Voucher_Type VT Inner Join Voucher_Prefix VP on (VT.V_Type=VP.V_Type AND VT.SITE_CODE=VP.SITE_CODE AND VT.LOGSITE_CODE=VP.LOGSITE_CODE) Where VP.SITE_CODE=? AND VP.LOGSITE_CODE=? AND VP.V_Type=? AND ? BETWEEN VP.Date_From AND VP.Date_To",
             (site, site, vtype, vdate), cn=cn)
         return rows
     except Exception:
@@ -168,12 +168,18 @@ def update_hallbook(vno, rec, cn=None, commit=True, site=SITE_CODE, user=USER, v
         raise ValueError("Koi field update nahi diya")
     sets.extend(["U_Name = ?", "U_EntDt = getdate()", "U_AE = 'E'"])
     params.extend([user, site, vno, vprefix])
-    db.execute("UPDATE HallBook SET " + ", ".join(sets) + " WHERE Site_Code = ? AND VNo = ? AND Vprefix = ?", params, cn=cn, commit=commit)
+    db.execute("UPDATE HallBook SET " + ", ".join(sets) +
+               " WHERE Site_Code = ? AND VNo = ? AND Vprefix = ?"
+               " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+               params + [site], cn=cn, commit=commit)
     return get_hallbook(vno, site=site, cn=cn, vprefix=vprefix)
 
 
 def delete_hallbook(vno, cn=None, commit=True, site=SITE_CODE, vprefix="2026"):
-    return db.execute("DELETE FROM HallBook WHERE Site_Code = ? AND VNo = ? AND Vprefix = ?", (site, vno, vprefix), cn=cn, commit=commit)
+    return db.execute(
+        "DELETE FROM HallBook WHERE Site_Code = ? AND VNo = ? AND Vprefix = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (site, vno, vprefix, site), cn=cn, commit=commit)
 
 
 # === HallBook1 (hall items) ===
@@ -188,7 +194,10 @@ def _map_hallbook1(r) -> dict:
 
 
 def list_hallbook1(docid, cn=None):
-    rows = db.query("SELECT * FROM HallBook1 WHERE DocId = ? ORDER BY Sno", (docid,), cn=cn)
+    rows = db.query(
+        "SELECT * FROM HallBook1 WHERE DocId = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')"
+        " ORDER BY Sno", (docid, SITE_CODE), cn=cn)
     return [_map_hallbook1(r) for r in rows]
 
 
@@ -208,7 +217,10 @@ def insert_hallbook1(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
 
 
 def delete_hallbook1(docid, sno, cn=None, commit=True):
-    return db.execute("DELETE FROM HallBook1 WHERE DocId = ? AND Sno = ?", (docid, sno), cn=cn, commit=commit)
+    return db.execute(
+        "DELETE FROM HallBook1 WHERE DocId = ? AND Sno = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (docid, sno, SITE_CODE), cn=cn, commit=commit)
 
 
 # === HallSale1 (hall sale billing) ===
@@ -224,12 +236,18 @@ def _map_hallsale1(r) -> dict:
 
 
 def list_hallsale1(cn=None, limit=500):
-    rows = db.query(f"SELECT TOP {int(limit)} * FROM HallSale1 WHERE Site_Code = ? ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
+    rows = db.query(
+        f"SELECT TOP {int(limit)} * FROM HallSale1"
+        " WHERE (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')"
+        " ORDER BY VNo DESC", (SITE_CODE,), cn=cn)
     return [_map_hallsale1(r) for r in rows]
 
 
 def get_hallsale1(vno, site=SITE_CODE, cn=None):
-    rows = db.query("SELECT * FROM HallSale1 WHERE Site_Code = ? AND VNo = ?", (site, vno), cn=cn)
+    rows = db.query(
+        "SELECT * FROM HallSale1 WHERE Site_Code = ? AND VNo = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (site, vno, SITE_CODE), cn=cn)
     return _map_hallsale1(rows[0]) if rows else None
 
 
@@ -237,7 +255,7 @@ def insert_hallsale1(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
     # BUG-015: race-safe VNo (UPDLOCK/HOLDLOCK)
     vno_rows = db.query(
         "SELECT MAX(VNo) FROM HallSale1 WITH (UPDLOCK, HOLDLOCK) "
-        "WHERE Site_Code = ?", (site,), cn=cn)
+        "WHERE LogSite_Code = ?", (site,), cn=cn)
     vno = (vno_rows[0][0] or 0) + 1 if vno_rows and vno_rows[0][0] else 1
     vprefix = rec.get("vprefix", "2026")
     docid = ("D" + site.ljust(2) + "HS".ljust(6) + str(vprefix).ljust(4) + str(vno).rjust(8))[:21]
@@ -272,12 +290,18 @@ def update_hallsale1(vno, rec, cn=None, commit=True, site=SITE_CODE, user=USER):
         raise ValueError("Koi field update nahi diya")
     sets.extend(["U_Name = ?", "U_EntDt = getdate()", "U_AE = 'E'"])
     params.extend([user, site, vno])
-    db.execute("UPDATE HallSale1 SET " + ", ".join(sets) + " WHERE Site_Code = ? AND VNo = ?", params, cn=cn, commit=commit)
+    db.execute("UPDATE HallSale1 SET " + ", ".join(sets) +
+               " WHERE Site_Code = ? AND VNo = ?"
+               " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+               params + [SITE_CODE], cn=cn, commit=commit)
     return get_hallsale1(vno, site=site, cn=cn)
 
 
 def delete_hallsale1(vno, cn=None, commit=True, site=SITE_CODE):
-    return db.execute("DELETE FROM HallSale1 WHERE Site_Code = ? AND VNo = ?", (site, vno), cn=cn, commit=commit)
+    return db.execute(
+        "DELETE FROM HallSale1 WHERE Site_Code = ? AND VNo = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (site, vno, SITE_CODE), cn=cn, commit=commit)
 
 
 # === HallStock ===
@@ -292,7 +316,10 @@ def _map_hallstock(r) -> dict:
 
 
 def list_hallstock(cn=None, limit=500):
-    rows = db.query(f"SELECT TOP {int(limit)} * FROM HallStock WHERE Site_Code = ? ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
+    rows = db.query(
+        f"SELECT TOP {int(limit)} * FROM HallStock"
+        " WHERE (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')"
+        " ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
     return [_map_hallstock(r) for r in rows]
 
 
@@ -317,7 +344,10 @@ def insert_hallstock(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
 
 
 def delete_hallstock(docid, sno, cn=None, commit=True):
-    return db.execute("DELETE FROM HallStock WHERE DocId = ? AND Sno = ?", (docid, sno), cn=cn, commit=commit)
+    return db.execute(
+        "DELETE FROM HallStock WHERE DocId = ? AND Sno = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (docid, sno, SITE_CODE), cn=cn, commit=commit)
 
 
 # === PayChargeH (hall payments) ===
@@ -334,7 +364,10 @@ def _map_pchargeh(r) -> dict:
 
 
 def list_pchargeh(cn=None, limit=500):
-    rows = db.query(f"SELECT TOP {int(limit)} * FROM PayChargeH WHERE Site_Code = ? ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
+    rows = db.query(
+        f"SELECT TOP {int(limit)} * FROM PayChargeH"
+        " WHERE (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')"
+        " ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
     return [_map_pchargeh(r) for r in rows]
 
 
@@ -363,7 +396,10 @@ def insert_pchargeh(rec, cn=None, commit=True, site=SITE_CODE, user=USER):
 
 
 def delete_pchargeh(docid, sno, cn=None, commit=True):
-    return db.execute("DELETE FROM PayChargeH WHERE DocId = ? AND SNo = ?", (docid, sno), cn=cn, commit=commit)
+    return db.execute(
+        "DELETE FROM PayChargeH WHERE DocId = ? AND SNo = ?"
+        " AND (LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code,'') = '')",
+        (docid, sno, SITE_CODE), cn=cn, commit=commit)
 
 
 # === SunTranH ===

@@ -28,6 +28,8 @@ from HMS_py.core import db
 
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
+# VB6 masters HO fallback: (LOGSITE_CODE='<site>' OR LOGSITE_CODE='HO')
+_HO_CLAUSE = "(LOGSITE_CODE = ? OR LOGSITE_CODE = 'HO')"
 
 
 # ============================================================
@@ -51,11 +53,11 @@ def venfeature_list(cn=None, venue_code: str = "") -> list[dict]:
     if venue_code:
         rows = db.query(
             f"SELECT {VENFEATURE_COLS} FROM VenueFeatures WHERE VenueCode = ? "
-            "ORDER BY Feature", (venue_code,), cn=cn)
+            f"AND {_HO_CLAUSE} ORDER BY Feature", (venue_code, SITE_CODE), cn=cn)
     else:
         rows = db.query(
-            f"SELECT {VENFEATURE_COLS} FROM VenueFeatures ORDER BY VenueCode, Feature",
-            cn=cn)
+            f"SELECT {VENFEATURE_COLS} FROM VenueFeatures WHERE {_HO_CLAUSE} "
+            "ORDER BY VenueCode, Feature", (SITE_CODE,), cn=cn)
     return [_map_venfeature(r) for r in rows]
 
 
@@ -63,7 +65,8 @@ def venfeature_list_all(cn=None) -> list[dict]:
     """BaseMasterForm compatible - returns all with composite key as 'code'."""
     rows = db.query(
         "SELECT VenueCode, Feature, U_Name, U_EntDt, U_AE "
-        "FROM VenueFeatures ORDER BY VenueCode, Feature", cn=cn)
+        f"FROM VenueFeatures WHERE {_HO_CLAUSE} ORDER BY VenueCode, Feature",
+        (SITE_CODE,), cn=cn)
     out = []
     for r in rows:
         d = _map_venfeature(r)
@@ -75,8 +78,8 @@ def venfeature_list_all(cn=None) -> list[dict]:
 
 def venfeature_exists_row(venue: str, feature: str, cn=None) -> bool:
     return bool(db.query(
-        "SELECT 1 FROM VenueFeatures WHERE VenueCode = ? AND Feature = ?",
-        (venue, feature), cn=cn))
+        f"SELECT 1 FROM VenueFeatures WHERE VenueCode = ? AND Feature = ? "
+        f"AND {_HO_CLAUSE}", (venue, feature, SITE_CODE), cn=cn))
 
 
 def venfeature_insert(rec: dict, cn=None, commit=True) -> int:
@@ -97,8 +100,8 @@ def venfeature_insert(rec: dict, cn=None, commit=True) -> int:
 
 def venfeature_delete_row(venue: str, feature: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM VenueFeatures WHERE VenueCode = ? AND Feature = ?",
-        (venue, feature), cn=cn, commit=commit)
+        f"DELETE FROM VenueFeatures WHERE VenueCode = ? AND Feature = ? "
+        f"AND {_HO_CLAUSE}", (venue, feature, SITE_CODE), cn=cn, commit=commit)
 
 
 # BaseMasterForm-compatible wrapper for VenueFeatures
@@ -117,8 +120,8 @@ class _VenFeatureAPI:
             return None
         rows = db.query(
             "SELECT VenueCode, Feature, U_Name, U_EntDt, U_AE "
-            "FROM VenueFeatures WHERE VenueCode = ? AND Feature = ?",
-            (parts[0], parts[1]), cn=cn)
+            f"FROM VenueFeatures WHERE VenueCode = ? AND Feature = ? "
+            f"AND {_HO_CLAUSE}", (parts[0], parts[1], SITE_CODE), cn=cn)
         if not rows:
             return None
         d = _map_venfeature(rows[0])
@@ -179,17 +182,21 @@ def _map_catalog(r) -> dict:
 
 def catalog_list(cn=None) -> list[dict]:
     return [_map_catalog(r) for r in db.query(
-        f"SELECT {CATALOG_COLS} FROM CatalogMast ORDER BY Code", cn=cn)]
+        f"SELECT {CATALOG_COLS} FROM CatalogMast WHERE {_HO_CLAUSE} "
+        "ORDER BY Code", (SITE_CODE,), cn=cn)]
 
 
 def catalog_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {CATALOG_COLS} FROM CatalogMast WHERE Code = ?", (code,), cn=cn)
+        f"SELECT {CATALOG_COLS} FROM CatalogMast WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_catalog(rows[0]) if rows else None
 
 
 def catalog_exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM CatalogMast WHERE Code = ?", (code,), cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM CatalogMast WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def catalog_insert(rec: dict, cn=None, commit=True) -> int:
@@ -212,15 +219,16 @@ def catalog_update(code: str, rec: dict, cn=None, commit=True) -> int:
     return db.execute(
         "UPDATE CatalogMast SET ItemCode = ?, RestCode = ?, Name = ?, "
         "ItemCatCode = ?, Category = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
+        f"U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
         (rec.get("itemcode", ""), rec.get("rest", ""), rec["name"],
          rec.get("itemcat", ""), rec.get("category", ""),
-         USER, code), cn=cn, commit=commit)
+         USER, code, SITE_CODE), cn=cn, commit=commit)
 
 
 def catalog_delete(code: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM CatalogMast WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM CatalogMast WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _CatalogAPI:
@@ -278,18 +286,21 @@ def _map_groupprof(r) -> dict:
 
 def groupprof_list(cn=None, top: int = 300) -> list[dict]:
     return [_map_groupprof(r) for r in db.query(
-        f"SELECT TOP {int(top)} {GROUPPROF_COLS} FROM GroupProf ORDER BY Code",
-        cn=cn)]
+        f"SELECT TOP {int(top)} {GROUPPROF_COLS} FROM GroupProf "
+        f"WHERE {_HO_CLAUSE} ORDER BY Code", (SITE_CODE,), cn=cn)]
 
 
 def groupprof_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {GROUPPROF_COLS} FROM GroupProf WHERE Code = ?", (code,), cn=cn)
+        f"SELECT {GROUPPROF_COLS} FROM GroupProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_groupprof(rows[0]) if rows else None
 
 
 def groupprof_exists(code: str, cn=None) -> bool:
-    return bool(db.query("SELECT 1 FROM GroupProf WHERE Code = ?", (code,), cn=cn))
+    return bool(db.query(
+        f"SELECT 1 FROM GroupProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def groupprof_insert(rec: dict, cn=None, commit=True) -> int:
@@ -317,19 +328,20 @@ def groupprof_update(code: str, rec: dict, cn=None, commit=True) -> int:
         "UPDATE GroupProf SET Name = ?, Add1 = ?, Add2 = ?, City = ?, "
         "Type = ?, ConName = ?, PhoneNo = ?, Comments1 = ?, "
         "TravelAgency = ?, MarketSeg = ?, BusSource = ?, GroupType = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
+        f"U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
         (rec["name"], rec.get("add1", ""), rec.get("add2", ""),
          rec.get("city", ""), rec.get("type", ""), rec.get("conname", ""),
          rec.get("phone", ""), rec.get("comments", ""),
          rec.get("travel", ""), rec.get("mktseg", ""), rec.get("bussrc", ""),
-         rec.get("gtype", ""), USER, code), cn=cn, commit=commit)
+         rec.get("gtype", ""), USER, code, SITE_CODE), cn=cn, commit=commit)
 
 
 def groupprof_delete(code: str, cn=None, commit=True) -> int:
     if not code.upper().startswith("PYT"):
         raise ValueError("Safety: sirf PYT* test group profiles delete hote hain")
     return db.execute(
-        "DELETE FROM GroupProf WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM GroupProf WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _GroupProfAPI:
@@ -372,19 +384,21 @@ def _map_functype(r) -> dict:
 
 def functype_list(cn=None) -> list[dict]:
     return [_map_functype(r) for r in db.query(
-        f"SELECT {FUNCTYPE_COLS} FROM FunctionType ORDER BY Code", cn=cn)]
+        f"SELECT {FUNCTYPE_COLS} FROM FunctionType WHERE {_HO_CLAUSE} "
+        "ORDER BY Code", (SITE_CODE,), cn=cn)]
 
 
 def functype_get(code: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {FUNCTYPE_COLS} FROM FunctionType WHERE Code = ?",
-        (code,), cn=cn)
+        f"SELECT {FUNCTYPE_COLS} FROM FunctionType WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     return _map_functype(rows[0]) if rows else None
 
 
 def functype_exists(code: str, cn=None) -> bool:
     return bool(db.query(
-        "SELECT 1 FROM FunctionType WHERE Code = ?", (code,), cn=cn))
+        f"SELECT 1 FROM FunctionType WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn))
 
 
 def functype_insert(rec: dict, cn=None, commit=True) -> int:
@@ -405,14 +419,15 @@ def functype_update(code: str, rec: dict, cn=None, commit=True) -> int:
         raise ValueError("Name zaroori hai")
     return db.execute(
         "UPDATE FunctionType SET Name = ?, Status = ?, "
-        "U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ?",
-        (rec["name"], rec.get("status", ""), USER, code),
+        f"U_Name = ?, U_EntDt = getdate(), U_AE = 'E' WHERE Code = ? AND {_HO_CLAUSE}",
+        (rec["name"], rec.get("status", ""), USER, code, SITE_CODE),
         cn=cn, commit=commit)
 
 
 def functype_delete(code: str, cn=None, commit=True) -> int:
     return db.execute(
-        "DELETE FROM FunctionType WHERE Code = ?", (code,), cn=cn, commit=commit)
+        f"DELETE FROM FunctionType WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn, commit=commit)
 
 
 class _FuncTypeAPI:

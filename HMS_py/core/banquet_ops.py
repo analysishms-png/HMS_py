@@ -59,6 +59,9 @@ from HMS_py.core import db
 SITE_CODE = db.get_site_code()  # BUG-014: Analysis.ini-driven (was hardcoded "KK")
 USER = db.get_user()
 VPREFIX = "2026"
+# VB6 parity: masters/dropdown reads (LOGSITE_CODE=? OR 'HO'),
+# transaction reads strict LogSite_Code=? (BanqModule.bas pattern).
+_HO_CLAUSE = "(LogSite_Code = ? OR LogSite_Code = 'HO' OR ISNULL(LogSite_Code, '') = '')"
 
 # Vtypes
 VTYPE_IBOOK = "IBOOK"
@@ -180,20 +183,22 @@ def _map_hallbook(r) -> dict:
 
 def hallbook_list(cn=None, top: int = 300) -> list[dict]:
     rows = db.query(
-        f"SELECT TOP {int(top)} {HALLBOOK_COLS} FROM HallBook ORDER BY DocId DESC",
-        cn=cn)
+        f"SELECT TOP {int(top)} {HALLBOOK_COLS} FROM HallBook "
+        f"WHERE {_HO_CLAUSE} ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
     return [_map_hallbook(r) for r in rows]
 
 
 def hallbook_get(docid: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {HALLBOOK_COLS} FROM HallBook WHERE DocId = ?", (docid,), cn=cn)
+        f"SELECT {HALLBOOK_COLS} FROM HallBook WHERE DocId = ? AND {_HO_CLAUSE}",
+        (docid, SITE_CODE), cn=cn)
     return _map_hallbook(rows[0]) if rows else None
 
 
 def hallbook_exists(docid: str, cn=None) -> bool:
     return bool(db.query(
-        "SELECT 1 FROM HallBook WHERE DocId = ?", (docid,), cn=cn))
+        f"SELECT 1 FROM HallBook WHERE DocId = ? AND {_HO_CLAUSE}",
+        (docid, SITE_CODE), cn=cn))
 
 
 def hallbook_insert(rec: dict, cn=None, commit: bool = True) -> int:
@@ -262,7 +267,7 @@ def hallbook_update(docid: str, rec: dict, cn=None, commit: bool = True) -> int:
         "MarketSeg = ?, BussSource = ?, CompanyCode = ?, TotalCoverRate = ?, "
         "NetAmount = ?, InquiryCode = ?, ContactNo = ?, TaxPer = ?, "
         "ServiceTaxPer = ?, OtherChrg = ?, Remark = ?, BookingAgent = ? "
-        "WHERE DocId = ?",
+        f"WHERE DocId = ? AND {_HO_CLAUSE}",
         (rec.get("party", ""), rec.get("add1", ""), rec.get("add2", ""),
          rec.get("city", ""), rec.get("pin", ""), rec.get("pan", ""),
          rec.get("phone_res", ""), rec.get("phone_off", ""),
@@ -282,7 +287,7 @@ def hallbook_update(docid: str, rec: dict, cn=None, commit: bool = True) -> int:
          rec.get("inquiry", ""), rec.get("contact", ""),
          float(rec.get("taxper", 0)), float(rec.get("servtaxper", 0)),
          float(rec.get("otherchrg", 0)), rec.get("remark", ""),
-         rec.get("agent", ""), docid),
+         rec.get("agent", ""), docid, SITE_CODE),
         cn=cn, commit=commit)
 
 
@@ -290,7 +295,8 @@ def hallbook_delete(docid: str, cn=None, commit: bool = True) -> int:
     if not docid.upper().startswith("PYT"):
         raise ValueError("Safety: sirf PYT* bookings delete hote hain")
     return db.execute(
-        "DELETE FROM HallBook WHERE DocId = ?", (docid,), cn=cn, commit=commit)
+        f"DELETE FROM HallBook WHERE DocId = ? AND {_HO_CLAUSE}",
+        (docid, SITE_CODE), cn=cn, commit=commit)
 
 
 # ============================================================
@@ -340,8 +346,8 @@ def _map_hallbook1(r) -> dict:
 
 def hallbook1_lines(docid: str, cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {HALLBOOK1_COLS} FROM HallBook1 WHERE DocId = ? ORDER BY Sno",
-        (docid,), cn=cn)
+        f"SELECT {HALLBOOK1_COLS} FROM HallBook1 WHERE DocId = ? AND {_HO_CLAUSE} "
+        "ORDER BY Sno", (docid, SITE_CODE), cn=cn)
     return [_map_hallbook1(r) for r in rows]
 
 
@@ -385,8 +391,8 @@ def hallbook1_insert(docid: str, line: dict, cn=None, commit: bool = True) -> in
 
 def hallbook1_delete(docid: str, sno: int, cn=None, commit: bool = True) -> int:
     return db.execute(
-        "DELETE FROM HallBook1 WHERE DocId = ? AND Sno = ?",
-        (docid, sno), cn=cn, commit=commit)
+        f"DELETE FROM HallBook1 WHERE DocId = ? AND Sno = ? AND {_HO_CLAUSE}",
+        (docid, sno, SITE_CODE), cn=cn, commit=commit)
 
 
 # ============================================================
@@ -456,22 +462,23 @@ def _map_hallsale1(r) -> dict:
 
 def hallsale1_list(cn=None, top: int = 300) -> list[dict]:
     rows = db.query(
-        f"SELECT TOP {int(top)} {HALLSALE1_COLS} FROM HallSale1 ORDER BY DocId DESC",
-        cn=cn)
+        f"SELECT TOP {int(top)} {HALLSALE1_COLS} FROM HallSale1 "
+        f"WHERE {_HO_CLAUSE} ORDER BY DocId DESC", (SITE_CODE,), cn=cn)
     return [_map_hallsale1(r) for r in rows]
 
 
 def hallsale1_get(docid: str, cn=None) -> dict | None:
     rows = db.query(
-        f"SELECT {HALLSALE1_COLS} FROM HallSale1 WHERE DocId = ?", (docid,), cn=cn)
+        f"SELECT {HALLSALE1_COLS} FROM HallSale1 WHERE DocId = ? AND {_HO_CLAUSE}",
+        (docid, SITE_CODE), cn=cn)
     return _map_hallsale1(rows[0]) if rows else None
 
 
 def hallsale1_get_by_booking(bookdocid: str, cn=None) -> list[dict]:
     """Get all bills for a booking."""
     rows = db.query(
-        f"SELECT {HALLSALE1_COLS} FROM HallSale1 WHERE BookDocId = ? ORDER BY VNo",
-        (bookdocid,), cn=cn)
+        f"SELECT {HALLSALE1_COLS} FROM HallSale1 WHERE BookDocId = ? AND {_HO_CLAUSE} "
+        "ORDER BY VNo", (bookdocid, SITE_CODE), cn=cn)
     return [_map_hallsale1(r) for r in rows]
 
 
@@ -619,8 +626,8 @@ def _map_hallsale2(r) -> dict:
 
 def hallsale2_lines(docid: str, cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {HALLSALE2_COLS} FROM HallSale2 WHERE DocId = ? ORDER BY Sno",
-        (docid,), cn=cn)
+        f"SELECT {HALLSALE2_COLS} FROM HallSale2 WHERE DocId = ? AND {_HO_CLAUSE} "
+        "ORDER BY Sno", (docid, SITE_CODE), cn=cn)
     return [_map_hallsale2(r) for r in rows]
 
 
@@ -653,18 +660,19 @@ def _map_venueocc(r) -> dict:
 def venueocc_list(cn=None, venue: str = "") -> list[dict]:
     if venue:
         rows = db.query(
-            f"SELECT {VENUEOCC_COLS} FROM VenueOcc WHERE VenuCode = ? ORDER BY FromDate",
-            (venue,), cn=cn)
+            f"SELECT {VENUEOCC_COLS} FROM VenueOcc WHERE VenuCode = ? AND {_HO_CLAUSE} "
+            "ORDER BY FromDate", (venue, SITE_CODE), cn=cn)
     else:
         rows = db.query(
-            f"SELECT {VENUEOCC_COLS} FROM VenueOcc ORDER BY FromDate", cn=cn)
+            f"SELECT {VENUEOCC_COLS} FROM VenueOcc WHERE {_HO_CLAUSE} ORDER BY FromDate",
+            (SITE_CODE,), cn=cn)
     return [_map_venueocc(r) for r in rows]
 
 
 def venueocc_get_by_booking(fpdocid: str, cn=None) -> list[dict]:
     rows = db.query(
-        f"SELECT {VENUEOCC_COLS} FROM VenueOcc WHERE FPDocid = ? ORDER BY FromDate",
-        (fpdocid,), cn=cn)
+        f"SELECT {VENUEOCC_COLS} FROM VenueOcc WHERE FPDocid = ? AND {_HO_CLAUSE} "
+        "ORDER BY FromDate", (fpdocid, SITE_CODE), cn=cn)
     return [_map_venueocc(r) for r in rows]
 
 
@@ -687,8 +695,8 @@ def venueocc_insert(rec: dict, cn=None, commit: bool = True) -> int:
 
 def venueocc_delete(fpdocid: str, venue: str, cn=None, commit: bool = True) -> int:
     return db.execute(
-        "DELETE FROM VenueOcc WHERE FPDocid = ? AND VenuCode = ?",
-        (fpdocid, venue), cn=cn, commit=commit)
+        f"DELETE FROM VenueOcc WHERE FPDocid = ? AND VenuCode = ? AND {_HO_CLAUSE}",
+        (fpdocid, venue, SITE_CODE), cn=cn, commit=commit)
 
 
 # ============================================================
@@ -762,7 +770,8 @@ def bookinginquiry_list(cn=None) -> list[dict]:
         "BussSource, Status, MarketSeg, Pax, GurrPax, RatePax, VenueCode, "
         "Site_Code, U_Name, U_EntDt, U_AE, Capacity, CapacityType, "
         "LogSite_Code, Remark "
-        "FROM BookingInquiry WHERE Status = 'Active' ORDER BY Code", cn=cn)
+        f"FROM BookingInquiry WHERE Status = 'Active' AND {_HO_CLAUSE} ORDER BY Code",
+        (SITE_CODE,), cn=cn)
     return [{
         "code": r.Code, "cattype": r.CatType or "",
         "party": (r.PartyName or "").strip(),
@@ -789,7 +798,8 @@ def bookinginquiry_get(code: str, cn=None) -> dict | None:
         "BussSource, Status, MarketSeg, Pax, GurrPax, RatePax, VenueCode, "
         "Site_Code, U_Name, U_EntDt, U_AE, Capacity, CapacityType, "
         "LogSite_Code, Remark "
-        "FROM BookingInquiry WHERE Code = ?", (code,), cn=cn)
+        f"FROM BookingInquiry WHERE Code = ? AND {_HO_CLAUSE}",
+        (code, SITE_CODE), cn=cn)
     if not rows:
         return None
     r = rows[0]
