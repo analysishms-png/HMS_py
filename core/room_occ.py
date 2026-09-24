@@ -279,3 +279,7 @@ def room_availability(date_from, date_to=None, cn=None,
             "available": available, "occupied": occ_list, "dirty": dirty,
             "blocked": blocked_list, "reserved": sorted(booked),
             "per_category": cats}
+def tariff_matrix(room_cat: str, cn=None) -> list[dict]:
+    """VB6 SRate tariff matrix 9510 - RoomCat tariff slabs"""
+    return db.query("SELECT RateCode, RoomRate, PlanCode, PlanAmt FROM RoomCatTariff WHERE RoomCat=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO') ORDER BY RateCode", (room_cat, db.get_site_code()), cn=cn)
+
