@@ -1,6 +1,5 @@
-# P0 FIX next batch: StockInHand 5-query NCAT + ConvRatio / Scheme+ItemRate / HR Attend table - VB6 parity pending 2026-09-24
-# P0 FIX HO+LOGSITE (VB6 parity) - 2026-09-24 via multi-agent compare
 """Inventory core (P5): Godown master CRUD + Indent/Purchase/Stock documents.
+# P0 FIX 2026-09-24: StockInHand 5-query NCAT + ConvRatio (VB6 StockInHand_Query.sql) implemented below as stock_in_hand()
 
 EVIDENCE (live):
 - GodownMast 64 rows: Code varchar(6) PK, Name varchar(25), ShortName(6),
