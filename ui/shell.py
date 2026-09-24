@@ -1569,13 +1569,14 @@ class MainWindow(QMainWindow):
         # 1. VB6 HEADER: white band, centered blue company title
         # ==============================================================
         header = QFrame()
-        header.setStyleSheet("QFrame { background: #ffffff; border: none; }")
+        header.setFixedHeight(80)  # VB6 PictSubMenu 1200 twips = 80px
+        header.setStyleSheet("QFrame { background: #ffffff; border: none; border-bottom: 1px solid #808080; }")
         header_lay = QHBoxLayout(header)
-        header_lay.setContentsMargins(8, 4, 8, 0)
+        header_lay.setContentsMargins(8, 4, 8, 4)
         self.lblTitle = QLabel(f"{comp['name']} {{ {comp['year']} }}")
         self.lblTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lblTitle.setStyleSheet(
-            "color: #0020c0; font-family: 'Arial'; font-size: 17pt;"
+            "color: #0000ff; font-family: 'Tahoma'; font-size: 18pt;"
             "font-weight: bold; background: transparent; border: none;")
         header_lay.addWidget(self.lblTitle)
         root.addWidget(header)
@@ -1804,12 +1805,14 @@ class MainWindow(QMainWindow):
         #    CAPS/NUM + Hide Left/Right Menu + Full Screen
         # ==============================================================
         sb = self.statusBar()
+        sb.setFixedHeight(24)  # VB6 sbar 360 twips = 24px
         sb.setSizeGripEnabled(False)
         sb.setStyleSheet("""
             QStatusBar {
                 background: #d4d0c8; color: #000000;
                 border-top: 1px solid #808080;
-                font-size: 9pt; font-family: 'Segoe UI';
+                border-bottom: 1px solid #ffffff;
+                font-size: 8pt; font-family: 'MS Sans Serif';
             }
             QStatusBar QLabel {
                 background: #d4d0c8; color: #000000;
