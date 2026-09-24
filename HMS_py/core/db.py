@@ -264,27 +264,30 @@ def get_comp_code(cfg: dict | None = None) -> str:
 
 
 def get_logsite_code(cn=None) -> str:
-    """VB6 LogSite_Code (MemVar_1F92078) - Enviro.LOGSITE_CODE se, fallback Analysis.ini SITE_CODE.
+    """VB6 LogSite_Code (MemVar_1F92078) - session LogSite, fallback Analysis.ini SITE_CODE.
 
     VB6 har POS read me `(LOGSITE_CODE='<LOGSITE>' OR LOGSITE_CODE='HO')`
     karta hai; insert me Site_Code=LOGSITE, LogSite_Code=LOGSITE.
-    Enviro init nahi hua ho to Analysis.ini company code fallback hai.
+    Enviro TOP 1 arbitrary HO -> wrong site; prefer Analysis.ini company code.
     """
+    # Prefer session/site from Analysis.ini (company key 7) — VB6 MemVar_1F92078
+    site = get_site_code()
+    if site and site.upper() != "HO":
+        return site[:10].upper()
     try:
-        rows = query("SELECT TOP 1 LOGSITE_CODE FROM Enviro WHERE LOGSITE_CODE IS NOT NULL AND LOGSITE_CODE <> ''", cn=cn)
+        rows = query("SELECT TOP 1 LOGSITE_CODE FROM Enviro WHERE LOGSITE_CODE IS NOT NULL AND LOGSITE_CODE <> '' AND LOGSITE_CODE <> 'HO'", cn=cn)
         if rows and rows[0][0]:
             v = str(rows[0][0]).strip()
             if v and v.upper() != "HO":
                 return v[:10].upper()
-            if v:
-                return v[:10].upper()
-        # second attempt: Site_Code column fallback
-        rows2 = query("SELECT TOP 1 Site_Code FROM Enviro WHERE Site_Code IS NOT NULL AND Site_Code <> ''", cn=cn)
+        rows2 = query("SELECT TOP 1 Site_Code FROM Enviro WHERE Site_Code IS NOT NULL AND Site_Code <> '' AND Site_Code <> 'HO'", cn=cn)
         if rows2 and rows2[0][0]:
-            return str(rows2[0][0]).strip()[:10].upper()
+            v2 = str(rows2[0][0]).strip()
+            if v2 and v2.upper() != "HO":
+                return v2[:10].upper()
     except Exception:
         pass
-    return get_site_code()
+    return site[:10].upper() if site else "KK"
 
 
 # Backward-compatible alias: inventory.py `db.get_logsite()` call karta hai.

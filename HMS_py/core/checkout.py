@@ -58,7 +58,7 @@ def folio_balance(folio: int, cn=None,
     rows = db.query(
         "SELECT ISNULL(SUM(AmtDr),0), ISNULL(SUM(AmtCr),0) "
         "FROM PayCharge WHERE FolioNoDocid = ? AND Site_Code = ? AND LogSite_Code = ? AND Vtype NOT IN ('ARRES','ADRES')",
-        (rec["docid"], SITE_CODE, db.get_site_code()), cn=cn)
+        (rec["docid"], SITE_CODE, db.get_logsite_code(cn=cn)), cn=cn)
     dr = float(rows[0][0]) if rows else 0.0
     cr = float(rows[0][1]) if rows else 0.0
     return {
