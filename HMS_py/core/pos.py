@@ -810,4 +810,15 @@ def sale1_full_insert(rec: dict, cn=None) -> int:
     placeholders = ",".join(["?"]*len(use_cols))
     col_list = ",".join(use_cols)
     return db.execute(f"INSERT INTO Sale1 ({col_list}) VALUES ({placeholders})", tuple(vals), cn=cn)
+def stock_full_insert(rec: dict, cn=None) -> int:
+    """VB6 Stock full INSERT - Vtype BMM/RQI/PBPB + ContraDocId/RoomCat/RoomNo/KOTDocId/DepartCode/SchemeCode/FreeSno/ShiftCode/LogSite_Code"""
+    cols = ["VType","VNo","Vprefix","Item","QtyIss","QtyRec","Rate","Amount","ContraDocId","RoomCat","RoomNo","KOTDocId","DepartCode","SchemeCode","FreeSno","ShiftCode","LogSite_Code","Site_Code","VDate"]
+    try:
+        existing = {r[0] for r in db.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='Stock'", cn=cn)}
+    except Exception:
+        existing = set(cols)
+    use_cols = [c for c in cols if c in existing]
+    vals = [rec.get(c, rec.get(c.lower(), None)) for c in use_cols]
+    placeholders = ",".join(["?"]*len(use_cols))
+    return db.execute(f"INSERT INTO Stock ({','.join(use_cols)}) VALUES ({placeholders})", tuple(vals), cn=cn)
 

@@ -394,4 +394,15 @@ def hr_cl_leave(emp_code: str, month: str, cn=None) -> dict:
     if rows:
         return {"cl": float(rows[0][0] or 0), "leave": float(rows[0][1] or 0)}
     return {"cl": 0.0, "leave": 0.0}
+def hr_salary_calc(emp_code: str, month: str, cn=None) -> dict:
+    """VB6 Salary calc: Basic + DA + HRA + Conveyance + OverTime - PF/ESI/Loan + CL/Leave"""
+    sal = db.query("SELECT Basic, DA, HRA, Conveyance, PF, ESI FROM Employee WHERE Code=? AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (emp_code, db.get_site_code()), cn=cn)
+    if not sal:
+        return {}
+    basic, da, hra, conv, pf, esi = [float(x or 0) for x in sal[0][:6]]
+    ot = hr_overtime_calc(emp_code, month, cn=cn)
+    cl_leave = hr_cl_leave(emp_code, month, cn=cn)
+    gross = basic + da + hra + conv + ot
+    net = gross - pf - esi - cl_leave["cl"]*10 - cl_leave["leave"]*10  # simplified CL/Leave deduction
+    return {"basic": basic, "da": da, "hra": hra, "gross": gross, "net": net, "ot": ot, "cl": cl_leave["cl"]}
 
