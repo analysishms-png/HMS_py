@@ -1,0 +1,8 @@
+; Field definition file for table: ADORecordset
+mLine	string	10	string sample value
+sale	string	50	string sample value
+Today	string	50	string sample value
+Yesterday	string	17	string sample value
+LastWeekCurrentDate	string	17	string sample value
+18/Apr/2019	string	17	string sample value
+Mark	string	1	string sample value

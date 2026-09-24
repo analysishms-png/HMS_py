@@ -1,0 +1,13 @@
+; Field definition file for table: ADORecordset
+USER_NAME	string	50	string sample value
+PASSWD	string	50	string sample value
+LABEL	short		1
+ShortName	string	50	string sample value
+GodCode	string	50	string sample value
+FloorCode	string	50	string sample value
+AllowDtChng	string	50	string sample value
+ActiveYN	string	1	string sample value
+BackColor	long		1
+Name	string	50	string sample value
+Label	short		1
+Active	string	1	string sample value

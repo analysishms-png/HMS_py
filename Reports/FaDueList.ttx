@@ -1,0 +1,26 @@
+; Field definition file for table: ADORecordset
+VDATE1	datetime		Jan 5, 1994 1:23:45 PM
+VNO1	long		1
+VTYPE1	string	5	string sample value
+VSNO1	long		1
+VADD1	string	5	string sample value
+VDATE2	datetime		Jan 5, 1994 1:23:45 PM
+VNO2	long		1
+VTYPE2	string	5	string sample value
+VSNO2	long		1
+VADD2	string	5	string sample value
+Cr	number		1.00
+Dr	number		1.00
+PendCr	number		1.00
+PendDr	number		1.00
+AgeCr	long		1
+AgeDr	long		1
+SUBCODE	string	10	string sample value
+NAME	string	50	string sample value
+ADDRESS	string	150	string sample value
+CITY_NAME	string	50	string sample value
+ConPerson	string	50	string sample value
+PIN	string	6	string sample value
+EMail	string	50	string sample value
+NARRATION1	string	255	string sample value
+NARRATION2	string	255	string sample value

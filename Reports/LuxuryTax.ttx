@@ -1,0 +1,22 @@
+; Field definition file for table: ADORecordset
+Sno	string	4	string sample value
+GuestName	string	50	string sample value
+BirthAge	string	3	string sample value
+Age	string	3	string sample value
+Nationality	string	25	string sample value
+RoomNo	string	5	string sample value
+RoomRate	string	8	string sample value
+ChkInDate	string	11	string sample value
+ChkInTime	string	5	string sample value
+ChkOutDate	string	11	string sample value
+ChkOutTime	string	5	string sample value
+StPeriod	string	3	string sample value
+TotalTax	string	8	string sample value
+Person	string	5	string sample value
+BillNo	string	8	string sample value
+Billdate	string	11	string sample value
+LTPerOcc	string	8	string sample value
+LTTotal	string	8	string sample value
+GuestProf	string	8	string sample value
+mProf	string	8	string sample value
+RackRate	string	8	string sample value

@@ -1,0 +1,13 @@
+; Field definition file for table: ADORecordset
+UserName	string	10	string sample value
+OPTION	string	50	string sample value
+ADD	string	1	string sample value
+EDIT	string	1	string sample value
+DELETE	string	1	string sample value
+PRINT	string	1	string sample value
+ActiveYN	string	1	string sample value
+OPT1	long		1
+OPT2	long		1
+OPT3	long		1
+OPT4	long		1
+Menu_Index	long		1

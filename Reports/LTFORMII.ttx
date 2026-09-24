@@ -1,0 +1,8 @@
+; Field definition file for table: ADORecordset
+RoomType	string	50	string sample value
+NoOfRooms	string	12	string sample value
+NoOfBeds	string	12	string sample value
+RoomNumbers	string	255	string sample value
+RSingle	string	12	string sample value
+RDouble	string	12	string sample value
+RExtra	string	12	string sample value

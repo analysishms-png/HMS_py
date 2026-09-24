@@ -1,0 +1,35 @@
+; Field definition file for table: ADORecordset
+Code	string	6	string sample value
+Name	string	50	string sample value
+ShortName	string	5	string sample value
+ACCode	string	8	string sample value
+TaxStru	string	6	string sample value
+Cost	number		1.00
+SaleRate	number		1.00
+Site_Code	string	2	string sample value
+SysYN	string	1	string sample value
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+U_AE	string	1	string sample value
+Type	string	2	string sample value
+AppMode	string	8	string sample value
+GroupSrNo	short		1
+FlagAMR	string	6	string sample value
+FlagType	string	3	string sample value
+DeskCode	string	6	string sample value
+PAYTYPE	string	15	string sample value
+FieldType	string	1	string sample value
+RoundOff	string	3	string sample value
+BankCommAC	string	8	string sample value
+BankCommPer	number		1.00
+ACPosting	string	10	string sample value
+Sundry	string	6	string sample value
+LogSite_Code	string	2	string sample value
+SeqNo	number		1.00
+Nature	string	20	string sample value
+SplitSeqNo	short		1
+Active	string	3	string sample value
+TaxInc	string	3	string sample value
+SearchCode	string	6	string sample value
+LedgerCode	string	8	string sample value
+LedgerName	string	75	string sample value

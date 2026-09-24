@@ -1,0 +1,16 @@
+; Field definition file for table: ADORecordset
+mLine	string	2	string sample value
+Date	datetime		Jan 5, 1994 1:23:45 PM
+Bill	string	12	string sample value
+Desc	memo		memo sample data
+Debit	number		1.00
+Credit	number		1.00
+Balance	number		1.00
+Split	short		1
+Plan	string	25	string sample value
+PlanAmt	number		1.00
+Adults	long		1
+NoOfRoom	long		1
+RoomTariff	number		1.00
+Mark	string	1	string sample value
+Picture1	blob		

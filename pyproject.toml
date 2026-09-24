@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "HMS_py"
+version = "0.1.0"
+description = "Hotel Management System - Python port of VB6 HMS"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyQt6==6.7.1",
+    "pyodbc==5.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+build = [
+    "pyinstaller>=6.8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+markers = [
+    "unit: Unit tests (fast, no DB)",
+    "integration: Integration tests (with DB)",
+    "database: Database tests (schema, CRUD)",
+    "regression: Full regression tests",
+    "slow: Slow tests (>5s)",
+    "vb6_compare: Tests comparing VB6 vs Python behavior",
+]

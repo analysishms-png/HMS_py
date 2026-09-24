@@ -1,0 +1,35 @@
+; Field definition file for table: ADORecordset
+Docid	string	21	string sample value
+VNo	long		1
+VDate	datetime		Jan 5, 1994 1:23:45 PM
+V_Type	string	5	string sample value
+Qty	number		1.00
+Unit	string	6	string sample value
+ItemRate	number		1.00
+Amount	number		1.00
+PartyName	string	45	string sample value
+PartyBillNo	string	25	string sample value
+PartyBillDt	datetime		Jan 5, 1994 1:23:45 PM
+Total	number		1.00
+DiscPer	number		1.00
+DiscAmt	number		1.00
+AddAmt	number		1.00
+DedAmt	number		1.00
+RoundOff	number		1.00
+NetAmt	number		1.00
+PartyBillDt	datetime		Jan 5, 1994 1:23:45 PM
+ItemName	string	35	string sample value
+GodName	string	25	string sample value
+ContraDocId	string	21	string sample value
+Description	string	30	string sample value
+SaleAcName	string	75	string sample value
+TINNO	string	25	string sample value
+ConPrefix	string	4	string sample value
+ConPerSon	string	75	string sample value
+PartyAddress	string	8000	string sample value
+Rate	number		1.00
+InvoiceType	string	15	string sample value
+InvoiceNo	long		1
+TaxStruct	string	35	string sample value
+Payable	short		1
+Remark	string	100	string sample value

@@ -1,0 +1,11 @@
+; Field definition file for table: ADORecordset
+SUBCODE	string	8	string sample value
+YEAR	string	5	string sample value
+Month	string	30	string sample value
+Debit	string	14	string sample value
+Credit	string	14	string sample value
+Balance	string	17	string sample value
+ACName	string	75	string sample value
+MonthNo	long		1
+Date1	datetime		Jan 5, 1994 1:23:45 PM
+Date2	datetime		Jan 5, 1994 1:23:45 PM

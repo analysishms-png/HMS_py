@@ -1,0 +1,22 @@
+; Field definition file for table: ADORecordset
+Name	string	84	string sample value
+AcName	string	75	string sample value
+CardNo	string	25	string sample value
+CompanyType	string	50	string sample value
+Birthday	datetime		Jan 5, 1994 1:23:45 PM
+Anniversary	datetime		Jan 5, 1994 1:23:45 PM
+Phone	string	35	string sample value
+Mobile	string	24	string sample value
+Address	string	157	string sample value
+City	string	35	string sample value
+Country	string	30	string sample value
+State	string	30	string sample value
+PinCode	string	6	string sample value
+EMail	string	50	string sample value
+Father	string	83	string sample value
+Mother	string	83	string sample value
+CurrBal	number		1.00
+CurBalType	string	2	string sample value
+SNo	short		1
+PicPath	string	250	string sample value
+GSTIN	string	30	string sample value

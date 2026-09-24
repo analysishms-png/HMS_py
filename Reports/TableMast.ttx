@@ -1,0 +1,25 @@
+; Field definition file for table: ADORecordset
+Type	string	2	string sample value
+Code	string	5	string sample value
+Name	string	15	string sample value
+RoomCat	string	5	string sample value
+Extension	short		1
+MultPer	short		1
+RevCode	string	6	string sample value
+MaidStation	string	6	string sample value
+InclCount	string	1	string sample value
+ConRoom1	string	5	string sample value
+ConRoom2	string	5	string sample value
+ConRoom3	string	5	string sample value
+ConRoom4	string	5	string sample value
+RestCode	string	6	string sample value
+TaxStru	string	6	string sample value
+RoomStat	string	1	string sample value
+Site_Code	string	2	string sample value
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+U_AE	string	1	string sample value
+HallRent	number		1.00
+PicPath	string	250	string sample value
+LogSite_Code	string	2	string sample value
+RestName	string	35	string sample value

@@ -1,0 +1,17 @@
+; Field definition file for table: ADORecordset
+Code	string	5	string sample value
+RoomName	string	15	string sample value
+RoomCategory	string	25	string sample value
+Extention	long		1
+MultiPer	long		1
+MaidStation	string	11	string sample value
+InclCount	string	3	string sample value
+OccType	string	12	string sample value
+Rate1	number		1.00
+Rate2	number		1.00
+Rate3	number		1.00
+Rate4	number		1.00
+Rate5	number		1.00
+WeekRate	number		1.00
+MonRate	number		1.00
+RoomFeature	string	25	string sample value

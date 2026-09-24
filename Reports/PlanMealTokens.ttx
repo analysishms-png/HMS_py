@@ -1,0 +1,12 @@
+; Field definition file for table: ADORecordset
+FolioNo	string	10	string sample value
+GuestName	string	75	string sample value
+Company	string	75	string sample value
+RoomNo	string	10	string sample value
+ChkInDate	string	12	string sample value
+ChkInTime	string	5	string sample value
+PlanName	string	75	string sample value
+PlanTarrif	string	20	string sample value
+MealName	string	50	string sample value
+MealCharge	string	12	string sample value
+Remarks	string	50	string sample value

@@ -1,0 +1,17 @@
+; Field definition file for table: ADORecordset
+DOCID	string	21	string sample value
+VDate	datetime		Jan 5, 1994 1:23:45 PM
+Vtype	string	5	string sample value
+GSTIN	string	30	string sample value
+PartyBillNo	string	10	string sample value
+PartyBillDT	datetime		Jan 5, 1994 1:23:45 PM
+NetAmt	number		1.00
+TAXPER	number		1.00
+BASEVALUE	number		1.00
+IGST	number		1.00
+CGST	number		1.00
+SGST	number		1.00
+CESS	number		1.00
+Company	string	8	string sample value
+StateCode	string	6	string sample value
+State	string	30	string sample value

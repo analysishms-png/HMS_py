@@ -1,0 +1,5 @@
+; Field definition file for table: ADORecordset
+SCode	string	6	string sample value
+SName	string	30	string sample value
+SShortName	string	6	string sample value
+CCountry	string	30	string sample value

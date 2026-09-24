@@ -1,0 +1,19 @@
+; Field definition file for table: ADORecordset
+mLine	string	10	string sample value
+DepartName	string	35	string sample value
+TableNo	string	5	string sample value
+KOTNo	string	8	string sample value
+BILLNo	string	8	string sample value
+ItemName	string	50	string sample value
+VoidYN	string	35	string sample value
+Qty	string	12	string sample value
+QtyTot	string	12	string sample value
+Rate	string	12	string sample value
+KOTTime	string	5	string sample value
+EditTime	string	5	string sample value
+Waiter	string	20	string sample value
+User	string	20	string sample value
+Remark	string	255	string sample value
+Mark	string	1	string sample value
+DepartCode	string	6	string sample value
+Reason	string	150	string sample value

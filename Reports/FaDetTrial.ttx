@@ -1,0 +1,14 @@
+; Field definition file for table: ADORecordset
+TT	long		1
+GroupName	string	50	string sample value
+GrCode	string	1	string sample value
+PARTYCODE	string	8	string sample value
+PARTYNAME	string	75	string sample value
+OP_CR	number		1.00
+OP_dR	number		1.00
+BALANCECR	number		1.00
+BALANCEDR	number		1.00
+Bal	long		1
+mgrcode	string	255	string sample value
+GRName	string	50	string sample value
+GRNATURE	string	1	string sample value

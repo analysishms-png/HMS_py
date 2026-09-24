@@ -1,0 +1,15 @@
+; Field definition file for table: ADORecordset
+CDate	datetime		Jan 5, 1994 1:23:45 PM
+OPOccup	string	12	string sample value
+OPOccupFolio	memo		memo sample data
+CheckIn	string	12	string sample value
+CheckInFolio	memo		memo sample data
+CheckOut	string	12	string sample value
+CheckOutFolio	memo		memo sample data
+CheckOutBill	memo		memo sample data
+CLOccup	string	12	string sample value
+CLOccupFolio	memo		memo sample data
+DayUse	string	12	string sample value
+OccupPer	string	12	string sample value
+ARR	string	12	string sample value
+REVPER	string	12	string sample value

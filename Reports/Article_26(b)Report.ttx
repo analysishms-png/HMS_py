@@ -1,0 +1,33 @@
+; Field definition file for table: ADORecordset
+Code	string	8	string sample value
+Type	string	15	string sample value
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+MemCode	string	8	string sample value
+CurBillMonth	string	8	string sample value
+TillDate	datetime		Jan 5, 1994 1:23:45 PM
+DueAmt	number		1.00
+CurMonthBillAmt	number		1.00
+CreditAmt	number		1.00
+BalanceTillDate	number		1.00
+DelFlag	string	1	string sample value
+ContraCode	string	8	string sample value
+ContraType	string	15	string sample value
+U_Name	string	10	string sample value
+U_AE	string	1	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+Site_Code	string	2	string sample value
+LogSite_Code	string	2	string sample value
+ConPrefix	string	4	string sample value
+ConPerson	string	75	string sample value
+CardNo	string	50	string sample value
+AcName	string	75	string sample value
+Add1	string	50	string sample value
+Add2	string	50	string sample value
+Add3	string	50	string sample value
+City	string	35	string sample value
+Pin	string	6	string sample value
+State	string	30	string sample value
+Phone	string	35	string sample value
+Mobile	string	24	string sample value
+Fax	string	24	string sample value
+Email	string	50	string sample value

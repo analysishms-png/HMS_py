@@ -1,0 +1,13 @@
+; Field definition file for table: ADORecordset
+SEARCHCODE	string	6	string sample value
+Name	string	35	string sample value
+K1	string	3	string sample value
+Header1	string	50	string sample value
+Header2	string	50	string sample value
+Phone	string	50	string sample value
+Slogan1	string	50	string sample value
+Slogan2	string	50	string sample value
+LstNo	string	50	string sample value
+Comp1	string	3	string sample value
+D1	string	3	string sample value
+U_Name	string	10	string sample value

@@ -1,0 +1,21 @@
+; Field definition file for table: ADORecordset
+mLine	string	2	string sample value
+Sno	string	3	string sample value
+DispCode	string	6	string sample value
+HSNCode	string	30	string sample value
+Item	string	50	string sample value
+Qty	string	12	string sample value
+Rate	string	12	string sample value
+TaxAmt	string	12	string sample value
+Amount	string	12	string sample value
+TaxPer	string	8	string sample value
+NonTaxable	string	10	string sample value
+Taxable	string	10	string sample value
+Unit	string	20	string sample value
+ItemRate	string	12	string sample value
+Remarks	string	255	string sample value
+Mark	string	1	string sample value
+QRImage	blob		
+KOTNo	string	8	string sample value
+KDate	string	11	string sample value
+KTime	string	5	string sample value

@@ -1,0 +1,4 @@
+; Field definition file for table: ADORecordset
+Country	string	50	string sample value
+Guest	string	12	string sample value
+Night	string	12	string sample value

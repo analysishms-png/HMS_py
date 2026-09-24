@@ -1,0 +1,6 @@
+; Field definition file for table: ADORecordset
+Nctype	string	25	string sample value
+NCPer	number		1.00
+U_Name	string	10	string sample value
+U_AE	string	1	string sample value
+U_Entdt	datetime		Jan 5, 1994 1:23:45 PM

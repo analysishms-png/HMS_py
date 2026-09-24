@@ -1,0 +1,20 @@
+; Field definition file for table: ADORecordset
+Time	datetime		Jan 5, 1994 1:23:45 PM
+U_name	string	10	string sample value
+MyRectNo	number		1.00
+RoomType	string	25	string sample value
+RoomDet	number		1.00
+Adults	number		1.00
+Childs	number		1.00
+Tarrif	number		1.00
+IncTax	string	3	string sample value
+MealCharge	number		1.00
+PlanTariff	number		1.00
+PlanName	string	25	string sample value
+PLAN_Package	string	15	string sample value
+REMARKS	string	255	string sample value
+RDisc	number		1.00
+RSDisc	number		1.00
+Plan	string	25	string sample value
+PlanDiscPer	number		1.00
+PlanDiscAmt	number		1.00

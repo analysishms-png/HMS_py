@@ -1,0 +1,10 @@
+; Field definition file for table: ADORecordset
+GRCODE	string	8	string sample value
+SUBCODE	string	8	string sample value
+ACName	string	75	string sample value
+BalChild	string	17	string sample value
+QtyBal	string	12	string sample value
+Debit	string	14	string sample value
+Credit	string	14	string sample value
+GroupHead	string	1	string sample value
+MainGrCode	string	255	string sample value

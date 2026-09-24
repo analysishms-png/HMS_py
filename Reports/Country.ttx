@@ -1,0 +1,11 @@
+; Field definition file for table: ADORecordset
+Code	string	6	string sample value
+Name	string	30	string sample value
+ShortName	string	6	string sample value
+Type	string	7	string sample value
+Site_Code	string	2	string sample value
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+U_AE	string	1	string sample value
+LogSite_Code	string	2	string sample value
+Nationality	string	25	string sample value

@@ -1,0 +1,69 @@
+; Field definition file for table: ADORecordset
+Name	string	50	string sample value
+Add1	string	50	string sample value
+Add2	string	50	string sample value
+City	string	6	string sample value
+DocId	string	21	string sample value
+SNo	long		1
+Vtype	string	8	string sample value
+VNo	long		1
+Site_Code	string	2	string sample value
+VPrefix	string	5	string sample value
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+VTime	string	5	string sample value
+GuestProf	string	8	string sample value
+EmpCode	string	8	string sample value
+CompCode	string	8	string sample value
+Comments	string	255	string sample value
+PayCode	string	6	string sample value
+PayType	string	15	string sample value
+AmtCr	number		1.00
+AmtDr	number		1.00
+TipAmt	number		1.00
+RoomCat	string	5	string sample value
+RoomType	string	2	string sample value
+RoomNo	string	5	string sample value
+FolioNo	long		1
+CardNo	string	20	string sample value
+CardHolder	string	35	string sample value
+ChqNo	string	20	string sample value
+ChqDate	datetime		Jan 5, 1994 1:23:45 PM
+ExpDate	datetime		Jan 5, 1994 1:23:45 PM
+BookNo	long		1
+BookType	string	5	string sample value
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+U_AE	string	1	string sample value
+RestCode	string	6	string sample value
+BillAmount	number		1.00
+ContraDocID	string	21	string sample value
+DbtChkIn	string	3	string sample value
+TaxPer	number		1.00
+OnAmt	number		1.00
+Split	string	2	string sample value
+Bill_No	string	8	string sample value
+MarkEntry	string	1	string sample value
+ModeSet	string	1	string sample value
+SettleDate	datetime		Jan 5, 1994 1:23:45 PM
+BatchNo	short		1
+OldBill_No	string	8	string sample value
+PlanCharge	string	6	string sample value
+FixedChargeCode	string	5	string sample value
+RelatedFolioNo	long		1
+FolioNoDocid	string	21	string sample value
+LogSite_Code	string	2	string sample value
+RefNo	long		1
+PlanCode	string	5	string sample value
+SeqNo	short		1
+RelatedFolionoDocId	string	21	string sample value
+RefDocId	string	21	string sample value
+Remarks	string	255	string sample value
+AU_Name	string	10	string sample value
+AU_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+TaxCondAmt	number		1.00
+TaxStru	string	6	string sample value
+AgAc	string	8	string sample value
+TxnNo	string	20	string sample value
+CityName	string	35	string sample value
+StateName	string	30	string sample value
+CountryName	string	30	string sample value

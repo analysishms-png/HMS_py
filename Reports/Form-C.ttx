@@ -1,0 +1,32 @@
+; Field definition file for table: ADORecordset
+Docid	string	21	string sample value
+RegNo	long		1
+SerialNo	long		1
+GuestName	string	35	string sample value
+Add1	string	50	string sample value
+Add2	string	50	string sample value
+Nationality	string	30	string sample value
+Age	short		1
+PurVisit	string	25	string sample value
+AddIndiaIfAny	string	40	string sample value
+DateArr	datetime		Jan 5, 1994 1:23:45 PM
+ArrPlace	string	20	string sample value
+PropStay	string	10	string sample value
+ArrFrom	string	20	string sample value
+ModeTravelatArrival	string	20	string sample value
+ProposedDepart	datetime		Jan 5, 1994 1:23:45 PM
+GoingTo	string	20	string sample value
+ModeTravelAfterDepart	string	15	string sample value
+VisaIssAuth	string	50	string sample value
+Extension	string	100	string sample value
+PassNo	string	15	string sample value
+IssDate	datetime		Jan 5, 1994 1:23:45 PM
+IssPlace	string	20	string sample value
+PassExpDate	datetime		Jan 5, 1994 1:23:45 PM
+WorkPermit	string	15	string sample value
+VisaNo	string	15	string sample value
+VisaIssDate	datetime		Jan 5, 1994 1:23:45 PM
+VisaIssPlace	string	20	string sample value
+VisaExpDate	datetime		Jan 5, 1994 1:23:45 PM
+VisaDuration	string	10	string sample value
+VDate	datetime		Jan 5, 1994 1:23:45 PM

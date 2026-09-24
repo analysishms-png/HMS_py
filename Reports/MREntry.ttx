@@ -1,0 +1,31 @@
+; Field definition file for table: ADORecordset
+Docid	string	21	string sample value
+VNo	long		1
+VDate	datetime		Jan 5, 1994 1:23:45 PM
+V_Type	string	5	string sample value
+PartyName	string	50	string sample value
+Remark	string	255	string sample value
+POrdDocid	string	21	string sample value
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+POrdDate	datetime		Jan 5, 1994 1:23:45 PM
+ChalNo	string	8	string sample value
+ChalDate	datetime		Jan 5, 1994 1:23:45 PM
+MemInvNo	string	8	string sample value
+MemInvDate	datetime		Jan 5, 1994 1:23:45 PM
+InspBy	string	25	string sample value
+ApprBy	string	25	string sample value
+sSno	short		1
+sItemName	string	8	string sample value
+QtyIss	number		1.00
+QtyRec	number		1.00
+unit	string	6	string sample value
+ChalQty	number		1.00
+Rate	number		1.00
+sAmount	number		1.00
+sRecdQty	number		1.00
+sRejQty	number		1.00
+sStkQtyRec	number		1.00
+sStkQtyIss	number		1.00
+sRem	string	75	string sample value
+ItemName	string	35	string sample value
+Description	string	30	string sample value

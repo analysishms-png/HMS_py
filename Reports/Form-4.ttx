@@ -1,0 +1,9 @@
+; Field definition file for table: ADORecordset
+IndianGuest	string	12	string sample value
+ForeignerGuest	string	12	string sample value
+IndianNight	string	12	string sample value
+ForeignerNight	string	12	string sample value
+IndianChrgs	string	12	string sample value
+ForeignerChrgs	string	12	string sample value
+IndianTax	string	12	string sample value
+ForeignerTax	string	12	string sample value

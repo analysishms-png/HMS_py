@@ -1,0 +1,4 @@
+; Field definition file for table: ADORecordset
+Guest	string	12	string sample value
+RoomRent	string	12	string sample value
+Tax	string	12	string sample value

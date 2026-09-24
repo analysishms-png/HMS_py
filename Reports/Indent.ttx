@@ -1,0 +1,13 @@
+; Field definition file for table: ADORecordset
+VNo	long		1
+VDate	datetime		Jan 5, 1994 1:23:45 PM
+Remarks	string	35	string sample value
+Name	string	35	string sample value
+Specification	string	35	string sample value
+Qty	number		1.00
+Unit	string	6	string sample value
+Rate	number		1.00
+Amount	number		1.00
+DepartMent	string	35	string sample value
+TaxAmt	number		1.00
+Total	number		1.00

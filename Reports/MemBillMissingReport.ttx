@@ -1,0 +1,4 @@
+; Field definition file for table: ADORecordset
+MemberName	string	75	string sample value
+MemCardNo	string	50	string sample value
+MemCategory	string	50	string sample value

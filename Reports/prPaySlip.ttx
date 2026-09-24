@@ -1,0 +1,38 @@
+; Field definition file for table: ADORecordset
+Name	string	35	string sample value
+F_Name	string	35	string sample value
+ESI_Code	string	15	string sample value
+PF_Code	string	15	string sample value
+BankAcNo	string	15	string sample value
+Joining_Date	datetime		Jan 5, 1994 1:23:45 PM
+Basic	number		1.00
+INCREMENT	long		1
+Work_Day	number		1.00
+CL	long		1
+Sunday	number		1.00
+Holiday	number		1.00
+Absent	number		1.00
+Income_Tax	number		1.00
+Leave	number		1.00
+CalBasic	number		1.00
+DA	number		1.00
+HRA	number		1.00
+Income_Tax	number		1.00
+Other_Allow	number		1.00
+Other_Deduc	number		1.00
+Conveyance	number		1.00
+Medical	number		1.00
+LTA	number		1.00
+PF	number		1.00
+ESI	number		1.00
+Loan	number		1.00
+Advance	number		1.00
+OVERTIME	string	10	string sample value
+OVERTIMEAMT	number		1.00
+Net_Salary	number		1.00
+Loan_Bal	number		1.00
+Adv_Bal	number		1.00
+DesigDesc	string	35	string sample value
+CatDesc	string	35	string sample value
+Mth_year	string	7	string sample value
+Emp_Code	string	10	string sample value

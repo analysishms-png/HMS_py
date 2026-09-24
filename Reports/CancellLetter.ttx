@@ -1,0 +1,17 @@
+; Field definition file for table: ADORecordset
+DocId	string	21	string sample value
+BookNo	long		1
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+ArrDate	datetime		Jan 5, 1994 1:23:45 PM
+DepDate	datetime		Jan 5, 1994 1:23:45 PM
+Cancel	string	1	string sample value
+CancelDate	datetime		Jan 5, 1994 1:23:45 PM
+CancelDay	long		1
+Adult	short		1
+Child	short		1
+GNAME	string	50	string sample value
+Add1	string	50	string sample value
+Add2	string	50	string sample value
+CityName	string	35	string sample value
+Zip	string	11	string sample value
+StateName	string	30	string sample value

@@ -1,0 +1,19 @@
+; Field definition file for table: ADORecordset
+Sno	number		1.00
+Sno1	short		1
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+Name	string	25	string sample value
+DenominationType	string	75	string sample value
+DenominationValue	string	50	string sample value
+DenominationUnit	string	50	string sample value
+DenominationTotal	string	50	string sample value
+Relation	string	1	string sample value
+Type	string	5	string sample value
+DelFlag	string	1	string sample value
+Reason	string	75	string sample value
+Remark	string	150	string sample value
+U_Name	string	10	string sample value
+U_AE	string	1	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+Site_Code	string	2	string sample value
+LogSite_Code	string	2	string sample value

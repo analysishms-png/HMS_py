@@ -1,0 +1,16 @@
+; Field definition file for table: ADORecordset
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+Sno	short		1
+Item	string	8	string sample value
+Qty	number		1.00
+WtUnit	string	6	string sample value
+Rate	number		1.00
+Amount	number		1.00
+DepartCode	string	6	string sample value
+GodownCode	string	6	string sample value
+WtQty	number		1.00
+ConvRatio	number		1.00
+ItemName	string	35	string sample value
+Unit	string	6	string sample value
+GodownName	string	25	string sample value
+GodownCode	string	6	string sample value

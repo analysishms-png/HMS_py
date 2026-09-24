@@ -1,0 +1,23 @@
+; Field definition file for table: ADORecordset
+Code	string	8	string sample value
+Name	string	35	string sample value
+Unit	string	6	string sample value
+ItemGroup	string	6	string sample value
+DISPCODE	short		1
+Type	string	12	string sample value
+SaleRate	number		1.00
+ItemCategory	string	40	string sample value
+Disc	string	3	string sample value
+REdit	string	3	string sample value
+U_Name	string	10	string sample value
+ItemGrpName	string	35	string sample value
+TaxStru	string	35	string sample value
+AppDate	string	11	string sample value
+NType	string	35	string sample value
+SChrApp	string	3	string sample value
+REdit	string	3	string sample value
+RateIncTax	string	3	string sample value
+KitchenName	string	35	string sample value
+ActiveYN	string	3	string sample value
+BarCode	string	30	string sample value
+MRP	number		1.00

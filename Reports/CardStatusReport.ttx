@@ -1,0 +1,16 @@
+; Field definition file for table: ADORecordset
+mLine	string	2	string sample value
+CardType	string	12	string sample value
+CardId	string	20	string sample value
+Name	string	75	string sample value
+Addr	string	150	string sample value
+Phone	string	35	string sample value
+IssDate	string	12	string sample value
+ValidUpto	string	12	string sample value
+CurrBal	string	12	string sample value
+SecurBal	string	12	string sample value
+LTransAmt	string	12	string sample value
+LTransDate	string	12	string sample value
+Remark	string	75	string sample value
+BlockedYN	string	3	string sample value
+Mark	string	1	string sample value

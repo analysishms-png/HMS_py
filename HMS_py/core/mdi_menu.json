@@ -1,0 +1,3291 @@
+{
+ "name": "__root__",
+ "caption": "",
+ "children": [
+  {
+   "name": "FA",
+   "caption": "&Finance",
+   "children": [
+    {
+     "name": "FAT",
+     "caption": "&Transaction",
+     "children": [
+      {
+       "name": "fate",
+       "caption": "&Voucher Entry",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "Adjustment Entry",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "Delete Adjustment Entry",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "Bank Reconciliation",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "T.D.S. Challan Entry",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "T.D.S. Certificate Entry",
+       "children": []
+      },
+      {
+       "name": "fate",
+       "caption": "&Expense Voucher",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "faD",
+     "caption": "&Display",
+     "children": [
+      {
+       "name": "FAREPORTD",
+       "caption": "Balanc&e Sheet",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "&Profit And Loss Account",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "&Trial Balance (Group)",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "&Trial Ledger",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "Cash &Flow",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "Fund Flo&w",
+       "children": []
+      },
+      {
+       "name": "FAREPORTD",
+       "caption": "Cash And Bank Books",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "farp",
+     "caption": "&Reports",
+     "children": [
+      {
+       "name": "FAREPORT",
+       "caption": "Trial Balance",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "&Day Book",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "&Ledger",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "&Interest Ledger",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Cas&h Book",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Ban&k Book",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "&Journal Books",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "&Annexure",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Bank &Register",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "A&geing Analysis for Debtors",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Ageing A&nalysis for Creditors",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Ch&eque Cleared Register",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Che&que Not Cleared Register",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Outstanding Report For Debtors",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Outstanding Report For Creditors",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Daily Transaction Summary",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Non Transaction Report",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Reference Report",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Detailed Trial Ledger",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "A/c Check List",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Bill Wise Outstanding Report For Debtors",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Control Ledger",
+       "children": []
+      },
+      {
+       "name": "FAREPORT",
+       "caption": "Roz Namcha",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Mast",
+   "caption": "&Main Setup",
+   "children": [
+    {
+     "name": "GEN",
+     "caption": "General Setup",
+     "children": [
+      {
+       "name": "GENMas",
+       "caption": "Tax Master",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Tax Structure",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Payment Type",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Parameter",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Revenue Group Setting",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Printing Parameters",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Printing Setup",
+       "children": []
+      },
+      {
+       "name": "GENMas",
+       "caption": "Revenue Wise Budget Entry",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "FO",
+     "caption": "Front Office",
+     "children": [
+      {
+       "name": "Mas",
+       "caption": "Country Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "State Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "City Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Market Segment",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Business Source",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Guest Status",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Charge Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Fixed Charge",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Package Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Plan Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Season Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Room Features",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Room Category",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Room Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Company Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Forex Master",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Guest History",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Group Profile",
+       "children": []
+      },
+      {
+       "name": "Mas",
+       "caption": "Room Display",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "Pos",
+     "caption": "Point of Sale",
+     "children": [
+      {
+       "name": "POSMas",
+       "caption": "Setup Outlet",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Outlet Bill Sundry Setting",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Server Master",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Table Master",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Item List",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Menu Group",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Menu Category",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Menu Item",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Menu Item Rate",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Rate Group Master",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Session Master",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Open Item Consumption",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Scheme Master",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Happy Hours",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Happy Hours [ Free Items ]",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Combo Pack",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "NC Type",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Customer History",
+       "children": []
+      },
+      {
+       "name": "POSMas",
+       "caption": "Delivery Boy",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "Mem",
+     "caption": "Members Mgmt",
+     "children": [
+      {
+       "name": "MemMas",
+       "caption": "Category Master",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Member Master",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Corporate Member Master",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Revenue Master",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Facility Master",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Category wise Revenue",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Category wise Facility",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Member Bill Sundry Setting",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Environment Settings",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Member Age Wise Revenue",
+       "children": []
+      },
+      {
+       "name": "MemMas",
+       "caption": "Member Select Category",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "HL",
+     "caption": "Banquet",
+     "children": [
+      {
+       "name": "HallM",
+       "caption": "Events",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Venue Features",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Venue Master",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Menu Category",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Item Group",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Menu Item",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Catalog Master",
+       "children": []
+      },
+      {
+       "name": "HallM",
+       "caption": "Banquet Bill Sundry Setting",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "CCenter",
+     "caption": "Inventory",
+     "children": [
+      {
+       "name": "CCenterMas",
+       "caption": "Party Master",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Department",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Item Group",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Item Category",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Item Entry ",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Consumption Master",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Purchase Sundry Setting",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Location Master",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Opening Stock",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Item  List",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Shift Master",
+       "children": []
+      },
+      {
+       "name": "CCenterMas",
+       "caption": "Enviro Inventry",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "PR",
+     "caption": "HR/Payroll",
+     "children": [
+      {
+       "name": "PRM",
+       "caption": "Designation Master",
+       "children": []
+      },
+      {
+       "name": "PRM",
+       "caption": "Category  Master",
+       "children": []
+      },
+      {
+       "name": "PRM",
+       "caption": "Holiday Master",
+       "children": []
+      },
+      {
+       "name": "PRM",
+       "caption": "Employee Master",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "Tel",
+     "caption": "EPABX",
+     "children": [
+      {
+       "name": "TelMaast",
+       "caption": "Com Port Properties",
+       "children": []
+      },
+      {
+       "name": "TelMaast",
+       "caption": "Call Type Master",
+       "children": []
+      },
+      {
+       "name": "TelMaast",
+       "caption": "Extension Master",
+       "children": []
+      },
+      {
+       "name": "TelMaast",
+       "caption": "Call Codes Master",
+       "children": []
+      },
+      {
+       "name": "TelMaast",
+       "caption": "Call Control Master",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "fae",
+     "caption": "&Finance",
+     "children": [
+      {
+       "name": "fame",
+       "caption": "Group Accounts",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Ledger Accounts",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Narration Master",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "T.D.S. Category",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "FA Environment",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Voucher Environment",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Opening Balance Updation",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Year End Updation",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Current Balance Updation",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Country Master",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "State Master",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "City Master",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Delete Message",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Account Merging",
+       "children": []
+      },
+      {
+       "name": "fame",
+       "caption": "Voucher Serialisation",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "Util",
+     "caption": "Utility",
+     "children": [
+      {
+       "name": "UTL",
+       "caption": "User Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Permissions",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Update Database Nulls",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Backup Data",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Account Merging",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Guest Parameters Setting",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Sundry Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Voucher Wise Sundry Entry",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Sale MIS Customized",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Guest BirthDates/Anniversary",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Inconsistency Check",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Year End Updation",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Data Transfer",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Data Recieving",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Menu Item Copy",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "POS Bill Deletion",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Guest LookUp",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Country Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "State Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "City Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Company Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Department",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Ledger Accounts",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Data Transfer (POS)",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "PLU File (W.Scale)",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "User Permissions (Advanced)",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "POS Recycle",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Unit Master",
+       "children": []
+      },
+      {
+       "name": "UTL",
+       "caption": "Task Scheduler",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "SCard",
+     "caption": "Smart Card",
+     "children": [
+      {
+       "name": "SCRD",
+       "caption": "Registration Entry",
+       "children": []
+      },
+      {
+       "name": "SCRD",
+       "caption": "Recharge/Refund Entry",
+       "children": []
+      },
+      {
+       "name": "SCRD",
+       "caption": "-",
+       "children": []
+      },
+      {
+       "name": "SCRD",
+       "caption": "Cash Card Transaction Report",
+       "children": []
+      },
+      {
+       "name": "SCRD",
+       "caption": "Cash Card Collection Summary",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Reserv",
+   "caption": "Reservation",
+   "children": [
+    {
+     "name": "ReservationEnt",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "ResOpEnt",
+       "caption": "Reservation/Cancellation",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Add/Edit/Delete Group With Reservation ",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Look Up Room types",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Look Up Rooms",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Reservation With History",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Advance Deposit",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Confirmation Letters",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Cancellation Letters",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Registration Card",
+       "children": []
+      },
+      {
+       "name": "ResOpEnt",
+       "caption": "Reservation Status Screen",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "ReservationEnt",
+     "caption": "Reservation Status Report",
+     "children": [
+      {
+       "name": "ResStatusRpt",
+       "caption": "Reservation Status",
+       "children": []
+      },
+      {
+       "name": "ResStatusRpt",
+       "caption": "Reservation Status Arrival",
+       "children": []
+      },
+      {
+       "name": "ResStatusRpt",
+       "caption": "Reservation Status In-House",
+       "children": []
+      },
+      {
+       "name": "ResStatusRpt",
+       "caption": "Group Pickup Report",
+       "children": []
+      },
+      {
+       "name": "ResStatusRpt",
+       "caption": "Group Arrival Report",
+       "children": []
+      },
+      {
+       "name": "ResStatusRpt",
+       "caption": "Arrival List",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "ReservationEnt",
+     "caption": "Advance Recd. Report",
+     "children": [
+      {
+       "name": "AdvRecdRpt",
+       "caption": "Advance Recd.",
+       "children": []
+      },
+      {
+       "name": "AdvRecdRpt",
+       "caption": "Advance Recd. Arrival",
+       "children": []
+      },
+      {
+       "name": "AdvRecdRpt",
+       "caption": "Advance Recd. In-House",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "ReservationEnt",
+     "caption": "M.I.S.",
+     "children": [
+      {
+       "name": "ReservationMIS",
+       "caption": "7-730 Days Forecast",
+       "children": []
+      },
+      {
+       "name": "ReservationMIS",
+       "caption": "23 Day Room Availability Forecast",
+       "children": []
+      },
+      {
+       "name": "ReservationMIS",
+       "caption": "23 Day Room Type Availability Forecast",
+       "children": []
+      },
+      {
+       "name": "ReservationMIS",
+       "caption": "Package Forecast ",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "FrontDesk",
+   "caption": "Front Office",
+   "children": [
+    {
+     "name": "FDO",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "FDOMenu",
+       "caption": "WalkIn CheckIn",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Room Status",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Expense Entry",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Forex Receive Entry",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Display Rack",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "House Keeping Screen",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Travel Agency Posting",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Bill Reprint",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Reverse Check Out",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Merge Room",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Bill Re-Settlement",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Reverse Room Merge",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Plan Meal Tokens",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "GRC Printing",
+       "children": []
+      },
+      {
+       "name": "FDOMenu",
+       "caption": "Blank GRC",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "FDOReports",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "FDORep",
+       "caption": "Instant House Count ",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Room Inventory",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Guest In House",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "House Keeping Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Arrival & Departure List",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Charge Payment Detail",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Payments By Cashier",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Cashier Report ",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Settlement Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Cancel Bill Details",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Room Change History",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Arrival And Departure Register",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "FOM Sales Register",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Room Wise Plan Detail",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Expected Plan/Package F&&B Details",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Occupancy Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Bill Change Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Check Out Register",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Check In Register",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Expected Check Out",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Guest Bill Details",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Guest Extra Charges",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Checked In Guest Detail",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Room Rent Audit Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Sales Report",
+       "children": []
+      },
+      {
+       "name": "FDORep",
+       "caption": "Guest Payments",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "TFDOForms",
+     "caption": "Tourism Forms",
+     "children": [
+      {
+       "name": "FDOForms",
+       "caption": "Form  C ",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Tourism Form 1",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Tourism Form 2",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Tourism Form 5",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Form -3 (Luxury Tax Register)",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Tourism Form 6",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Tourism Form 4",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Luxury Tax Report",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "Monthly Return",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "L.T. FORM II",
+       "children": []
+      },
+      {
+       "name": "FDOForms",
+       "caption": "L.T. FORM IV",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "FDOMIS",
+     "caption": "M.I.S.",
+     "children": [
+      {
+       "name": "FDOMISRep",
+       "caption": "Occupancy Display",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Guest wise Analysis",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Company wise Analysis",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Guestwise Charges Detail",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Room Occupancy",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Room Type Occupancy",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Room Wise Room Revenue",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Occupancy Analysis",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Company wise Nights",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Revenue During the stay",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Room Type Occupancy Analysis",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Plan Report",
+       "children": []
+      },
+      {
+       "name": "FDOMISRep",
+       "caption": "Business Source Occupancy Analysis",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "FDOTax",
+     "caption": "Tax Reports",
+     "children": [
+      {
+       "name": "FDOTaxr",
+       "caption": "FOM Tax Detail",
+       "children": []
+      },
+      {
+       "name": "FDOTaxr",
+       "caption": "Tax Wise Charge Detail",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "HouseKeeping",
+   "caption": "House Keeping",
+   "children": [
+    {
+     "name": "SetHK",
+     "caption": "Setup",
+     "children": [
+      {
+       "name": "HouseSet",
+       "caption": "Block Master",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "TransHK",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "HouseEnt",
+       "caption": "Complaint Master",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Complaint Clearance",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Lost / Found Entry",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Claim Entry",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "House Keeping Op.Stock Entry",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Issue/Recd. Entry",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "House Keeping Screen",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Item Issued On Cleaning",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Check Out Clearance Screen",
+       "children": []
+      },
+      {
+       "name": "HouseEnt",
+       "caption": "Room Block",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "ReportsHK",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "HouseREP",
+       "caption": "Issue Register",
+       "children": []
+      },
+      {
+       "name": "HouseREP",
+       "caption": "Stock Register",
+       "children": []
+      },
+      {
+       "name": "HouseREP",
+       "caption": "Stock Summary ",
+       "children": []
+      },
+      {
+       "name": "HouseREP",
+       "caption": "Room Status Report",
+       "children": []
+      },
+      {
+       "name": "HouseREP",
+       "caption": "Complaint Detail",
+       "children": []
+      },
+      {
+       "name": "HouseREP",
+       "caption": "House Keeping Report",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "CHANGEHK",
+     "caption": "Changes Department",
+     "children": []
+    }
+   ]
+  },
+  {
+   "name": "Purchase",
+   "caption": "Inventory",
+   "children": [
+    {
+     "name": "Matop",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "Purch",
+       "caption": "Gravy Item Entry",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Indent",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Purchase Order",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "M.R. Entry",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Purchase Bill",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Requisition Slip",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Stock Issue on Requisition",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Kitchen Closing Stock",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Stock Transfer",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Finish Material Receive Entry",
+       "children": []
+      },
+      {
+       "name": "Purch",
+       "caption": "Excise Invoice Cum Gate Pass",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "MatLok",
+     "caption": "Look Ups",
+     "children": [
+      {
+       "name": "MatStat",
+       "caption": "Pending Indent",
+       "children": []
+      },
+      {
+       "name": "MatStat",
+       "caption": "Pending M.R.",
+       "children": []
+      },
+      {
+       "name": "MatStat",
+       "caption": "Pending Purchase Order",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "MatReports",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "MatRep",
+       "caption": "Purchase Register",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Purchase Summary",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Cash/Credit Purchase",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Stock Register ",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Stock Summary ",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Stock In Hand ",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Kitchen Stock Report I/R Basis",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Excess Consumption Report",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Restaurant Issue Report",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Store Issue Register",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Change Kitchen/Store",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Daily Store Issue Reports",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Purchase Ledger",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Issue CheckList",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Stock Summary P/S Basis",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "ABC Analysis",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Production Report I/R Basis",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Store Issue Report",
+       "children": []
+      },
+      {
+       "name": "MatRep",
+       "caption": "Liquor Sale Report",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "MatVat",
+     "caption": "Tax Reports",
+     "children": [
+      {
+       "name": "MatVatR",
+       "caption": "VAT Register",
+       "children": []
+      },
+      {
+       "name": "MatVatR",
+       "caption": "VAT Register II",
+       "children": []
+      },
+      {
+       "name": "MatVatR",
+       "caption": "VAT Register III",
+       "children": []
+      },
+      {
+       "name": "MatVatR",
+       "caption": "Form24 Annexure-A",
+       "children": []
+      },
+      {
+       "name": "MatVatR",
+       "caption": "Form III",
+       "children": []
+      },
+      {
+       "name": "MatVatR",
+       "caption": "UPVAT XXIV",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Restaurant",
+   "caption": "Point Of Sale",
+   "children": [
+    {
+     "name": "Rest",
+     "caption": "Stock Register",
+     "children": []
+    },
+    {
+     "name": "Rest",
+     "caption": "Stock Summary",
+     "children": []
+    },
+    {
+     "name": "Rest",
+     "caption": "Kitchen Stock Summary",
+     "children": []
+    },
+    {
+     "name": "Rest",
+     "caption": "Restaurant Change ",
+     "children": []
+    },
+    {
+     "name": "Rest",
+     "caption": "POS Status",
+     "children": []
+    },
+    {
+     "name": "POSOperations",
+     "caption": "POS Operations",
+     "children": [
+      {
+       "name": "POSEnt",
+       "caption": "KOT Entry",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Table Change Entry",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Sale Bill Entry",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Settlement Entry",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "POS Bill Reprint",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Split Sale Bill",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Display Table",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Order Booking",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Bill Lookup",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Order Booking Advance",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "KOT Transfer",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Token Entry",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Assign Delivery",
+       "children": []
+      },
+      {
+       "name": "POSEnt",
+       "caption": "Payment Receive",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "POSReports",
+     "caption": "POS Reports",
+     "children": [
+      {
+       "name": "POSRep",
+       "caption": "Sales Register",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Stewardwise Sale",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Table wise Sale",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Settlement Summary",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "KOT Wise Details",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Discount Register",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Cover Analysis",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Pending KOT",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Item wise Sale",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Deleted Unsettled Bill",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "NC KOT Detail",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Sales Day Book",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Order Detail Report",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "NC KOT Summary",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Daily DIET Report",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Discount Register",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Not Delivered Order",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Group Wise Sale",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Customer Detail",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Delivery Status",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Denomination Detail",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Payment Receive Entry (POS)",
+       "children": []
+      },
+      {
+       "name": "POSRep",
+       "caption": "Bill Wise Adjustment Report",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "POSMIS",
+     "caption": "POS M.I.S.",
+     "children": [
+      {
+       "name": "MISREP",
+       "caption": "Collection Summary",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Open Item Sales",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Void Bills",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "KOT Change Report",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Discount Summary",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Monthwise Sales",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "ABC  Analysis",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Sale Summary",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Tax Invoice Detail",
+       "children": []
+      },
+      {
+       "name": "MISREP",
+       "caption": "Edited Bills",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "PosTax",
+     "caption": "Tax Reports",
+     "children": [
+      {
+       "name": "PosTaxRep",
+       "caption": "Tax Report",
+       "children": []
+      },
+      {
+       "name": "PosTaxRep",
+       "caption": "Tax Register",
+       "children": []
+      },
+      {
+       "name": "PosTaxRep",
+       "caption": "Taxwise Details",
+       "children": []
+      },
+      {
+       "name": "PosTaxRep",
+       "caption": "Tax Summary",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Banquet",
+   "caption": "Banquet",
+   "children": [
+    {
+     "name": "BanqMas",
+     "caption": "Setup",
+     "children": [
+      {
+       "name": "HallEnt",
+       "caption": "Events",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Venue Features",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Venue Master",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Menu Category",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Item Group",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Menu Item",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Catalog Master",
+       "children": []
+      },
+      {
+       "name": "HallEnt",
+       "caption": "Banquet Bill Sundry Setting",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "oper",
+     "caption": "Operation",
+     "children": [
+      {
+       "name": "Hallop",
+       "caption": "Booking Inquiry",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Banquet Booking",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Catalog Selection",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Chef Pre-Costing",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Banquet Billing",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Banquet Settlement",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Venue Availability",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Guest Comments",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Banquet Estimate Billing",
+       "children": []
+      },
+      {
+       "name": "Hallop",
+       "caption": "Banquet Booking Advance",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "HallReport",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "BanqRep",
+       "caption": "Sales Register",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "OutStanding Report",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Party wise OutStanding",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Cashier  Report",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Booking Inquiry Detail",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Settlement  Report",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Daily Function Sheet",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Item Wise Sales Report",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Company Wise Sale Report",
+       "children": []
+      },
+      {
+       "name": "BanqRep",
+       "caption": "Function Wise Item Detail",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "HallMIS",
+     "caption": "MIS",
+     "children": [
+      {
+       "name": "BanqRepMIS",
+       "caption": "Cover Analysis",
+       "children": []
+      },
+      {
+       "name": "BanqRepMIS",
+       "caption": "Collection Summary",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "HallTax",
+     "caption": "Tax Report",
+     "children": [
+      {
+       "name": "HallTaxP",
+       "caption": "Tax Report",
+       "children": []
+      },
+      {
+       "name": "HallTaxP",
+       "caption": "Tax Summary",
+       "children": []
+      },
+      {
+       "name": "HallTaxP",
+       "caption": "Banquet Taxwise Details",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "NightAudit",
+   "caption": "Night Audit",
+   "children": [
+    {
+     "name": "NightAudito",
+     "caption": "Operation",
+     "children": [
+      {
+       "name": "NightAuditoR",
+       "caption": "Guest Audit Ledger",
+       "children": []
+      },
+      {
+       "name": "NightAuditoR",
+       "caption": "Charges Posting",
+       "children": []
+      },
+      {
+       "name": "NightAuditoR",
+       "caption": "Night Audit Process",
+       "children": []
+      },
+      {
+       "name": "NightAuditoR",
+       "caption": "Account Posting",
+       "children": []
+      },
+      {
+       "name": "NightAuditoR",
+       "caption": "Night Audit Control Panel",
+       "children": []
+      },
+      {
+       "name": "NightAuditoR",
+       "caption": "Reverse Night Audit",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "NightAuditR",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "NightAuditRR",
+       "caption": "Daily Report ",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Daily Report-II",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Revenue Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Guest Trail",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Checkout Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Occupancy Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Market Segment Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Business Source Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Company Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Travel Agent Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "FOCC Report",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Food Costing Report",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "F&&B Cost Statement",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Budget Analysis",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Ageing Analysis (Debtors)",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Ageing Analysis (Creditors)",
+       "children": []
+      },
+      {
+       "name": "NightAuditRR",
+       "caption": "Credit Report",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "NightAuditGST",
+     "caption": "GST Reports",
+     "children": [
+      {
+       "name": "NightAuditGSTR",
+       "caption": "GSTR-1",
+       "children": []
+      },
+      {
+       "name": "NightAuditGSTR",
+       "caption": "GSTR-2(3)",
+       "children": []
+      },
+      {
+       "name": "NightAuditGSTR",
+       "caption": "GSTR-2(4A)",
+       "children": []
+      },
+      {
+       "name": "NightAuditGSTR",
+       "caption": "GSTR-2(4B)",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "NightAuditL",
+     "caption": "Log",
+     "children": [
+      {
+       "name": "NightAuditLR",
+       "caption": "Night Audit Log",
+       "children": []
+      },
+      {
+       "name": "NightAuditLR",
+       "caption": "Charges Remove Log",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PayRoll",
+   "caption": "HR/Payroll",
+   "children": [
+    {
+     "name": "PayO",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "PayOpr",
+       "caption": "Leave",
+       "children": []
+      },
+      {
+       "name": "PayOpr",
+       "caption": "Attendance",
+       "children": []
+      },
+      {
+       "name": "PayOpr",
+       "caption": "Loan/Advance",
+       "children": []
+      },
+      {
+       "name": "PayOpr",
+       "caption": "Over Time",
+       "children": []
+      },
+      {
+       "name": "PayOpr",
+       "caption": "Leave Encashment",
+       "children": []
+      },
+      {
+       "name": "PayOpr",
+       "caption": "Salary Creation",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "PayR",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "PayRep",
+       "caption": "Pay Slip",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Payroll Register",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Loan Register",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Loan/Advance Summary",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Loan/Advance Ledger",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Attendence Report",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Gratuity Report",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "PF Statement",
+       "children": []
+      },
+      {
+       "name": "PayRep",
+       "caption": "Form C",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Telephone",
+   "caption": "EPABX",
+   "children": [
+    {
+     "name": "mnuTelMast",
+     "caption": "Telephone Call Entry",
+     "children": []
+    },
+    {
+     "name": "mnuTelMast",
+     "caption": "Telephone Report",
+     "children": [
+      {
+       "name": "mnuTelRep",
+       "caption": "EPBAX Call Report",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Message",
+   "caption": "&Messaging",
+   "children": [
+    {
+     "name": "mnuMSG",
+     "caption": "&InBox",
+     "children": []
+    },
+    {
+     "name": "mnuMSG",
+     "caption": "&OutBox",
+     "children": []
+    }
+   ]
+  },
+  {
+   "name": "Member",
+   "caption": "Members Mgmt",
+   "children": [
+    {
+     "name": "MembOpr",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "MemOpr",
+       "caption": "Member Visit Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Renewal Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Used Facility Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Facility Billing",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Bill Printing",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Assistant",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Outstation Member Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Category Change Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Payment Receive Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Revenue Change Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Payment Due Letter Entry",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Member Category Change (Conditional)",
+       "children": []
+      },
+      {
+       "name": "MemOpr",
+       "caption": "Auto Settle Card Balance",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "MembRpt",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "MemRpt",
+       "caption": "Member Visit Detail",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Mailing Labels",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Bill Missing Report",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Sales Register",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Ledger",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Tax Report",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Payment Due Letter Report",
+       "children": []
+      },
+      {
+       "name": "MemRpt",
+       "caption": "Member Birthday/Anniversary Details",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "SMS",
+   "caption": "SMS",
+   "children": [
+    {
+     "name": "SMSG",
+     "caption": "General",
+     "children": [
+      {
+       "name": "SMSGEN",
+       "caption": "SMS Center Settings",
+       "children": []
+      },
+      {
+       "name": "SMSGEN",
+       "caption": "SMS Environment Settings",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "SMSSD",
+     "caption": "Send SMS",
+     "children": [
+      {
+       "name": "SMSSEND",
+       "caption": "Multiple SMS Type",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "MallManage",
+   "caption": "Mall Mgmt",
+   "children": [
+    {
+     "name": "MallOpr",
+     "caption": "Operations",
+     "children": [
+      {
+       "name": "MallMgmt",
+       "caption": "Location-Master",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Facility Master",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Location Facilities",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Party Locations",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Meter Reading",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Facility Billing",
+       "children": []
+      },
+      {
+       "name": "MallMgmt",
+       "caption": "Facility Sundry Setting",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "MallMgmtRpt",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "MallRep",
+       "caption": "Facility Bill Register",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Odc",
+   "caption": "Outdoor Banquet",
+   "children": [
+    {
+     "name": "ODCMas",
+     "caption": "Setup",
+     "children": [
+      {
+       "name": "OdcEnt1",
+       "caption": "Events",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Venue Features",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Venue Master",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Menu Category",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Item Group",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Menu Item",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Catalog Master",
+       "children": []
+      },
+      {
+       "name": "OdcEnt1",
+       "caption": "Banquet Bill Sundry Setting",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "OdcOPer",
+     "caption": "Operation",
+     "children": [
+      {
+       "name": "OdcOP",
+       "caption": "Booking Inquiry",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Banquet Booking",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Catalog Selection",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Chef Pre-Costing",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Banquet Billing",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Banquet Settlement",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Venue Availability",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Guest Comments",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Banquet Estimate Billing",
+       "children": []
+      },
+      {
+       "name": "OdcOP",
+       "caption": "Banquet Booking Advance",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "OdcRepo",
+     "caption": "Reports",
+     "children": [
+      {
+       "name": "OdcRep",
+       "caption": "Sales Register",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "OutStanding Report",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Party wise OutStanding",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Cashier Collection Summary",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Booking Inquiry Detail",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Settlement  Report",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Daily Function Sheet",
+       "children": []
+      },
+      {
+       "name": "OdcRep",
+       "caption": "Function Wise Item Detail",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "OdcMisR",
+     "caption": "MIS",
+     "children": [
+      {
+       "name": "OdcMis",
+       "caption": "Cover Analysis Report",
+       "children": []
+      },
+      {
+       "name": "OdcMis",
+       "caption": "Cashier Collection Summary",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "OdcTax",
+     "caption": "Tax Report",
+     "children": [
+      {
+       "name": "OdcTaxR",
+       "caption": "Tax Report",
+       "children": []
+      },
+      {
+       "name": "OdcTaxR",
+       "caption": "Tax Summary",
+       "children": []
+      },
+      {
+       "name": "OdcTaxR",
+       "caption": "Banquet Taxwise Details",
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "EXTR",
+   "caption": "EXTRAs",
+   "children": [
+    {
+     "name": "EXTSCRD",
+     "caption": "Smart Card",
+     "children": [
+      {
+       "name": "EXTSCOPR",
+       "caption": "Operations",
+       "children": [
+        {
+         "name": "EXTSCOP",
+         "caption": "Card Initialization",
+         "children": []
+        },
+        {
+         "name": "EXTSCOP",
+         "caption": "Card Registration",
+         "children": []
+        },
+        {
+         "name": "EXTSCOP",
+         "caption": "Card Recharge",
+         "children": []
+        },
+        {
+         "name": "EXTSCOP",
+         "caption": "Card Refund",
+         "children": []
+        },
+        {
+         "name": "EXTSCOP",
+         "caption": "Card Re-Issue",
+         "children": []
+        },
+        {
+         "name": "EXTSCOP",
+         "caption": "User Collection",
+         "children": []
+        }
+       ]
+      },
+      {
+       "name": "EXTSCREP",
+       "caption": "Reports",
+       "children": [
+        {
+         "name": "EXTSCRP",
+         "caption": "Card Statement (MINI)",
+         "children": []
+        },
+        {
+         "name": "EXTSCRP",
+         "caption": "Card Statement (FULL)",
+         "children": []
+        },
+        {
+         "name": "EXTSCRP",
+         "caption": "Card Transaction Report",
+         "children": []
+        },
+        {
+         "name": "EXTSCRP",
+         "caption": "Card Collection Summary",
+         "children": []
+        },
+        {
+         "name": "EXTSCRP",
+         "caption": "Card Status Report",
+         "children": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "EXTSMS",
+     "caption": "SMS",
+     "children": [
+      {
+       "name": "SMSSETUP",
+       "caption": "Sstup",
+       "children": [
+        {
+         "name": "EXTSMSSETUP",
+         "caption": "SMS (API)",
+         "children": []
+        }
+       ]
+      },
+      {
+       "name": "SMSOPR",
+       "caption": "Operations",
+       "children": [
+        {
+         "name": "EXTSMSOPR",
+         "caption": "SMS (Scheduled)",
+         "children": []
+        },
+        {
+         "name": "EXTSMSOPR",
+         "caption": "SMS (Conditional)",
+         "children": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "EXTDTR",
+     "caption": "Data Transfer",
+     "children": [
+      {
+       "name": "DTRO",
+       "caption": "Transfer (Offline)",
+       "children": []
+      },
+      {
+       "name": "DTRON",
+       "caption": "Transfer (Online)",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "RW",
+     "caption": "Reward Points",
+     "children": [
+      {
+       "name": "RWP",
+       "caption": "Guest Registration",
+       "children": []
+      },
+      {
+       "name": "RWP",
+       "caption": "Reward Points Parameter I",
+       "children": []
+      },
+      {
+       "name": "RWREP",
+       "caption": "Reports",
+       "children": [
+        {
+         "name": "EXTRWREP",
+         "caption": "Registered Guest Detail",
+         "children": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TallyIntf",
+     "caption": "Tally Interface",
+     "children": [
+      {
+       "name": "TIntf",
+       "caption": "Tally Export(XML)",
+       "children": []
+      }
+     ]
+    },
+    {
+     "name": "LockManage",
+     "caption": "Lock Mgmt",
+     "children": [
+      {
+       "name": "DrLock",
+       "caption": "Door Lock",
+       "children": [
+        {
+         "name": "DRLK",
+         "caption": "Godrej Locks",
+         "children": []
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "DirectSale",
+   "caption": "Direct Sale",
+   "children": [
+    {
+     "name": "dsale",
+     "caption": "Restaurant Change ",
+     "children": []
+    }
+   ]
+  },
+  {
+   "name": "mnuWindow",
+   "caption": "&Windows",
+   "children": [
+    {
+     "name": "mnuWindowCascade",
+     "caption": "&Cascade",
+     "children": []
+    },
+    {
+     "name": "mnuWindowTileHorizontal",
+     "caption": "Tile &Horizontal",
+     "children": []
+    },
+    {
+     "name": "mnuWindowTileVertical",
+     "caption": "Tile &Vertical",
+     "children": []
+    }
+   ]
+  },
+  {
+   "name": "mnuExit",
+   "caption": "&Exit",
+   "children": []
+  },
+  {
+   "name": "UTLL",
+   "caption": "Sale Bill Modification",
+   "children": []
+  },
+  {
+   "name": "GridPopUp",
+   "caption": "PlanPopup",
+   "children": [
+    {
+     "name": "PP",
+     "caption": "",
+     "children": []
+    },
+    {
+     "name": "PP",
+     "caption": "",
+     "children": []
+    }
+   ]
+  },
+  {
+   "name": "mnuMdI",
+   "caption": "MDI",
+   "children": [
+    {
+     "name": "smnuMdI",
+     "caption": "Manage MDI",
+     "children": []
+    }
+   ]
+  }
+ ]
+}

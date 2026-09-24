@@ -1,0 +1,4 @@
+; Field definition file for table: ADORecordset
+Start_Srl_No	long		1
+BlankGuestName	string	50	string sample value
+BlankMobileNo	string	15	string sample value

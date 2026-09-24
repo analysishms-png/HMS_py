@@ -1,0 +1,18 @@
+; Field definition file for table: ADORecordset
+UID	string	21	string sample value
+VNo	long		1
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+VTime	string	5	string sample value
+Comments	string	255	string sample value
+PayCode	string	6	string sample value
+PayType	string	15	string sample value
+PayName	string	50	string sample value
+AmtCr	number		1.00
+CardNo	string	20	string sample value
+CardHolder	string	35	string sample value
+ExpDate	datetime		Jan 5, 1994 1:23:45 PM
+BatchNo	short		1
+ChqNo	string	20	string sample value
+ChqDate	datetime		Jan 5, 1994 1:23:45 PM
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM

@@ -1,0 +1,20 @@
+; Field definition file for table: ADORecordset
+SubCode	string	8	string sample value
+Name	string	75	string sample value
+UnderGroup	string	50	string sample value
+ConPrefix	string	4	string sample value
+ConPerson	string	75	string sample value
+Address1	string	50	string sample value
+Address2	string	50	string sample value
+Address3	string	50	string sample value
+CityName	string	35	string sample value
+Phone	string	35	string sample value
+Mobile	string	24	string sample value
+FAX	string	24	string sample value
+EMail	string	50	string sample value
+CST	string	30	string sample value
+LST	string	30	string sample value
+PAN	string	20	string sample value
+CreditLimit	long		1
+CreditDays	long		1
+Remark	string	200	string sample value

@@ -1,0 +1,89 @@
+; Field definition file for table: ADORecordset
+DocId	string	21	string sample value
+Vtype	string	5	string sample value
+VNo	long		1
+VTime	string	5	string sample value
+Site_Code	string	2	string sample value
+Vprefix	string	5	string sample value
+Vdate	datetime		Jan 5, 1994 1:23:45 PM
+PartyName	string	50	string sample value
+Add1	string	50	string sample value
+Add2	string	50	string sample value
+City	string	35	string sample value
+PinCode	string	8	string sample value
+PANNO	string	20	string sample value
+ContactNo_Res	string	25	string sample value
+ContactNo_Off	string	25	string sample value
+MobileNo	string	25	string sample value
+Func_Name	string	5	string sample value
+BookingStatus	string	30	string sample value
+RestCode	string	6	string sample value
+FrBookDate	datetime		Jan 5, 1994 1:23:45 PM
+FrBookTime	string	5	string sample value
+ToBookDate	datetime		Jan 5, 1994 1:23:45 PM
+ToBookTime	string	5	string sample value
+HouseKeep	string	150	string sample value
+FrontOff	string	150	string sample value
+Engg	string	150	string sample value
+Security	string	150	string sample value
+Chef	string	150	string sample value
+Board	string	150	string sample value
+MenuSpl1	string	150	string sample value
+MenuSpl2	string	150	string sample value
+MenuSpl3	string	150	string sample value
+MenuSpl4	string	150	string sample value
+MenuSpl5	string	150	string sample value
+MenuSpl6	string	150	string sample value
+MenuSpl7	string	150	string sample value
+Advance	number		1.00
+RectNo	long		1
+rectDate	datetime		Jan 5, 1994 1:23:45 PM
+CrCardNo	string	20	string sample value
+CrCardHolder	string	35	string sample value
+Total	number		1.00
+DiscPer	number		1.00
+DiscAmt	number		1.00
+NonTaxable	number		1.00
+Taxable	number		1.00
+Tax	number		1.00
+ServiceCharge	number		1.00
+AddAmt	number		1.00
+DedAmt	number		1.00
+RoundOff	number		1.00
+ExpAtt	long		1
+GuarAtt	long		1
+CoverRate	number		1.00
+U_Name	string	10	string sample value
+U_EntDt	datetime		Jan 5, 1994 1:23:45 PM
+U_AE	string	1	string sample value
+HallRent	number		1.00
+Remarks	string	50	string sample value
+MenuCatalog	string	5	string sample value
+Amount	number		1.00
+MarketSeg	string	5	string sample value
+BussSource	string	5	string sample value
+CompanyCode	string	8	string sample value
+TotalCoverRate	number		1.00
+NetAmount	number		1.00
+InquiryCode	string	6	string sample value
+ContactNo	string	25	string sample value
+TaxPer	number		1.00
+ServiceTaxPer	number		1.00
+OtherChrg	number		1.00
+LogSite_Code	string	2	string sample value
+Remark	string	255	string sample value
+BookingAgent	string	8	string sample value
+SNo	long		1
+Item	string	1	string sample value
+QtyIss	long		1
+Rate	long		1
+LineAmt	long		1
+Unit	string	1	string sample value
+LineTaxPer	long		1
+TaxAmt	long		1
+LineDiscP	long		1
+LineDiscA	long		1
+Remarks	string	1	string sample value
+LineTotal	long		1
+IName	string	1	string sample value
+ItemGrpName	string	1	string sample value

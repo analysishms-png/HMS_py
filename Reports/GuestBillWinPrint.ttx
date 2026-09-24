@@ -1,0 +1,12 @@
+; Field definition file for table: ADORecordset
+mLine	string	2	string sample value
+Date	string	12	string sample value
+Bill	string	12	string sample value
+Desc	memo		memo sample data
+Debit	string	12	string sample value
+Credit	string	12	string sample value
+Balance	string	12	string sample value
+Split	string	2	string sample value
+Mark	string	1	string sample value
+Picture1	blob		
+QRImage	blob		
