@@ -774,4 +774,16 @@ def happyhours_discount(item_code: str, on_date=None, on_time=None, cn=None) -> 
         return float(rows[0][0] or 0) if rows else 0.0
     except Exception:
         return 0.0
+def scheme_free_qty(item_code: str, qty: float, on_date=None, cn=None) -> float:
+    """VB6 SchemeItemDetail/FreeItemDetail - Days + FromTime/ToTime HH:MM check, free qty"""
+    import datetime
+    if on_date is None:
+        on_date = datetime.date.today().isoformat()
+    # VB6: SELECT FreeQty FROM SchemeItemDetail WHERE ItemCode=? AND ? BETWEEN FromDate AND ToDate AND Days LIKE '%weekday%' AND ? BETWEEN FromTime AND ToTime
+    try:
+        wd = datetime.date.fromisoformat(str(on_date)[:10]).strftime("%a")[:2]  # Mo, Tu...
+        rows = db.query("SELECT FreeQty FROM SchemeItemDetail WHERE ItemCode=? AND ? BETWEEN FromDate AND ToDate AND Days LIKE ? AND ? BETWEEN FromTime AND ToTime AND (LOGSITE_CODE=? OR LOGSITE_CODE='HO')", (item_code, on_date, f"%{wd}%", "12:00", _logsite(cn)), cn=cn)
+        return float(rows[0][0] or 0) if rows and rows[0][0] else 0.0
+    except Exception:
+        return 0.0
 

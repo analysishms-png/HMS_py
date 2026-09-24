@@ -363,4 +363,13 @@ def hr_delete_guards(emp_code: str, cn=None) -> bool:
         if rows:
             raise ValueError(f"Cannot delete {emp_code}: exists in {tbl}")
     return True
+def hr_post_ledger_sl(emp_code: str, amount: float, vdate=None, cn=None) -> int:
+    """VB6 Ledger SL posting: INSERT INTO Ledger (V_Type='SL', V_No via next_vno, Site_Code, LogSite_Code, SubCode=emp_code, AmtDr=amount)"""
+    import datetime
+    if vdate is None:
+        vdate = datetime.date.today().isoformat()
+    site = _logsite(cn)
+    vprefix = db.get_vprefix()
+    vno = db.next_vno("Ledger", "SL", vprefix, site=site, cn=cn)
+    return db.execute("INSERT INTO Ledger (V_Type, V_No, Vprefix, VDate, SubCode, AmtDr, Site_Code, LogSite_Code) VALUES ('SL', ?, ?, ?, ?, ?, ?, ?)", (vno, vprefix, vdate, emp_code, amount, site, site), cn=cn)
 
